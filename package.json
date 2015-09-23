@@ -1,0 +1,59 @@
+{
+  "name": "jcatalog-i18n-resources",
+  "version": "7.17.0",
+  "description": "",
+
+  "author": {
+    "name": "Dmitry Divin",
+    "email": "dmitry.divin@jcatalog.com"
+  },
+
+  "scripts": {
+    "prestart": "npm install",
+    "start": "gulp watch",
+    "pretest": "npm install",
+    "test": "gulp test",
+    "preclean": "npm install",
+    "clean": "gulp clean",
+    "preplugin-package": "npm install",
+    "preplugin-install": "npm install",
+    "preplugin-deploy": "npm install",
+    "predoc": "npm install",
+    "doc": "gulp doc",
+    "plugin-package": "gulp plugin-package",
+    "plugin-install": "gulp plugin-install",
+    "plugin-deploy": "gulp plugin-deploy",
+    "lint": "gulp lint"
+  },
+
+  "license": "UNLICENSED",
+  "readme": "README.md",
+  "main": "src/index.js",
+
+  "devDependencies": {
+    "babelify": "^6.1.3",
+    "browserify": "^11.1.0",
+    "chai": "^3.2.0",
+    "gulp": "^3.9.0",
+    "jcatalog-webapp-template": "^1.0.0",
+    "jsdom-no-contextify": "^3.1.0",
+    "esdoc-es7-plugin": "0.0.2",
+    "node-lessify": "0.0.10"
+  },
+  "dependencies": {
+    "react": "^0.13.3",
+    "immutable": "^3.7.2",
+    "moment": "^2.10.6",
+    "moment-jdateformatparser": "^1.0.0",
+    "moment-timezone": "^0.4.0"
+  },
+
+  "browserify": {
+    "transform": [
+      "babelify",
+      [
+        "node-lessify", {}
+      ]
+    ]
+  }
+}
