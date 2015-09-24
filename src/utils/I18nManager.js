@@ -102,6 +102,10 @@ class I18nManager {
     return message;
   }
 
+  get dateFormat() {
+    return this._formatInfo.dateFormat;
+  }
+
   formatDate = (date) => {
     return this._dateConverter.valueToString(date);
   }
