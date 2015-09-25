@@ -23,7 +23,8 @@ describe('I18nManager', function () {
       locales: ['en-US'],
       messages: {
         component: {
-          test: 'test component'
+          test: 'test component',
+          format: 'min={min}, max={max}'
         }
       }
     }]);
@@ -48,11 +49,19 @@ describe('I18nManager', function () {
     assert.equal(date.toString(), dateAsObject.toString());
   });
 
-  it('shuld format and parse numbers', function() {
+  it('should format and parse numbers', function() {
     assert.equal('10,000', this.i18n.formatNumber(10000));
     assert.equal(10000, this.i18n.parseNumber('10,000'));
 
     assert.equal('10,000.00', this.i18n.formatDecimalNumber(10000));
     assert.equal(10000, this.i18n.parseDecimalNumber('10,000.00'));
+  });
+
+  it('should formatted message', function() {
+    let message = this.i18n.getMessage('component.format');
+    assert.equal('min={min}, max={max}', message);
+
+    message = this.i18n.getMessage('component.format', {min: 10, max: 100});
+    assert.equal('min=10, max=100', message);
   });
 });

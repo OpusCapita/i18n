@@ -84,7 +84,7 @@ class I18nManager {
     return this;
   }
 
-  getMessage = (path) => {
+  getMessage = (path, args = {}) => {
     let messages = this._intlData.messages;
 
     const pathParts = path.split(".");
@@ -96,6 +96,14 @@ class I18nManager {
     } finally {
       if (message === undefined) {
         throw new ReferenceError("Could not find Intl message: " + path);
+      }
+    }
+
+    for (let param in args) {
+      let paramValue = args[param];
+
+      if (paramValue !== null) {
+        message = message.replace(`{${param}}`, paramValue.toString());
       }
     }
 
