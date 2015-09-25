@@ -38,6 +38,10 @@ export default class NumberConverter extends Converter {
   }
 
   valueToString(number) {
+    if (number === null) {
+      return '';
+    }
+
     let neg = '-';
     let forcedToZero = false;
 
@@ -130,10 +134,15 @@ export default class NumberConverter extends Converter {
     if (number < 0) {
       returnString = neg + returnString;
     }
-    return returnString;
+    return new String(returnString);
   }
 
   stringToValue(stringValue) {
+    stringValue = stringValue || null;
+    if (stringValue === null) {
+      return null;
+    }
+
     this._throwIfNumberIsNotValidFormString(stringValue);
 
     let valid = '1234567890.-';
@@ -154,11 +163,11 @@ export default class NumberConverter extends Converter {
     let result = parseFloat(validText);
 
     if (this._format.indexOf('.') !== -1) {
-       result = result.toFixed(this._decimalFormat.length);
+      result = result.toFixed(this._decimalFormat.length);
     } else {
       result = result.toFixed();
     }
 
-    return result.valueOf();
+    return new Number(result.valueOf());
   }
 }
