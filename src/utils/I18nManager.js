@@ -99,10 +99,10 @@ class I18nManager {
       }
     }
 
-    for (let param in args) {
+    for (let param of Object.keys(args)) {
       let paramValue = args[param];
 
-      if (paramValue !== null) {
+      if (paramValue !== null && paramValue !== undefined) {
         message = message.replace(`{${param}}`, paramValue.toString());
       }
     }
