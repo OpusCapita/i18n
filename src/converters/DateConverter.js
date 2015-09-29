@@ -34,7 +34,11 @@ export default class DateConverter extends Converter {
     return '';
   }
 
-  stringToValue(string) {
-    return moment(string, this.momentFormat, this.locale).toDate();
+  stringToValue(stringValue) {
+    stringValue = stringValue || null;
+    if (stringValue === null) {
+      return null;
+    }
+    return moment(stringValue, this.momentFormat, this.locale).toDate();
   }
 }
