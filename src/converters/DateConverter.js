@@ -6,6 +6,8 @@ import 'moment-jdateformatparser'
 import 'moment-timezone'
 import 'moment-timezone/moment-timezone-utils'
 
+export const ERROR_CODE = 'error.parse.date';
+
 export default class DateConverter extends Converter {
   constructor(format, locale) {
     super();
@@ -39,6 +41,10 @@ export default class DateConverter extends Converter {
     if (stringValue === null) {
       return null;
     }
-    return moment(stringValue, this.momentFormat, this.locale).toDate();
+    let result = moment(stringValue, this.momentFormat, true);
+    if (!result.isValid()) {
+      throw new ParseError(ERROR_CODE, {value: stringValue});
+    }
+    return result.toDate();
   }
 }

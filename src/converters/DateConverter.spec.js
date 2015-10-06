@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import DateConverter  from './DateConverter';
+import ParseError  from './ParseError';
 
 describe('DateConverter', function () {
   it('should convert date to string', function () {
@@ -15,5 +16,13 @@ describe('DateConverter', function () {
 
     dc = new DateConverter('dd/MM/yy');
     assert.equal(dc.valueToString(date), '15/01/01');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('aaaa'));
+    }, ParseError, 'invalid parsed value [aaaa]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('11111'));
+    }, ParseError, 'invalid parsed value [11111]');
   });
 });
