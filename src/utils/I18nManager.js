@@ -108,15 +108,13 @@ class I18nManager {
         throw new ReferenceError("Could not find Intl message: " + path);
       }
     }
-
-    for (let param of Object.keys(args)) {
+    _.each(_.keys(args), function(param){
       let paramValue = args[param];
 
       if (paramValue !== null && paramValue !== undefined) {
         message = message.replace(`{${param}}`, paramValue.toString());
       }
-    }
-
+    });
     return message;
   }
 
