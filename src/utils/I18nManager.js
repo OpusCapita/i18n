@@ -1,4 +1,5 @@
-import Immutable from 'immutable';
+import _ from 'underscore';
+import underscoreDeepExtend from 'underscore-deep-extend';
 import {DateConverter, NumberConverter} from '../converters';
 
 const DEFAULT_FORMAT_INFO = {
@@ -24,6 +25,7 @@ class I18nManager {
    * (see React Intl Data format)
    */
   constructor(locale, intlDatas, formatInfos) {
+    _.mixin({deepExtend: underscoreDeepExtend(_)});
     this._intlData = {locales:[locale], messages: {}};
     this._intlDatas = [this._intlData];
     this._components = [];
@@ -68,13 +70,21 @@ class I18nManager {
       intlDatas.forEach((intlData) => {
         for (var i = 0; i < this._intlDatas.length; i++) {
           if(intersects(this._intlDatas[i].locales, intlData.locales)) {
-            this._intlDatas[i] = Immutable.Map({
-              locales: Immutable.List(this._intlDatas[i].locales).mergeDeep(Immutable.List(intlData.locales)),
-              messages: Immutable.Map(this._intlDatas[i].messages).mergeDeep(Immutable.Map(intlData.messages))
-            }).toJS();
+            this._intlDatas[i] = _.extend(
+              {},
+              {
+                locales:_.union(this._intlDatas[i].locales, intlData.locales)
+              },
+              {
+                messages:_.deepExtend({},this._intlDatas[i].messages, intlData.messages)
+              }
+            );
           }
-          if(this._intlDatas[i].locales.indexOf(this.locale) >= 0) {
-            this._intlData = this._intlDatas[i];
+          var that = this;
+          if(_.size(_.find(this._intlDatas[i].locales,function(locale){
+            return locale === that.locale
+          })) >= 0 ){
+            that._intlData = that._intlDatas[i];
           }
         }
       });

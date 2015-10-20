@@ -42,10 +42,11 @@
   },
   "dependencies": {
     "react": "^0.13.3",
-    "immutable": "^3.7.2",
     "moment": "^2.10.6",
     "moment-jdateformatparser": "^1.0.0",
-    "moment-timezone": "^0.4.0"
+    "moment-timezone": "^0.4.0",
+    "underscore": "^1.8.3",
+    "underscore-deep-extend": "^0.0.5"
   },
 
   "browserify": {
