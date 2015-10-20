@@ -1,6 +1,13 @@
+var path = require('path');
 var src = './src';
 var dest = './build';
 var test = './test';
+
+var pluginResourcesPath = path.join(dest, 'plugin-resources');
+var pluginResourcesWebAppPath = path.join(pluginResourcesPath, 'web-app');
+var pluginResourcesWebAppSection = path.join(pluginResourcesWebAppPath, 'text-table');
+var pluginResourcesSrcPath = path.join(pluginResourcesPath, 'src');
+var pluginResourcesJavaPath = path.join(pluginResourcesSrcPath, 'java');
 
 /**
  * @author Dmitry Divin
@@ -49,6 +56,30 @@ module.exports = {
         entries: ['index.js'],
         //output file name
         outputName: 'i18n.bundle.js'
+      },
+      {
+        //destination folder
+        dest: pluginResourcesWebAppSection,
+        //list of entry files related basedir
+        entries: ['index.js'],
+        //output file name
+        outputName: 'i18n-bundle.js',
+        /*
+         * exported variables as global variable
+         */
+        standalone: 'I18nManager'
+      },
+      {
+        //destination folder
+        dest: pluginResourcesJavaPath,
+        //list of entry files related basedir
+        entries: ['index.js'],
+        //output file name
+        outputName: 'i18n-bundle.js',
+        /*
+         * exported variables as global variable
+         */
+        standalone: 'I18nManager'
       }
     ]
   },
@@ -62,9 +93,11 @@ module.exports = {
     title: 'I18n localization',
     description: '',
 
+    javaSrc: pluginResourcesJavaPath,
+
     resources: {
-      app: [
-        {file: {name: 'app.bundle.js', path: dest}}
+      "i18n-manager-resources": [
+        {file: {name: 'i18n-bundle.js', path: pluginResourcesWebAppSection}}
       ]
     }
   },
