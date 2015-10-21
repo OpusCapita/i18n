@@ -168,6 +168,6 @@ export default class NumberConverter extends Converter {
       result = result.toFixed();
     }
 
-    return new Number(result.valueOf());
+    return +result;
   }
 }
