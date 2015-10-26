@@ -15,6 +15,21 @@ describe('NumberConverter', function () {
     assert.equal(dc.stringToValue('-10,000.00'), -10000);
     assert.equal(dc.stringToValue('1,100.99'), 1100.99);
 
+    dc = new NumberConverter('#,##0.00', null, '.');
+
+    assert.equal(dc.valueToString(10000), '10000.00');
+    assert.equal(dc.valueToString(-10000), '-10000.00');
+    assert.equal(dc.valueToString(1100.99), '1100.99');
+
+    assert.equal(dc.stringToValue('10000.00'), 10000);
+    assert.equal(dc.stringToValue('-10000.00'), -10000);
+    assert.equal(dc.stringToValue('1100.99'), 1100.99);
+
+    let badValue = '10,000.00';
+    assert.throws(() => {
+      dc.stringToValue(badValue);
+    }, ParseError, `invalid parsed value [${badValue}]`);
+
     dc = new NumberConverter('#,##0.00', ' ', ',');
 
     assert.equal(dc.valueToString(10000), '10 000,00');

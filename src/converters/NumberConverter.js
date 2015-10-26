@@ -25,7 +25,7 @@ export default class NumberConverter extends Converter {
 
   _throwIfNumberIsNotValidFormString(stringValue) {
     let orginValue = stringValue;
-    if (this._groupSep !== undefined) {
+    if (this._groupSep) {
       stringValue = stringValue.replace(new RegExp('\\' + this._groupSep, 'g'), '');
     }
     if (this._decSep !== undefined) {
@@ -105,7 +105,7 @@ export default class NumberConverter extends Converter {
         onePortion = oneText.charAt(k) + onePortion;
         groupCount++;
         if (groupCount === groupLength && k !== 0) {
-          onePortion = this._groupSep + onePortion;
+          onePortion = (this._groupSep || '') + onePortion;
           groupCount = 0;
         }
       }
@@ -148,8 +148,10 @@ export default class NumberConverter extends Converter {
     let valid = '1234567890.-';
 
     // now we need to convert it into a number
-    while (stringValue.indexOf(this._groupSep) > -1) {
-      stringValue = stringValue.replace(this._groupSep, '');
+    if (this._groupSep) {
+      while (stringValue.indexOf(this._groupSep) > -1) {
+        stringValue = stringValue.replace(this._groupSep, '');
+      }
     }
     stringValue = stringValue.replace(this._decSep, '.');
 
