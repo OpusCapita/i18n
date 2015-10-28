@@ -105,7 +105,7 @@ module.exports = {
   maven: {
     groupId: 'com.jcatalog.grailsplugins',
     artefactId: 'jcatalog-i18n-resources',
-    version: '7.18.m1',
+    version: '7.18-SNAPSHOT',
 
     repositories: {
       releases: {
