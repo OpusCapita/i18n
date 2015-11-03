@@ -20,17 +20,22 @@ const DEFAULT_FORMAT_INFO = {
 class I18nManager {
   /**
    * Creates and initialize new manager instance.
-   * Where locale is current locale and intDatas
-   * is an list with messages for different locales.
+   * Where:
+   *- locale is current locale
+   *- intDatas is an list with messages for different locales.
+   *- formatInfos is format pattern data
+   *- defaultLocale - fallback locale, 'en' by default
    * (see React Intl Data format)
    */
-  constructor(locale, intlDatas, formatInfos) {
+  constructor(locale, intlDatas, formatInfos, defaultLocale = 'en') {
     _.mixin({deepExtend: underscoreDeepExtend(_)});
     this._intlData = {locales:[locale], messages: {}};
+
     this._intlDatas = [this._intlData];
     this._components = [];
     // current locale
     this.locale = locale;
+    this.defaultLocale = defaultLocale;
     if(intlDatas) {
       this.register("default", intlDatas);
     }
@@ -67,47 +72,84 @@ class I18nManager {
         }
       }
 
+      var that = this;
+      //processing collection of bundle arguments:
+      //in the next commnts 'bundle' means js object with the next notation:
+      //{locales: [], messages: {}}
       intlDatas.forEach((intlData) => {
-        for (var i = 0; i < this._intlDatas.length; i++) {
-          if(intersects(this._intlDatas[i].locales, intlData.locales)) {
-            this._intlDatas[i] = _.extend(
-              {},
-              {
-                locales:_.union(this._intlDatas[i].locales, intlData.locales)
-              },
-              {
-                messages:_.deepExtend({},this._intlDatas[i].messages, intlData.messages)
-              }
-            );
-          }
-          var that = this;
-          if(_.size(_.find(this._intlDatas[i].locales,function(locale){
-            return locale === that.locale
-          })) >= 0 ){
-            that._intlData = that._intlDatas[i];
-          }
+        //searching for already existing bundle with 'similliar' locale collection
+        var indexToExtend = _.findIndex(that._intlDatas, function(storedIntlData){
+          return intersects(storedIntlData.locales, intlData.locales);
+        });
+        //if we find bundle with locales that intersect with the exteernal one
+        //we merge merge map of their messages and unite locales-collections
+        if(indexToExtend !== -1){
+          that._intlDatas[indexToExtend] = _.extend(
+            {},
+            {
+              locales:_.union(that._intlDatas[indexToExtend].locales, intlData.locales)
+            },
+            {
+              messages:_.deepExtend({}, that._intlDatas[indexToExtend].messages, intlData.messages)
+            }
+          );
+        } else {
+          //otherwise we save this bundle to the internal collection of bundles
+          that._intlDatas.push(intlData);
         }
       });
+      this._intlData = this._getMessageBundleForLocale(this.locale);
       this._components.push(component);
     }
 
     return this;
   }
 
+  /**
+  * Searches for a budle that locales collection containes argument-locale
+  */
+  _getMessageBundleForLocale(locale){
+    return _.find(this._intlDatas, function(storedIntlData){
+      return _.indexOf(storedIntlData.locales, locale) !== -1
+    });
+  }
+
+  /**
+  * Returns fallback locale with the next logic: fr-FR->fr->en
+  */
+  _getFallbackLocale(){
+    if(this.locale.indexOf('-') != -1){
+      return this.locale.substring(0, this.locale.indexOf('-'));
+    } else {
+      return this.defaultLocale
+    }
+  }
+
   getMessage = (path, args = {}) => {
     let messages = this._intlData.messages;
-
     const pathParts = path.split(".");
 
     let message;
-
-    try {
+    try{
       message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
-    } finally {
-      if (message === undefined) {
-        throw new ReferenceError("Could not find Intl message: " + path);
+    } catch(e){
+      try{
+        message = pathParts.reduce((obj, pathPart) => obj[pathPart], this._getMessageBundleForLocale(this._getFallbackLocale()).messages);
+        if(message === undefined){
+          throw new ReferenceError("Could not find Intl message: " + path);
+        }
+      } catch(e){
+        try{
+          message = pathParts.reduce((obj, pathPart) => obj[pathPart], this._getMessageBundleForLocale(this.defaultLocale).messages);
+          if(message === undefined){
+            throw new ReferenceError("Could not find Intl message: " + path);
+          }
+        } catch(e){
+            message = path;
+        }
       }
     }
+
     _.each(_.keys(args), function(param){
       let paramValue = args[param];
 

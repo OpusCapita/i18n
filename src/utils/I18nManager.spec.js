@@ -30,6 +30,34 @@ describe('I18nManager', function () {
     }]);
   });
 
+  it("should get fallback message", function(){
+    this.de_i18n = new I18nManager('de-DE', [] , {});
+
+    this.de_i18n.register('test_component', [
+      {
+        locales: ['en'],
+        messages: {
+          component: {
+            testMessage1: 'en test message 1',
+            testMessage2: 'en test message 2',
+          }
+        }
+      },
+      {
+        locales: ['de'],
+        messages: {
+          component: {
+            testMessage2: 'de test message 2'
+          }
+        }
+      }
+  ]);
+
+    assert.equal('en test message 1', this.de_i18n.getMessage('component.testMessage1'));
+    assert.equal('de test message 2', this.de_i18n.getMessage('component.testMessage2'));
+    assert.equal('component.testMessage3', this.de_i18n.getMessage('component.testMessage3'));
+  });
+
   it('should contain test message', function () {
     let message = this.i18n.getMessage('test');
     assert.equal('test', message);
