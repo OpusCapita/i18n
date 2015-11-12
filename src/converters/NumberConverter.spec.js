@@ -10,6 +10,7 @@ describe('NumberConverter', function () {
     assert.equal(dc.valueToString(10000), '10,000.00');
     assert.equal(dc.valueToString(-10000), '-10,000.00');
     assert.equal(dc.valueToString(1100.99), '1,100.99');
+    assert.equal(dc.valueToString('werwe'), 'werwe');
 
     assert.equal(dc.stringToValue('10,000.00'), 10000);
     assert.equal(dc.stringToValue('-10,000.00'), -10000);

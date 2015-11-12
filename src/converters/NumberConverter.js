@@ -42,6 +42,10 @@ export default class NumberConverter extends Converter {
       return '';
     }
 
+    if (typeof number == 'string') {
+      return number;
+    }
+
     let neg = '-';
     let forcedToZero = false;
 
