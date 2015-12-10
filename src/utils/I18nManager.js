@@ -7,6 +7,7 @@ const DEFAULT_FORMAT_INFO = {
   numberFormat: '#,##0',
   decimalNumberFormat: '#,##0.00',
   decimalNumberSeparator: '.',
+  decimalNumberSeparatorUseAlways: false,
   numberGroupingSeparator: ',',
   numberGroupingSeparatorUse: true
 };
@@ -52,11 +53,14 @@ class I18nManager {
     this._decimalNumberConverter = new NumberConverter(
       this._formatInfo.decimalNumberFormat,
       numberGroupingSeparator,
-      this._formatInfo.decimalNumberSeparator
+      this._formatInfo.decimalNumberSeparator,
+      this._formatInfo.decimalNumberSeparatorUseAlways
     );
     this._numberConverter = new NumberConverter(
       this._formatInfo.numberFormat,
-      numberGroupingSeparator
+      numberGroupingSeparator,
+      null,
+      this._formatInfo.decimalNumberSeparatorUseAlways
     );
   }
 

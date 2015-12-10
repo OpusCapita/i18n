@@ -60,5 +60,23 @@ describe('NumberConverter', function () {
     assert.throws(() => {
       dc.stringToValue('10`000.99');
     }, ParseError, "invalid parsed value [10`000.99]");
+
+    dc = new NumberConverter('#.##', null, ',');
+
+    assert.equal(dc.valueToString(100), '100');
+
+    assert.equal(dc.stringToValue('1000'), 1000);
+    assert.equal(dc.stringToValue('100000,1'), 100000.1);
+
+    assert.equal(dc.valueToString(100.01), '100,01');
+
+    dc = new NumberConverter('#.##', null, ',', true);
+
+    assert.equal(dc.valueToString(100), '100,');
+
+    assert.equal(dc.stringToValue('1000'), 1000);
+    assert.equal(dc.stringToValue('100000,1'), 100000.1);
+
+    assert.equal(dc.valueToString(100.01), '100,01');
   });
 });

@@ -7,12 +7,13 @@ const floatNumberReg = /^-?\d+\.?\d*$/;
 const intNumberReg = /^-?\d+$/;
 
 export default class NumberConverter extends Converter {
-  constructor(format, groupSep, decSep) {
+  constructor(format, groupSep, decSep, decSepUseAlways) {
     super();
 
     this._format = format;
     this._groupSep = groupSep;
     this._decSep = decSep;
+    this._decSepUseAlways = decSepUseAlways || false;
 
     this._decimalFormat = format.substring(format.lastIndexOf('.') + 1);
 
@@ -78,6 +79,9 @@ export default class NumberConverter extends Converter {
         } else if (this._decimalFormat.charAt(i) === '0') {
           decimalPortion += decimalString.charAt(i);
         }
+      }
+      if (decimalPortion === this._decSep && !this._decSepUseAlways) {
+        decimalPortion = '';
       }
       returnString += decimalPortion;
     } else {
