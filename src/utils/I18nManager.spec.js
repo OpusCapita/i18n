@@ -5,10 +5,10 @@ describe('I18nManager', function () {
   before('instantiate new intl manager', function () {
     let formatInfos = {
       'en-US': {
-        dateFormat: 'dd/MM/yyyy',
-        numberFormat: '#,##0',
-        decimalNumberFormat: '#,##0.00',
-        decimalNumberSeparator: '.',
+        datePattern: 'dd/MM/yyyy',
+        integerPattern: '#,##0',
+        numberPattern: '#,##0.00',
+        numberDecimalSeparator: '.',
         numberGroupingSeparator: ',',
         numberGroupingSeparatorUse: true
       }

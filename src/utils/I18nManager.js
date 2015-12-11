@@ -3,11 +3,11 @@ import underscoreDeepExtend from 'underscore-deep-extend';
 import {DateConverter, NumberConverter} from '../converters';
 
 const DEFAULT_FORMAT_INFO = {
-  dateFormat: 'dd/MM/yyyy',
-  numberFormat: '#,##0',
-  decimalNumberFormat: '#,##0.00',
-  decimalNumberSeparator: '.',
-  decimalNumberSeparatorUseAlways: false,
+  datePattern: 'dd/MM/yyyy',
+  integerPattern: '#,##0',
+  numberPattern: '#,##0.00',
+  numberDecimalSeparator: '.',
+  numberDecimalSeparatorUseAlways: false,
   numberGroupingSeparator: ',',
   numberGroupingSeparatorUse: true
 };
@@ -49,18 +49,18 @@ class I18nManager {
     }
 
     let numberGroupingSeparator = this._formatInfo.numberGroupingSeparatorUse ? this._formatInfo.numberGroupingSeparator : null;
-    this._dateConverter = new DateConverter(this._formatInfo.dateFormat);
+    this._dateConverter = new DateConverter(this._formatInfo.datePattern);
     this._decimalNumberConverter = new NumberConverter(
-      this._formatInfo.decimalNumberFormat,
+      this._formatInfo.numberPattern,
       numberGroupingSeparator,
-      this._formatInfo.decimalNumberSeparator,
-      this._formatInfo.decimalNumberSeparatorUseAlways
+      this._formatInfo.numberDecimalSeparator,
+      this._formatInfo.numberDecimalSeparatorUseAlways
     );
     this._numberConverter = new NumberConverter(
-      this._formatInfo.numberFormat,
+      this._formatInfo.integerPattern,
       numberGroupingSeparator,
       null,
-      this._formatInfo.decimalNumberSeparatorUseAlways
+      this._formatInfo.numberDecimalSeparatorUseAlways
     );
   }
 
@@ -165,7 +165,7 @@ class I18nManager {
   }
 
   get dateFormat() {
-    return this._formatInfo.dateFormat;
+    return this._formatInfo.datePattern;
   }
 
   formatDate = (date) => {
