@@ -142,6 +142,14 @@ export default class NumberConverter extends Converter {
     if (number < 0) {
       returnString = neg + returnString;
     }
+    if (returnString) {
+      if (returnString === this._decSep) {
+        returnString = '0'
+      } else if (returnString.indexOf(this._decSep) === 0) {
+        returnString = '0' + returnString;
+      }
+    }
+
     return new String(returnString);
   }
 

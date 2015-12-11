@@ -78,5 +78,8 @@ describe('NumberConverter', function () {
     assert.equal(dc.stringToValue('100000,1'), 100000.1);
 
     assert.equal(dc.valueToString(100.01), '100,01');
+
+    assert.equal(dc.valueToString(0.0), '0');
+    assert.equal(dc.valueToString(0.1), '0,1');
   });
 });
