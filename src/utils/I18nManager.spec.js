@@ -68,6 +68,11 @@ describe('I18nManager', function () {
     assert.equal('test component', message);
   });
 
+  it('test object message', function () {
+    let message = this.i18n.getMessage('component');
+    assert.equal('component', message);
+  });
+
   it('should format and parse date', function() {
     let date = new Date(2001, 0, 10);
     let dateAsString = this.i18n.formatDate(date);
