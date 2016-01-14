@@ -154,6 +154,11 @@ class I18nManager {
       }
     }
 
+    //this check covers use case of object message, f.e. message === { test: 'test component', format: 'min={min}, max={max}' }
+    if(!_.isString(message)){
+      return path;
+    }
+
     _.each(_.keys(args), function(param){
       let paramValue = args[param];
 
