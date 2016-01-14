@@ -81,5 +81,8 @@ describe('NumberConverter', function () {
 
     assert.equal(dc.valueToString(0.0), '0');
     assert.equal(dc.valueToString(0.1), '0,1');
+
+    dc = new NumberConverter('#.##########', null, ',', false);
+    assert.equal(dc.valueToString(1000000), '1000000');
   });
 });
