@@ -41,7 +41,6 @@
     "node-lessify": "0.0.10"
   },
   "dependencies": {
-    "react": "^0.13.3",
     "moment": "^2.10.6",
     "moment-jdateformatparser": "^1.0.0",
     "moment-timezone": "^0.4.0",
