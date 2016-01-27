@@ -1,4 +1,8 @@
+import converters from './converters';
 import I18nManager from './utils/I18nManager';
 
-export default I18nManager;
-export * from './converters';
+
+export default {
+  converters: converters,
+  I18nManager: I18nManager
+};
