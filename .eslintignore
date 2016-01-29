@@ -1,7 +1,0 @@
-build/
-test/
-.esdoc.json
-gulpfile.js
-config.js
-package.json
-
