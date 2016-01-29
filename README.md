@@ -1,4 +1,4 @@
-JCatalog JS i18n package
+Generated project based on ReactJS
 
 project structure
 -----------------
@@ -6,14 +6,15 @@ project structure
  build - destination folder for compiled/packaged files
 
  ```
- build             -- current working directory
- dist              -- contains minified files
- lib               -- source code in ES5 (npm module standard)
- src               -- contains source code
+ build             -- destination build folder
+ src
+    /app           -- project sources (js, jsx, less)
+    /www           -- development template (html, css, images)
+       /index.html -- application entry point
  test              -- test sources folder
- gulpfile.babel.js -- gulp configuration file (supports ES6)
+ gulpfile.js       -- gulp configuration file
+ config.js         -- project configuration file
  package.json      -- project dependencies file
- .babelrc          -- babel options
  .eslintrc         -- lint options
  .eslintignore     -- ignore files for lint tool
  .esdoc.json       -- esdoc options
@@ -37,7 +38,7 @@ build
 
  available next goals:
 
- *npm run esdoc*           -- create documentation from sources
+ *npm run doc*             -- create documentation from sources
 
  *npm run plugin-package*  -- package plugin
 

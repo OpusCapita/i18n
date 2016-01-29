@@ -1,9 +1,9 @@
 export default class Converter {
-  valueToString() {
-    throw new Error('not implemented yet');
+  valueToString(value) {
+    throw 'not implemented yet';
   }
 
-  stringToValue() {
-    throw new Error('not implemented yet');
+  stringToValue(string) {
+    throw 'not implemented yet';
   }
 }
