@@ -33,14 +33,14 @@ function getMavenArtefactName(version) {
 function getMavenArtefactVersion(release = false) {
   let branch = git.branch();
   gutil.log('The current branch name:', gutil.colors.magenta(branch));
-  if (branch.indexOf('master') !== -1) {
+  //if (branch.indexOf('master') !== -1) {
     if (release) {
       let patch = semver.patch(config.version);
       return `${semver.major(config.version)}.${semver.minor(config.version)}.GA${patch !== 0 ? '.' + patch : '' }`
     }
-    return `${semver.major(config.version)}.${semver.minor(config.version)}-SNAPSHOT`
-  }
-  throw new gutil.PluginError('getMavenArtefactVersion', 'Not implemented for bugfix branch yet!');
+    return `${semver.major(config.version)}.${semver.minor(config.version)}-SNAPSHOT`;
+  //}
+  //throw new gutil.PluginError('getMavenArtefactVersion', 'Not implemented for bugfix branch yet!');
 }
 
 /**
