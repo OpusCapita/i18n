@@ -1,4 +1,4 @@
-import I18nManager from './utils/I18nManager';
+import I18nManager from './I18nManager';
 
 export {
   I18nManager,
