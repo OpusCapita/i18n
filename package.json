@@ -6,6 +6,8 @@
   "files": [
     "dist",
     "lib",
+    "src",
+    ".babelrc",
     "index.js"
   ],
   "scripts": {
@@ -21,6 +23,7 @@
     "grails-plugin-deploy": "npm run grails-plugin-package && gulp grails-plugin-deploy",
     "grails-plugin-release": "npm run grails-plugin-package -- --release && gulp grails-plugin-deploy --release",
     "esdoc": "esdoc -c esdoc.json",
+    "postinstall": "node scripts/fix-prepublish.js",
     "prepublish": "npm run build-lib"
   },
   "author": {
