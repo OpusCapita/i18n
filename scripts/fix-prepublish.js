@@ -17,5 +17,5 @@ var execute = function (pathParts, params) {
 
 fsExists(sysPath.join(__dirname, 'lib'), function (exists) {
   if (exists) return;
-  execute(['..', 'node_modules', 'babel-cli', 'bin', 'babel'], 'src --out-dir lib');
+  execute(['..', 'babel-cli', 'bin', 'babel'], 'src --out-dir lib');
 });
