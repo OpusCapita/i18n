@@ -1,4 +1,5 @@
 import _ from 'underscore';
+
 import underscoreDeepExtend from 'underscore-deep-extend';
 import { DateConverter, NumberConverter } from '../converters';
 
@@ -34,6 +35,7 @@ class I18nManager {
 
     this._intlDatas = [this._intlData];
     this._components = [];
+
     // current locale
     this.locale = locale;
     this.defaultLocale = defaultLocale;
@@ -76,6 +78,7 @@ class I18nManager {
       };
 
       const that = this;
+
       // processing collection of bundle arguments:
       // in the next commnts 'bundle' means js object with the next notation:
       // {locales: [], messages: {}}
@@ -84,6 +87,7 @@ class I18nManager {
         const indexToExtend = _.findIndex(that._intlDatas, (storedIntlData) => {
           return intersects(storedIntlData.locales, intlData.locales);
         });
+
         // if we find bundle with locales that intersect with the exteernal one
         // we merge merge map of their messages and unite locales-collections
         if (indexToExtend !== -1) {
@@ -120,6 +124,7 @@ class I18nManager {
     if (this.locale.indexOf('-') !== -1) {
       return this.locale.substring(0, this.locale.indexOf('-'));
     }
+
     return this.defaultLocale;
   }
 

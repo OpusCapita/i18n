@@ -1,4 +1,5 @@
 import Converter from './Converter';
+
 import ParseError from './ParseError';
 
 export const ERROR_CODE = 'error.parse.number';
@@ -30,6 +31,7 @@ export default class NumberConverter extends Converter {
     if (this._groupSep) {
       stringValue = stringValue.replace(new RegExp('\\' + this._groupSep, 'g'), '');
     }
+
     if (this._decSep !== undefined) {
       stringValue = stringValue.replace(this._decSep, '.');
     }
@@ -82,9 +84,11 @@ export default class NumberConverter extends Converter {
           decimalPortion += decimalString.charAt(i);
         }
       }
+
       if (decimalPortion === this._decSep && !this._decSepUseAlways) {
         decimalPortion = '';
       }
+
       returnString += decimalPortion;
     } else {
       number = Math.round(number);
@@ -110,6 +114,7 @@ export default class NumberConverter extends Converter {
       if (onesFormat.lastIndexOf(',') !== -1) {
         groupLength = onesFormat.length - onesFormat.lastIndexOf(',') - 1;
       }
+
       let groupCount = 0;
       for (let k = oneText.length - 1; k > -1; k--) {
         onePortion = oneText.charAt(k) + onePortion;
@@ -144,6 +149,7 @@ export default class NumberConverter extends Converter {
     if (number < 0) {
       returnString = neg + returnString;
     }
+
     if (returnString) {
       if (returnString === this._decSep) {
         returnString = '0';
@@ -171,6 +177,7 @@ export default class NumberConverter extends Converter {
         stringValue = stringValue.replace(this._groupSep, '');
       }
     }
+
     stringValue = stringValue.replace(this._decSep, '.');
 
     let validText = '';

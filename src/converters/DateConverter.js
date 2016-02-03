@@ -1,6 +1,8 @@
 import Converter from './Converter';
+
 import ParseError from './ParseError';
 import moment from 'moment';
+
 // only load the modules
 import 'moment-jdateformatparser';
 import 'moment-timezone';
@@ -21,6 +23,7 @@ export default class DateConverter extends Converter {
       if (this.locale) {
         m = m.locale(this.locale);
       }
+
       return m.format(this.momentFormat);
     }
 
@@ -32,10 +35,12 @@ export default class DateConverter extends Converter {
     if (stringValue === null) {
       return null;
     }
+
     const result = moment(stringValue, this.momentFormat, true);
     if (!result.isValid()) {
       throw new ParseError(ERROR_CODE, { value: stringValue });
     }
+
     return result.toDate();
   }
 }

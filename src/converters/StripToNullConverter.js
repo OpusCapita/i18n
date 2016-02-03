@@ -1,5 +1,4 @@
 import Converter from './Converter';
-
 export default class StripToNullConverter extends Converter {
   valueToString(value) {
     if (value) {

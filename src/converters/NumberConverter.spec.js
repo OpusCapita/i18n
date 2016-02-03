@@ -1,4 +1,5 @@
 import { assert } from 'chai';
+
 import NumberConverter from './NumberConverter';
 import ParseError from './ParseError';
 
