@@ -70,6 +70,10 @@
     "through2": "^2.0.0",
     "webpack": "^1.12.2"
   },
+  "engines": {
+    "node": ">=4.2.4",
+    "npm": ">=3.6.0"
+  },
   "grails": {
     "version": "2.4.4",
     "javaSrc": "./dist",
