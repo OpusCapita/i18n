@@ -25,7 +25,7 @@
     "grails-plugin-release": "npm run grails-plugin-package -- --release && gulp grails-plugin-deploy --release",
     "esdoc": "esdoc -c esdoc.json",
     "postinstall": "node ./scripts/fix-prepublish.js postinstall",
-    "prepublish": "node ./scripts/fix-prepublish.js prepublish"
+    "prepublish": "npm run build-lib"
   },
   "author": {
     "name": "Dmitry Divin",

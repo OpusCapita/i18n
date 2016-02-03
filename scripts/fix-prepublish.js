@@ -1,10 +1,7 @@
 var child_process = require('child_process');
 var exec = child_process.exec;
-var spawn = child_process.spawn;
 var sysPath = require('path');
 var fs = require('fs');
-
-var mode = process.argv[2];
 
 var fsExists = fs.exists || sysPath.exists;
 
@@ -18,15 +15,7 @@ var execute = function (pathParts, params) {
   });
 };
 
-if (mode === 'prepublish') {
-  var babel = __dirname + '/node_modules/babel-cli/bin/babel';
-  spawn('node', [babel, 'src', '--out-dir', 'lib'], {
-    cwd: __dirname,
-    stdio: 'inherit'
-  });
-} else if (mode === 'postinstall') {
-  fsExists(sysPath.join(__dirname, 'lib'), function (exists) {
-    if (exists) return;
-    execute(['node_modules', 'babel-cli', 'bin', 'babel'], 'src --out-dir lib');
-  });
-}
+fsExists(sysPath.join(__dirname, 'lib'), function (exists) {
+  if (exists) return;
+  execute(['node_modules', 'babel-cli', 'bin', 'babel'], 'src --out-dir lib');
+});
