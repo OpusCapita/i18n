@@ -1,4 +1,4 @@
-import Converter  from './Converter'
+import Converter from './Converter';
 
 export default class StripToNullConverter extends Converter {
   valueToString(value) {

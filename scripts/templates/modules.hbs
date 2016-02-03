@@ -1,0 +1,9 @@
+modules = {
+{{#each resources as |resource|}}
+    '{{@key}}' {
+    {{#each resource}}
+      resource url: [plugin: '{{../../pluginName}}', dir: 'js', file: '{{file.name}}', nominify: true]
+    {{/each}}
+    }
+{{/each}}
+}
