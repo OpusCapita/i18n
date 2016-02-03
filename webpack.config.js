@@ -6,6 +6,9 @@ const webpack = require('webpack');
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 let plugins = [
+  new webpack.DefinePlugin({
+    NODE_ENV: JSON.stringify(NODE_ENV)
+  }),
   new webpack.optimize.OccurenceOrderPlugin(),
   new webpack.ContextReplacementPlugin(
     new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment\\' + path.sep + 'locale'),
