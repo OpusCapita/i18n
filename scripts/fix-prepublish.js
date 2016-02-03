@@ -19,7 +19,7 @@ var execute = function (pathParts, params) {
 };
 
 if (mode === 'prepublish') {
-  var babel = __dirname + '/node_modules/.bin/babel';
+  var babel = __dirname + '/node_modules/babel-cli/bin/babel';
   spawn('node', [babel, 'src', '--out-dir', 'lib'], {
     cwd: __dirname,
     stdio: 'inherit'
@@ -27,6 +27,6 @@ if (mode === 'prepublish') {
 } else if (mode === 'postinstall') {
   fsExists(sysPath.join(__dirname, 'lib'), function (exists) {
     if (exists) return;
-    execute(['node_modules', '.bin', 'babel'], 'src --out-dir lib');
+    execute(['node_modules', 'babel-cli', 'bin', 'babel'], 'src --out-dir lib');
   });
 }
