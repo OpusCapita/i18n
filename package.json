@@ -6,6 +6,7 @@
   "files": [
     "dist",
     "lib",
+    "scripts",
     "src",
     ".babelrc",
     "index.js"
