@@ -6,7 +6,7 @@
   "files": [
     "dist",
     "lib",
-    "scripts",
+    "scripts/fix-prepublish.js",
     "src",
     ".babelrc",
     "index.js"
