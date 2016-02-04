@@ -65,8 +65,8 @@ module.exports = {
       loader: 'babel-loader'
     }],
     noParse: [
-      new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment-timezone\\' + path.sep + '.*'),
-      new RegExp('\\' + path.sep + 'node_modules\\' + path.sep + 'moment-jdateformatparser\\' + path.sep + '.*')
+      /node_modules[\\\/]moment-timezone[\\\/]/,
+      /node_modules[\\\/]moment-jdateformatparser[\\\/]/
     ]
   }
 };
