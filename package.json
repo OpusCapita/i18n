@@ -28,6 +28,10 @@
     "postinstall": "node ./scripts/fix-prepublish.js postinstall",
     "prepublish": "npm run build-lib"
   },
+  "repository": {
+    "type": "git",
+    "url": "http://buildserver.jcatalog.com/git/js-i18n.git"
+  },
   "author": {
     "name": "Dmitry Divin",
     "email": "dmitry.divin@jcatalog.com"

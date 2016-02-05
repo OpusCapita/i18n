@@ -22,10 +22,11 @@ if (NODE_ENV == 'production') {
   plugins.push(
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-        // don't show unreachable variables etc
-        warnings: false,
-        drop_console: true,
-        unsafe: true
+        pure_getters: true,
+        unsafe: true,
+        unsafe_comps: true,
+        screw_ie8: true,
+        warnings: false
       }
     })
   );
@@ -42,7 +43,7 @@ module.exports = {
     libraryTarget: 'umd'
   },
 
-  devtool: NODE_ENV == 'development' ? 'cheap-inline-module-source-map' : null,
+  devtool: NODE_ENV == 'production' ? 'source-map' : 'eval-source-map',
 
   plugins: plugins,
 
