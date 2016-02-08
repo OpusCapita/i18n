@@ -1,5 +1,7 @@
 function ParseError(errorCode, errorArgs) {
   Error.call(this);
+  this.errorCode = errorCode;
+  this.errorArgs = errorArgs;
   this.message = `invalid parsed value [${errorArgs.value}]`;
 }
 
