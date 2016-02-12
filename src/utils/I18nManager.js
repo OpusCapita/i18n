@@ -50,7 +50,11 @@ class I18nManager {
       this._formatInfo = DEFAULT_FORMAT_INFO;
     }
 
-    const numberGroupingSeparator = this._formatInfo.numberGroupingSeparatorUse ? this._formatInfo.numberGroupingSeparator : null;
+    let numberGroupingSeparator = null;
+    if (this._formatInfo.numberGroupingSeparatorUse) {
+      numberGroupingSeparator = this._formatInfo.numberGroupingSeparator;
+    }
+
     this._dateConverter = new DateConverter(this._formatInfo.datePattern);
     this._decimalNumberConverter = new NumberConverter(
       this._formatInfo.numberPattern,
@@ -94,7 +98,13 @@ class I18nManager {
           that._intlDatas[indexToExtend] = _.extend(
             {},
             { locales: _.union(that._intlDatas[indexToExtend].locales, intlData.locales) },
-            { messages: _.deepExtend({}, that._intlDatas[indexToExtend].messages, intlData.messages) }
+            {
+              messages: _.deepExtend(
+                {},
+                that._intlDatas[indexToExtend].messages,
+                intlData.messages
+              ),
+            }
           );
         } else {
           // otherwise we save this bundle to the internal collection of bundles
@@ -137,13 +147,19 @@ class I18nManager {
       message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
     } catch (e) {
       try {
-        message = pathParts.reduce((obj, pathPart) => obj[pathPart], this._getMessageBundleForLocale(this._getFallbackLocale()).messages);
+        message = pathParts.reduce(
+          (obj, pathPart) => obj[pathPart],
+          this._getMessageBundleForLocale(this._getFallbackLocale()).messages
+        );
         if (message === undefined) {
           throw new ReferenceError('Could not find Intl message: ' + path);
         }
       } catch (ee) {
         try {
-          message = pathParts.reduce((obj, pathPart) => obj[pathPart], this._getMessageBundleForLocale(this.defaultLocale).messages);
+          message = pathParts.reduce(
+            (obj, pathPart) => obj[pathPart],
+            this._getMessageBundleForLocale(this.defaultLocale).messages
+          );
           if (message === undefined) {
             throw new ReferenceError('Could not find Intl message: ' + path);
           }
@@ -153,7 +169,8 @@ class I18nManager {
       }
     }
 
-    // this check covers use case of object message, f.e. message === { test: 'test component', format: 'min={min}, max={max}' }
+    // this check covers use case of object message,
+    // f.e. message === { test: 'test component', format: 'min={min}, max={max}' }
     if (!_.isString(message)) {
       return path;
     }

@@ -1,13 +1,12 @@
 {
-  "extends": "airbnb/base",
   "parser": "babel-eslint",
+  "extends": "airbnb/base",
   "env": {
-    "mocha": true,
-    "node": false
+    "node": true,
+    "mocha": true
   },
   "rules": {
-    "comma-dangle": [2, "always-multiline"],
-    "max-len": [1, 200],
-    "no-loop-func": 0
+    "no-loop-func": 0,
+    "comma-dangle": [2, "always-multiline"]
   }
 }
