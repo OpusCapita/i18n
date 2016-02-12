@@ -9,7 +9,7 @@
     "index.js"
   ],
   "scripts": {
-    "clean": "rimraf build esdoc",
+    "clean": "rimraf esdoc",
     "lint": "eslint .",
     "jscs": "jscs .",
     "test": "mocha src/**/*.spec.js",
