@@ -1,5 +1,6 @@
-import Converter  from './Converter';
-import ParseError  from './ParseError';
+import Converter from './Converter';
+
+import ParseError from './ParseError';
 
 export const ERROR_CODE = 'error.parse.number';
 
@@ -24,30 +25,33 @@ export default class NumberConverter extends Converter {
     }
   }
 
-  _throwIfNumberIsNotValidFormString(stringValue) {
-    let orginValue = stringValue;
+  _throwIfNumberIsNotValidFormString(value) {
+    const orginValue = value;
+    let stringValue = value;
     if (this._groupSep) {
       stringValue = stringValue.replace(new RegExp('\\' + this._groupSep, 'g'), '');
     }
+
     if (this._decSep !== undefined) {
       stringValue = stringValue.replace(this._decSep, '.');
     }
 
     if (!this._isValid(stringValue)) {
-        throw new ParseError(ERROR_CODE, {value: orginValue});
+      throw new ParseError(ERROR_CODE, { value: orginValue });
     }
   }
 
-  valueToString(number) {
+  valueToString(num) {
+    let number = num;
     if (number === null) {
       return '';
     }
 
-    if (typeof number == 'string') {
+    if (typeof number === 'string') {
       return number;
     }
 
-    let neg = '-';
+    const neg = '-';
     let forcedToZero = false;
 
     if (isNaN(number)) {
@@ -62,7 +66,7 @@ export default class NumberConverter extends Converter {
       // round or truncate number as needed
       number = number.toFixed(this._decimalFormat.length);
 
-      let decimalValue = number % 1;
+      const decimalValue = number % 1;
       let decimalString = decimalValue.toFixed(this._decimalFormat.length).toString();
       decimalString = decimalString.substring(decimalString.lastIndexOf('.') + 1);
 
@@ -70,7 +74,7 @@ export default class NumberConverter extends Converter {
         if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) !== '0') {
           decimalPortion += decimalString.charAt(i);
         } else if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) === '0') {
-          let notParsed = decimalString.substring(i);
+          const notParsed = decimalString.substring(i);
           if (notParsed.match('[1-9]')) {
             decimalPortion += decimalString.charAt(i);
           } else {
@@ -80,9 +84,11 @@ export default class NumberConverter extends Converter {
           decimalPortion += decimalString.charAt(i);
         }
       }
+
       if (decimalPortion === this._decSep && !this._decSepUseAlways) {
         decimalPortion = '';
       }
+
       returnString += decimalPortion;
     } else {
       number = Math.round(number);
@@ -103,11 +109,12 @@ export default class NumberConverter extends Converter {
     let onePortion = '';
     if (!(ones === 0 && onesFormat.substr(onesFormat.length - 1) === '#') || forcedToZero) {
       // find how many digits are in the group
-      let oneText = Math.abs(ones).toString();
+      const oneText = Math.abs(ones).toString();
       let groupLength = 9999;
       if (onesFormat.lastIndexOf(',') !== -1) {
         groupLength = onesFormat.length - onesFormat.lastIndexOf(',') - 1;
       }
+
       let groupCount = 0;
       for (let k = oneText.length - 1; k > -1; k--) {
         onePortion = oneText.charAt(k) + onePortion;
@@ -120,9 +127,9 @@ export default class NumberConverter extends Converter {
 
       // account for any pre-data 0's
       if (onesFormat.length > onePortion.length) {
-        let padStart = onesFormat.indexOf('0');
+        const padStart = onesFormat.indexOf('0');
         if (padStart !== -1) {
-          let padLen = onesFormat.length - padStart;
+          const padLen = onesFormat.length - padStart;
 
           // pad to left with 0's
           while (onePortion.length < padLen) {
@@ -142,26 +149,27 @@ export default class NumberConverter extends Converter {
     if (number < 0) {
       returnString = neg + returnString;
     }
+
     if (returnString) {
       if (returnString === this._decSep) {
-        returnString = '0'
+        returnString = '0';
       } else if (returnString.indexOf(this._decSep) === 0) {
         returnString = '0' + returnString;
       }
     }
 
-    return new String(returnString);
+    return String(returnString);
   }
 
-  stringToValue(stringValue) {
-    stringValue = stringValue || null;
+  stringToValue(strValue) {
+    let stringValue = strValue || null;
     if (stringValue === null) {
       return null;
     }
 
     this._throwIfNumberIsNotValidFormString(stringValue);
 
-    let valid = '1234567890.-';
+    const valid = '1234567890.-';
 
     // now we need to convert it into a number
     if (this._groupSep) {
@@ -169,6 +177,7 @@ export default class NumberConverter extends Converter {
         stringValue = stringValue.replace(this._groupSep, '');
       }
     }
+
     stringValue = stringValue.replace(this._decSep, '.');
 
     let validText = '';

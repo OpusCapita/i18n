@@ -1,6 +1,8 @@
+*.log
+*.iml
+.idea
 node_modules
 build
-.idea
-*.iml
-*.log
-
+dist
+esdoc
+lib

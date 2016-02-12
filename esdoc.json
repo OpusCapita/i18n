@@ -1,0 +1,12 @@
+{
+  "source": "./src",
+  "destination": "./esdoc",
+  "includes": [
+    "\\.jsx?$"
+  ],
+  "plugins": [
+    {
+      "name": "esdoc-es7-plugin"
+    }
+  ]
+}
