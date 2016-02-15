@@ -50,5 +50,12 @@
   "engines": {
     "node": ">=5.5.0",
     "npm": ">=3.6.0"
+  },
+  "Note": "It's needed for Browserify. Remove after migration to Webpack build process",
+  "browserify": {
+    "transform": [
+      ["babelify", { "stage": 0 }],
+      ["node-lessify", {}]
+    ]
   }
 }
