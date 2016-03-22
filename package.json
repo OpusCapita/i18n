@@ -1,9 +1,8 @@
 {
   "name": "jcatalog-i18n",
-  "version": "0.1.0",
+  "version": "0.1.0-SNAPSHOT.1",
   "description": "Provides i18n utils",
   "main": "index.js",
-  "private": "true",
   "files": [
     "src",
     "index.js"
