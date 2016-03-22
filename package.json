@@ -1,6 +1,6 @@
 {
   "name": "jcatalog-i18n",
-  "version": "8.0.1-0",
+  "version": "0.1.0",
   "description": "Provides i18n utils",
   "main": "index.js",
   "private": "true",
