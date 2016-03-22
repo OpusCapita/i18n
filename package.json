@@ -1,6 +1,6 @@
 {
   "name": "jcatalog-i18n",
-  "version": "8.0.0",
+  "version": "8.0.1-0",
   "description": "Provides i18n utils",
   "main": "index.js",
   "private": "true",
@@ -54,8 +54,16 @@
   "Note": "It's needed for Browserify. Remove after migration to Webpack build process",
   "browserify": {
     "transform": [
-      ["babelify", { "stage": 0 }],
-      ["node-lessify", {}]
+      [
+        "babelify",
+        {
+          "stage": 0
+        }
+      ],
+      [
+        "node-lessify",
+        {}
+      ]
     ]
   }
 }
