@@ -1,10 +1,10 @@
 {
   "name": "jcatalog-i18n",
-  "version": "0.1.0-SNAPSHOT.1",
+  "version": "0.1.0",
   "description": "Provides i18n utils",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
-    "src",
+    "lib",
     "index.js"
   ],
   "scripts": {
@@ -12,7 +12,12 @@
     "lint": "eslint .",
     "jscs": "jscs .",
     "test": "mocha src/**/*.spec.js",
-    "esdoc": "esdoc -c esdoc.json"
+    "esdoc": "esdoc -c esdoc.json",
+    "build-npm": "babel --ignore *.spec.js src --out-dir lib",
+    "prepublish":"rimraf lib && npm run build-npm",
+    "publish-test": "fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\" --test",
+    "publish-dev": "fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\"",
+    "publish-release": "fluid-publish --standard"
   },
   "repository": {
     "type": "git",
@@ -44,7 +49,8 @@
     "eslint-config-airbnb": "3.1.0",
     "jscs": "2.9.0",
     "mocha": "2.4.5",
-    "rimraf": "2.5.1"
+    "rimraf": "2.5.1",
+    "fluid-publish": "1.1.0"
   },
   "engines": {
     "node": "4.x",
