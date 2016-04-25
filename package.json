@@ -14,7 +14,7 @@
     "esdoc": "esdoc -c esdoc.json",
     "build-npm": "babel --ignore *.spec.js src --out-dir lib",
     "publish-test": "rimraf lib && npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\" --test",
-    "publish-dev": "rimraf lib && npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\", \\\"publishCmd\\\": \\\"npm publish -f\\\"}\"",
+    "publish-dev": "rimraf lib && npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\"",
     "publish-release": "rimraf lib && npm run build-npm && fluid-publish --standard"
   },
   "repository": {
