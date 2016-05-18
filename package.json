@@ -1,6 +1,6 @@
 {
   "name": "jcatalog-i18n",
-  "version": "1.2.0",
+  "version": "1.1.1",
   "description": "Provides i18n utils",
   "main": "lib/index.js",
   "files": [
@@ -8,14 +8,13 @@
   ],
   "scripts": {
     "clean": "rimraf esdoc",
-    "lint": "eslint .",
-    "jscs": "jscs .",
+    "lint": "eslint src",
     "test": "mocha src/**/*.spec.js",
     "esdoc": "esdoc -c esdoc.json",
-    "build-npm": "babel --ignore *.spec.js src --out-dir lib",
-    "publish-test": "rimraf lib && npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\" --test",
-    "publish-dev": "rimraf lib && npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\"",
-    "publish-release": "rimraf lib && npm run build-npm && fluid-publish --standard"
+    "build-npm": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
+    "publish-test": "npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\" --test",
+    "publish-dev": "npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\"",
+    "publish-release": "npm run build-npm && fluid-publish --standard"
   },
   "repository": {
     "type": "git",
@@ -37,36 +36,21 @@
   "devDependencies": {
     "babel-cli": "6.4.5",
     "babel-core": "6.4.0",
-    "babel-eslint": "4.1.7",
+    "babel-eslint": "6.0.4",
     "babel-preset-es2015": "6.3.13",
     "babel-preset-stage-0": "6.3.13",
     "chai": "3.4.1",
     "esdoc": "0.4.3",
     "esdoc-es7-plugin": "0.0.3",
-    "eslint": "1.10.3",
-    "eslint-config-airbnb": "3.1.0",
-    "jscs": "2.9.0",
+    "eslint": "2.10.2",
+    "eslint-config-jcatalog": "git+http://buildserver.jcatalog.com/git/js-eslint-config-jcatalog.git",
+    "eslint-plugin-react": "5.1.1",
     "mocha": "2.4.5",
     "rimraf": "2.5.1",
-    "fluid-publish": "^1.1.0"
+    "fluid-publish": "1.1.0"
   },
   "engines": {
     "node": "4.x",
     "npm": "2.x"
-  },
-  "Note": "It's needed for Browserify. Remove after migration to Webpack build process",
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "stage": 0
-        }
-      ],
-      [
-        "node-lessify",
-        {}
-      ]
-    ]
   }
 }

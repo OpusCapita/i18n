@@ -44,10 +44,13 @@ describe('NumberConverter', () => {
 
     const invalidValues = ['test', 'test1321321', '10,000.00', '5435432test'];
 
+    let convertToNumber = (value) => {
+      return () => {
+        return dc.stringToValue(value);
+      }
+    };
     for (const value of invalidValues) {
-      assert.throws(() => {
-        dc.stringToValue(value);
-      }, ParseError, `invalid parsed value [${value}]`);
+      assert.throws(convertToNumber(value), ParseError, `invalid parsed value [${value}]`);
     }
 
     // formating integer values

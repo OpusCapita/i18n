@@ -1,12 +1,7 @@
 {
-  "parser": "babel-eslint",
-  "extends": "airbnb/base",
+  "extends": "eslint-config-jcatalog",
   "env": {
     "node": true,
     "mocha": true
-  },
-  "rules": {
-    "no-loop-func": 0,
-    "comma-dangle": [2, "always-multiline"]
   }
 }

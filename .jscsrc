@@ -1,9 +1,0 @@
-{
-  "esnext": true,
-  "preset": "airbnb",
-  "safeContextKeyword": ["that"],
-  "requireTrailingComma": {
-    "ignoreSingleValue": true,
-    "ignoreSingleLine": true
-  }
-}

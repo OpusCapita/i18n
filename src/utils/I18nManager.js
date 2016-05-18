@@ -79,6 +79,7 @@ class I18nManager {
             return true;
           }
         }
+        return false;
       };
 
       const that = this;
