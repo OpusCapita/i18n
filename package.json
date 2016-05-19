@@ -28,7 +28,7 @@
   "readme": "README.md",
   "dependencies": {
     "moment": "2.10.6",
-    "moment-jdateformatparser": "git+https://github.com/MadMG/moment-jdateformatparser#88f3580f6f5a281fd678d760e146452bc2f04c97",
+    "moment-jdateformatparser": "1.0.2",
     "moment-timezone": "0.4.0",
     "underscore": "1.8.3",
     "underscore-deep-extend": "0.0.5"
