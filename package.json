@@ -11,10 +11,11 @@
     "lint": "eslint src",
     "test": "mocha src/**/*.spec.js",
     "esdoc": "esdoc -c esdoc.json",
-    "build-npm": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
-    "publish-test": "npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\" --test",
-    "publish-dev": "npm run build-npm && fluid-publish --options=\"{\\\"devTag\\\": \\\"SNAPSHOT\\\"}\"",
-    "publish-release": "npm run build-npm && fluid-publish --standard"
+
+    "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
+    "npm-publish": "npm run npm-build && npm-publish",
+    "publish-snapshot": "npm run npm-publish",
+    "publish-release": "npm run npm-publish -- --release"
   },
   "repository": {
     "type": "git",
@@ -47,7 +48,8 @@
     "eslint-plugin-react": "5.1.1",
     "mocha": "2.4.5",
     "rimraf": "2.5.2",
-    "fluid-publish": "1.1.0"
+    "fluid-publish": "1.1.0",
+    "jcatalog-dev-tools": "2.0.4"
   },
   "engines": {
     "node": "4.x",
