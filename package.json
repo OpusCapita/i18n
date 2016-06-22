@@ -1,6 +1,6 @@
 {
   "name": "jcatalog-i18n",
-  "version": "1.1.1",
+  "version": "1.1.1-SNAPSHOT.20160622T101754.737Z",
   "description": "Provides i18n utils",
   "main": "lib/index.js",
   "files": [
@@ -11,7 +11,6 @@
     "lint": "eslint src",
     "test": "mocha src/**/*.spec.js",
     "esdoc": "esdoc -c esdoc.json",
-
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
     "npm-publish": "npm run npm-build && npm-publish",
     "publish-snapshot": "npm run npm-publish",
@@ -48,7 +47,6 @@
     "eslint-plugin-react": "5.1.1",
     "mocha": "2.4.5",
     "rimraf": "2.5.2",
-    "fluid-publish": "1.1.0",
     "jcatalog-dev-tools": "2.0.4"
   },
   "engines": {
