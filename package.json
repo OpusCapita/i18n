@@ -1,6 +1,6 @@
 {
   "name": "jcatalog-i18n",
-  "version": "1.1.1-SNAPSHOT.20160622T101754.737Z",
+  "version": "1.1.1",
   "description": "Provides i18n utils",
   "main": "lib/index.js",
   "files": [
