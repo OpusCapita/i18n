@@ -1,7 +1,7 @@
 import _ from 'underscore';
 
 import underscoreDeepExtend from 'underscore-deep-extend';
-import { DateConverter, NumberConverter } from '../converters';
+import { DateConverter, DateStringConverter, NumberConverter } from '../converters';
 
 const DEFAULT_FORMAT_INFO = {
   datePattern: 'dd/MM/yyyy',
@@ -56,6 +56,8 @@ class I18nManager {
     }
 
     this._dateConverter = new DateConverter(this._formatInfo.datePattern);
+    this._dateStringConverter = new DateStringConverter(this._formatInfo.datePattern);
+
     this._decimalNumberConverter = new NumberConverter(
       this._formatInfo.numberPattern,
       numberGroupingSeparator,
@@ -97,6 +99,7 @@ class I18nManager {
         // we merge merge map of their messages and unite locales-collections
         if (indexToExtend !== -1) {
           that._intlDatas[indexToExtend] = _.extend(
+            {},
             {},
             { locales: _.union(that._intlDatas[indexToExtend].locales, intlData.locales) },
             {
@@ -194,6 +197,10 @@ class I18nManager {
     return this._dateConverter.valueToString(date);
   };
 
+  formatISODate = (date) => {
+    return this._dateStringConverter.valueToString(date);
+  };
+
   formatDecimalNumber = (number) => {
     return this._decimalNumberConverter.valueToString(number);
   };
@@ -204,6 +211,10 @@ class I18nManager {
 
   parseDate = (string) => {
     return this._dateConverter.stringToValue(string);
+  };
+
+  parseISODate = (string, utcOffset) => {
+    return this._dateStringConverter.stringToValue(string, utcOffset);
   };
 
   parseDecimalNumber = (string) => {

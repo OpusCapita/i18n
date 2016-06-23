@@ -85,6 +85,15 @@ describe('I18nManager', () => {
     assert.equal(date.toString(), dateAsObject.toString());
   });
 
+  it('should format and parse ISO date string', () => {
+    const isoDate = '2001-05-26';
+    const uiDateString = i18n.formatISODate(isoDate);
+    assert.equal('26/05/2001', uiDateString);
+
+    const parsedIsoDate = i18n.parseISODate(uiDateString, '+02:00');
+    assert.equal(parsedIsoDate, '2001-05-26T00:00:00+02:00');
+  });
+
   it('should format and parse numbers', () => {
     assert.equal('10,000', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000'));
