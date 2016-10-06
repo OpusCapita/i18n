@@ -1,0 +1,15 @@
+
+Release 1.1.1 Thu Oct 06 2016 19:11:21 GMT+0300 (Belarus Standard Time)
+=======================================================
+
+ - Added dateTime pattern support (Sergey Korsik <ksy@scand.local>, Thu Oct 6 19:10:42 2016 +0300)
+ - Updated dev-tools version. (dzhitomirsky <dzhitomirsky@jcatalog.com>, Thu Jul 14 11:54:41 2016 +0300)
+ - Updating dev tools dependency (Dmitry Divin <dmitry.divin@jcatalog.com>, Mon Jun 27 14:42:22 2016 +0300)
+ - Fixed version. (dzhitomirsky <dzhitomirsky@jcatalog.com>, Wed Jun 22 14:03:42 2016 +0300)
+ - Removed odd dependency. (dzhitomirsky <dzhitomirsky@jcatalog.com>, Wed Jun 22 13:26:49 2016 +0300)
+ - Refactored buil process. (dzhitomirsky <dzhitomirsky@jcatalog.com>, Wed Jun 22 13:04:16 2016 +0300)
+ - Updating dependencies (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu May 19 22:43:27 2016 +0300)
+ - Updating version (Dmitry Divin <dmitry.divin@jcatalog.com>, Thu May 19 12:23:42 2016 +0300)
+ - Using release version of eslint-config-jcatalog module (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu May 19 09:08:56 2016 +0300)
+ - Apply jcatalog ESLint styles. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Wed May 18 23:11:24 2016 +0300)
+ - Set up new '1.2.0' version after release (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Mon May 2 10:47:15 2016 +0300)
