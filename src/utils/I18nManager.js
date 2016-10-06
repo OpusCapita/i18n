@@ -5,6 +5,7 @@ import { DateConverter, NumberConverter } from '../converters';
 
 const DEFAULT_FORMAT_INFO = {
   datePattern: 'dd/MM/yyyy',
+  dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
   integerPattern: '#,##0',
   numberPattern: '#,##0.00',
   numberDecimalSeparator: '.',
@@ -56,6 +57,7 @@ class I18nManager {
     }
 
     this._dateConverter = new DateConverter(this._formatInfo.datePattern);
+    this._dateTimeConverter = new DateConverter(this._formatInfo.dateTimePattern);
     this._decimalNumberConverter = new NumberConverter(
       this._formatInfo.numberPattern,
       numberGroupingSeparator,
@@ -192,6 +194,10 @@ class I18nManager {
 
   formatDate = (date) => {
     return this._dateConverter.valueToString(date);
+  };
+
+  formatDateTime = (date) => {
+    return this._dateTimeConverter.valueToString(date);
   };
 
   formatDecimalNumber = (number) => {

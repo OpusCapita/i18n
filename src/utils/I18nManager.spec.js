@@ -9,6 +9,7 @@ describe('I18nManager', () => {
     const formatInfos = {
       'en-US': {
         datePattern: 'dd/MM/yyyy',
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
         integerPattern: '#,##0',
         numberPattern: '#,##0.00',
         numberDecimalSeparator: '.',
@@ -83,6 +84,12 @@ describe('I18nManager', () => {
 
     const dateAsObject = i18n.parseDate(dateAsString);
     assert.equal(date.toString(), dateAsObject.toString());
+  });
+
+  it('should format and parse date and time', () => {
+    const date = new Date(2001, 0, 10);
+    const dateTimeAsString = i18n.formatDateTime(date);
+    assert.equal('10/01/2001 00:00:00', dateTimeAsString);
   });
 
   it('should format and parse numbers', () => {
