@@ -5,8 +5,6 @@ import moment from 'moment';
 
 // only load the modules
 import 'moment-jdateformatparser';
-import 'moment-timezone';
-import 'moment-timezone/moment-timezone-utils';
 
 export const ERROR_CODE = 'error.parse.date';
 

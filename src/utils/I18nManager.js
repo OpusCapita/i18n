@@ -1,6 +1,4 @@
-import _ from 'underscore';
-
-import underscoreDeepExtend from 'underscore-deep-extend';
+import lodash from 'lodash';
 import { DateConverter, NumberConverter } from '../converters';
 
 const DEFAULT_FORMAT_INFO = {
@@ -12,6 +10,15 @@ const DEFAULT_FORMAT_INFO = {
   numberDecimalSeparatorUseAlways: false,
   numberGroupingSeparator: ',',
   numberGroupingSeparatorUse: true,
+};
+
+const deepMerge = function (object, source) {
+  return lodash.mergeWith(object, source,
+    function(objValue, srcValue) {
+      if (lodash.isObject(objValue) && srcValue) {
+        return deepMerge(objValue, srcValue);
+      }
+    });
 };
 
 /**
@@ -31,7 +38,6 @@ class I18nManager {
    * (see React Intl Data format)
    */
   constructor(locale, intlDatas, formatInfos, defaultLocale = 'en') {
-    _.mixin({ deepExtend: underscoreDeepExtend(_) });
     this._intlData = { locales: [locale], messages: {} };
 
     this._intlDatas = [this._intlData];
@@ -91,19 +97,18 @@ class I18nManager {
       // {locales: [], messages: {}}
       intlDatas.forEach((intlData) => {
         // searching for already existing bundle with 'similliar' locale collection
-        const indexToExtend = _.findIndex(that._intlDatas, (storedIntlData) => {
+        const indexToExtend = lodash.findIndex(that._intlDatas, (storedIntlData) => {
           return intersects(storedIntlData.locales, intlData.locales);
         });
 
         // if we find bundle with locales that intersect with the exteernal one
         // we merge merge map of their messages and unite locales-collections
         if (indexToExtend !== -1) {
-          that._intlDatas[indexToExtend] = _.extend(
+          that._intlDatas[indexToExtend] = lodash.extend(
             {},
-            { locales: _.union(that._intlDatas[indexToExtend].locales, intlData.locales) },
+            { locales: lodash.union(that._intlDatas[indexToExtend].locales, intlData.locales) },
             {
-              messages: _.deepExtend(
-                {},
+              messages: deepMerge(
                 that._intlDatas[indexToExtend].messages,
                 intlData.messages
               ),
@@ -125,8 +130,8 @@ class I18nManager {
   * Searches for a budle that locales collection containes argument-locale
   */
   _getMessageBundleForLocale(locale) {
-    return _.find(this._intlDatas, (storedIntlData) => {
-      return _.indexOf(storedIntlData.locales, locale) !== -1;
+    return lodash.find(this._intlDatas, (storedIntlData) => {
+      return lodash.indexOf(storedIntlData.locales, locale) !== -1;
     });
   }
 
@@ -174,11 +179,11 @@ class I18nManager {
 
     // this check covers use case of object message,
     // f.e. message === { test: 'test component', format: 'min={min}, max={max}' }
-    if (!_.isString(message)) {
+    if (!lodash.isString(message)) {
       return path;
     }
 
-    _.each(_.keys(args), (param) => {
+    lodash.each(lodash.keys(args), (param) => {
       const paramValue = args[param];
 
       if (paramValue !== null && paramValue !== undefined) {
