@@ -12,12 +12,13 @@ const DEFAULT_FORMAT_INFO = {
   numberGroupingSeparatorUse: true,
 };
 
-const deepMerge = function (object, source) {
+const deepMerge = function(object, source) {
   return lodash.mergeWith(object, source,
     function(objValue, srcValue) {
       if (lodash.isObject(objValue) && srcValue) {
         return deepMerge(objValue, srcValue);
       }
+      return undefined;
     });
 };
 
