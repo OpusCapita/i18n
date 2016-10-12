@@ -1,4 +1,10 @@
 
+Release 1.1.2 Wed Oct 12 2016 09:48:40 GMT+0300 (MSK)
+=======================================================
+
+ - (CMMN-4989) Removing underscore with deps & moment-timezone (Dmitry Divin <dmitry.divin@jcatalog.com>, Wed Oct 12 09:29:23 2016 +0300)
+ - Updating to a version to  1.1.2 (Sergey Korsik <ksy@scand.local>, Thu Oct 6 19:12:33 2016 +0300)
+
 Release 1.1.1 Thu Oct 06 2016 19:11:21 GMT+0300 (Belarus Standard Time)
 =======================================================
 
