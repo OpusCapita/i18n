@@ -27,7 +27,7 @@
   "license": "jCatalog",
   "readme": "README.md",
   "dependencies": {
-    "lodash": "^4.16.4",
+    "lodash": "4.16.4",
     "moment": "2.10.6",
     "moment-jdateformatparser": "git+https://github.com/MadMG/moment-jdateformatparser#88f3580f6f5a281fd678d760e146452bc2f04c97",
     "underscore": "1.8.3",
