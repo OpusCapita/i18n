@@ -1,5 +1,4 @@
 import Converter from './Converter';
-
 import ParseError from './ParseError';
 
 export const ERROR_CODE = 'error.parse.number';
@@ -41,6 +40,41 @@ export default class NumberConverter extends Converter {
     }
   }
 
+  _shouldRemoveTrailingDecimalSeparator(string) {
+    let isExists = string[string.length - 1] === this._decSep;
+    let isCanBeRemoved = !this._decSepUseAlways;
+    return isExists && isCanBeRemoved;
+  }
+
+  _trimFloatDigits(string) {
+    if (Number(string) === 0) {
+      return 0;
+    }
+
+    let splittedNumber = string.split(this._decSep);
+    let integerPart = splittedNumber[0] || '';
+    let fractionalPart = splittedNumber[1] || '';
+
+    let splittedFormat = this._format.split('.');
+    let formatFractionalPart = splittedFormat[1] || '';
+
+    let formattedFractionalPart = formatFractionalPart.split('').map((digit, index) => {
+      if (fractionalPart[index]) {
+        return fractionalPart[index];
+      }
+      if (digit === '0') {
+        return '0';
+      }
+      return '';
+    }).join('');
+
+    let result = `${integerPart}${this._decSep || ''}${formattedFractionalPart}`;
+    if (this._shouldRemoveTrailingDecimalSeparator(result)) {
+      result = result.substr(0, result.length - 1);
+    }
+    return result;
+  }
+
   valueToString(num) {
     let number = num;
     if (number === null) {
@@ -64,11 +98,9 @@ export default class NumberConverter extends Converter {
       let decimalPortion = this._decSep;
 
       // round or truncate number as needed
-      number = number.toFixed(this._decimalFormat.length);
+      number = number.toString();
 
-      const decimalValue = number % 1;
-      let decimalString = decimalValue.toFixed(this._decimalFormat.length).toString();
-      decimalString = decimalString.substring(decimalString.lastIndexOf('.') + 1);
+      const decimalString = number.split('.')[1] || '';
 
       for (let i = 0; i < this._decimalFormat.length; i++) {
         if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) !== '0') {
@@ -158,6 +190,7 @@ export default class NumberConverter extends Converter {
       }
     }
 
+    returnString = this._trimFloatDigits(returnString);
     return String(returnString);
   }
 

@@ -8,10 +8,10 @@ describe('NumberConverter', () => {
     // formating decimal values
     let dc = new NumberConverter('#,##0.00', ',', '.');
 
-    assert.equal(dc.valueToString(10000), '10,000.00');
-    assert.equal(dc.valueToString(-10000), '-10,000.00');
-    assert.equal(dc.valueToString(1100.99), '1,100.99');
-    assert.equal(dc.valueToString('werwe'), 'werwe');
+    assert.strictEqual(dc.valueToString(10000000), '10,000,000.00');
+    assert.strictEqual(dc.valueToString(-10000), '-10,000.00');
+    assert.strictEqual(dc.valueToString(1100.99), '1,100.99');
+    assert.strictEqual(dc.valueToString('werwe'), 'werwe');
 
     assert.equal(dc.stringToValue('10,000.00'), 10000);
     assert.equal(dc.stringToValue('-10,000.00'), -10000);
@@ -88,5 +88,8 @@ describe('NumberConverter', () => {
 
     dc = new NumberConverter('#.##########', null, ',', false);
     assert.equal(dc.valueToString(1000000), '1000000');
+
+    dc = new NumberConverter('#,##0.0#########', ',', '.');
+    assert.equal(dc.valueToString(123456789.12), '123,456,789.12');
   });
 });
