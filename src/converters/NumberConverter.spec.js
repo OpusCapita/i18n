@@ -2,6 +2,7 @@ import { assert } from 'chai';
 
 import NumberConverter from './NumberConverter';
 import ParseError from './ParseError';
+import AccuracyError from './AccuracyError';
 
 describe('NumberConverter', () => {
   it('should convert number to value and value to number', () => {
@@ -91,5 +92,8 @@ describe('NumberConverter', () => {
 
     dc = new NumberConverter('#,##0.0#########', ',', '.');
     assert.equal(dc.valueToString(123456789.12), '123,456,789.12');
+
+    // throw exceptions on large integers
+    assert.throws(() => dc.valueToString(12345678912345678910), AccuracyError);
   });
 });

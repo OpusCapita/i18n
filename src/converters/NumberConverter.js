@@ -1,10 +1,12 @@
 import Converter from './Converter';
 import ParseError from './ParseError';
+import AccuracyError from './AccuracyError';
 
 export const ERROR_CODE = 'error.parse.number';
 
 const floatNumberReg = /^-?\d+\.?\d*$/;
 const intNumberReg = /^-?\d+$/;
+const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
 
 export default class NumberConverter extends Converter {
   constructor(format, groupSep, decSep, decSepUseAlways) {
@@ -46,7 +48,7 @@ export default class NumberConverter extends Converter {
     return isExists && isCanBeRemoved;
   }
 
-  _trimFloatDigits(string) {
+  _trimFractionalDigits(string) {
     if (Number(string) === 0) {
       return 0;
     }
@@ -75,6 +77,15 @@ export default class NumberConverter extends Converter {
     return result;
   }
 
+  _validateNumberAccuracy(number, stringifiedNumber) {
+    let isInteger = stringifiedNumber.indexOf('.') === -1;
+    if (isInteger) {
+      if (Math.abs(number) > MAX_SAFE_INTEGER) {
+        throw new AccuracyError(ERROR_CODE, { value: number });
+      }
+    }
+  }
+
   valueToString(num) {
     let number = num;
     if (number === null) {
@@ -98,9 +109,10 @@ export default class NumberConverter extends Converter {
       let decimalPortion = this._decSep;
 
       // round or truncate number as needed
-      number = number.toString();
+      let stringifiedNumber = number.toString();
+      this._validateNumberAccuracy(number, stringifiedNumber);
 
-      const decimalString = number.split('.')[1] || '';
+      const decimalString = stringifiedNumber.split('.')[1] || '';
 
       for (let i = 0; i < this._decimalFormat.length; i++) {
         if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) !== '0') {
@@ -190,7 +202,7 @@ export default class NumberConverter extends Converter {
       }
     }
 
-    returnString = this._trimFloatDigits(returnString);
+    returnString = this._trimFractionalDigits(returnString);
     return String(returnString);
   }
 
