@@ -17,17 +17,16 @@ export default class NumberConverter extends Converter {
     this._decSep = decSep;
     this._decSepUseAlways = decSepUseAlways || false;
 
-    this._decimalFormat = format.substring(format.lastIndexOf('.') + 1);
-
-    if (format.indexOf('.') !== -1) {
-      this._isValid = (value) => { return floatNumberReg.test(value); };
+    if (format.lastIndexOf('.') !== -1) {
+      this._integerFormat = format.substring(0, format.indexOf('.'));
+      this._decimalFormat = format.substring(format.indexOf('.') + 1);
     } else {
-      this._isValid = (value) => { return intNumberReg.test(value); };
+      this._integerFormat = format;
+      this._decimalFormat = '';
     }
   }
 
-  _throwIfNumberIsNotValidFormString(value) {
-    const orginValue = value;
+  _validateStringIfItIsANumber(value) {
     let stringValue = value;
     if (this._groupSep) {
       stringValue = stringValue.replace(new RegExp('\\' + this._groupSep, 'g'), '');
@@ -37,209 +36,158 @@ export default class NumberConverter extends Converter {
       stringValue = stringValue.replace(this._decSep, '.');
     }
 
-    if (!this._isValid(stringValue)) {
-      throw new ParseError(ERROR_CODE, { value: orginValue });
+    if (this._format.indexOf('.') !== -1) {
+      if (!floatNumberReg.test(stringValue)) {
+        throw new ParseError(ERROR_CODE, { value });
+      }
+    } else {
+      if (!intNumberReg.test(stringValue)) {
+        throw new ParseError(ERROR_CODE, { value });
+      }
     }
   }
 
-  _shouldRemoveTrailingDecimalSeparator(string) {
-    let isExists = string[string.length - 1] === this._decSep;
-    let isCanBeRemoved = !this._decSepUseAlways;
-    return isExists && isCanBeRemoved;
-  }
-
-  _trimFractionalDigits(string) {
-    if (Number(string) === 0) {
-      return 0;
-    }
-
-    let splittedNumber = string.split(this._decSep);
-    let integerPart = splittedNumber[0] || '';
-    let fractionalPart = splittedNumber[1] || '';
-
-    let splittedFormat = this._format.split('.');
-    let formatFractionalPart = splittedFormat[1] || '';
-
-    let formattedFractionalPart = formatFractionalPart.split('').map((digit, index) => {
-      if (fractionalPart[index]) {
-        return fractionalPart[index];
-      }
-      if (digit === '0') {
-        return '0';
-      }
+  _parseFractionalPart(number) {
+    // noting to format
+    if (this._decimalFormat === '') {
       return '';
-    }).join('');
-
-    let result = `${integerPart}${this._decSep || ''}${formattedFractionalPart}`;
-    if (this._shouldRemoveTrailingDecimalSeparator(result)) {
-      result = result.substr(0, result.length - 1);
     }
+
+    const fractionalPartString = number.toString().split('.')[1] || '';
+
+    let result = '';
+    for (let i = 0; i < this._decimalFormat.length; i++) {
+      const currentDigit = fractionalPartString.charAt(i);
+      if (this._decimalFormat.charAt(i) === '0') {
+        // char does not exist
+        if (currentDigit === '') {
+          // add 0 anyway
+          result = `${result}0`;
+        } else {
+          result = `${result}${currentDigit}`;
+        }
+      } else {
+        // # is found in the pattern
+        const leftOptionalDigitsAmount = this._decimalFormat.length - i;
+        // take all left digits statring from i index but not more that amount of characters left in format
+        result = `${result}${fractionalPartString.substr(i, leftOptionalDigitsAmount)}`;
+        break;
+      }
+    }
+
     return result;
   }
 
-  _validateNumberAccuracy(number, stringifiedNumber) {
-    let isInteger = stringifiedNumber.indexOf('.') === -1;
+  _parseIntegerPart(number) {
+    let integerNumber = number;
+    // if there is not decimal separator in the format, then we round the value
+    // like if it done in DecimalFormat, see https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html
+    if (this._format.indexOf('.') === -1) {
+      integerNumber = Math.round(integerNumber);
+    }
+
+    // cut fractional part
+    integerNumber = Math.trunc(integerNumber);
+
+    if (this._integerFormat.charAt(this._integerFormat.length - 1) === '#' && integerNumber === 0) {
+      return 0;
+    }
+
+    let result = '';
+
+    // convert number ot a string and cut - sign if any
+    const integerPartWithoutSign = Math.abs(integerNumber).toString();
+
+    // find how many digits are in the group
+    let groupLength = 9999;
+    const groupSeparatorIndexInFormat = this._integerFormat.lastIndexOf(',');
+    if (groupSeparatorIndexInFormat !== -1) {
+      groupLength = this._integerFormat.length - groupSeparatorIndexInFormat - 1;
+    }
+
+    let groupCount = 0;
+    for (let k = integerPartWithoutSign.length - 1; k >= 0; k--) {
+      result = integerPartWithoutSign.charAt(k) + result;
+      groupCount++;
+      if (groupCount === groupLength && k !== 0) {
+        result = (this._groupSep || '') + result;
+        groupCount = 0;
+      }
+    }
+
+    // account for any pre-data 0's
+    if (this._integerFormat.length > result.length) {
+      const padStart = this._integerFormat.indexOf('0');
+      if (padStart !== -1) {
+        const padLen = this._integerFormat.length - padStart;
+
+        // pad to left with 0's
+        while (result.length < padLen) {
+          result = '0' + result;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  valueToString(number) {
+    // null -> '' is returned
+    if (number === null) {
+      return '';
+    }
+
+    // throw TypeError if vakue is not a number
+    if (typeof number !== 'number') {
+      throw TypeError(`'${number}' is not a Number!`);
+    }
+
+    // validate integer number
+    const isInteger = number.toString().indexOf('.') === -1;
     if (isInteger) {
       if (Math.abs(number) > MAX_SAFE_INTEGER) {
         throw new AccuracyError(ERROR_CODE, { value: number });
       }
     }
+
+    // parse integrer and fcartional part separately
+    const integerPartString = this._parseIntegerPart(number);
+    const fractionalPartString = this._parseFractionalPart(number);
+
+    // setup decimal separator if it is needed
+    let decimalSeparator = ''
+    if (fractionalPartString !== '' || this._decSepUseAlways) {
+      decimalSeparator = this._decSep;
+    }
+    // setup negative sign
+    let minusSign = '';
+    if (number < 0) {
+      minusSign = '-';
+    }
+
+    return minusSign + integerPartString + decimalSeparator + fractionalPartString;
   }
 
-  valueToString(num) {
-    let number = num;
-    if (number === null) {
-      return '';
-    }
-
-    if (typeof number === 'string') {
-      return number;
-    }
-
-    const neg = '-';
-    let forcedToZero = false;
-
-    if (isNaN(number)) {
-      number = 0;
-      forcedToZero = true;
-    }
-
-    let returnString = '';
-    if (this._format.indexOf('.') !== -1) {
-      let decimalPortion = this._decSep;
-
-      // round or truncate number as needed
-      let stringifiedNumber = number.toString();
-      this._validateNumberAccuracy(number, stringifiedNumber);
-
-      const decimalString = stringifiedNumber.split('.')[1] || '';
-
-      for (let i = 0; i < this._decimalFormat.length; i++) {
-        if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) !== '0') {
-          decimalPortion += decimalString.charAt(i);
-        } else if (this._decimalFormat.charAt(i) === '#' && decimalString.charAt(i) === '0') {
-          const notParsed = decimalString.substring(i);
-          if (notParsed.match('[1-9]')) {
-            decimalPortion += decimalString.charAt(i);
-          } else {
-            break;
-          }
-        } else if (this._decimalFormat.charAt(i) === '0') {
-          decimalPortion += decimalString.charAt(i);
-        }
-      }
-
-      if (decimalPortion === this._decSep && !this._decSepUseAlways) {
-        decimalPortion = '';
-      }
-
-      returnString += decimalPortion;
-    } else {
-      number = Math.round(number);
-    }
-
-    let ones = Math.floor(number);
-    if (number < 0) {
-      ones = Math.ceil(number);
-    }
-
-    let onesFormat = '';
-    if (this._format.indexOf('.') === -1) {
-      onesFormat = this._format;
-    } else {
-      onesFormat = this._format.substring(0, this._format.indexOf('.'));
-    }
-
-    let onePortion = '';
-    if (!(ones === 0 && onesFormat.substr(onesFormat.length - 1) === '#') || forcedToZero) {
-      // find how many digits are in the group
-      const oneText = Math.abs(ones).toString();
-      let groupLength = 9999;
-      if (onesFormat.lastIndexOf(',') !== -1) {
-        groupLength = onesFormat.length - onesFormat.lastIndexOf(',') - 1;
-      }
-
-      let groupCount = 0;
-      for (let k = oneText.length - 1; k > -1; k--) {
-        onePortion = oneText.charAt(k) + onePortion;
-        groupCount++;
-        if (groupCount === groupLength && k !== 0) {
-          onePortion = (this._groupSep || '') + onePortion;
-          groupCount = 0;
-        }
-      }
-
-      // account for any pre-data 0's
-      if (onesFormat.length > onePortion.length) {
-        const padStart = onesFormat.indexOf('0');
-        if (padStart !== -1) {
-          const padLen = onesFormat.length - padStart;
-
-          // pad to left with 0's
-          while (onePortion.length < padLen) {
-            onePortion = '0' + onePortion;
-          }
-        }
-      }
-    }
-
-    if (!onePortion && onesFormat.indexOf('0', onesFormat.length - 1) !== -1) {
-      onePortion = '0';
-    }
-
-    returnString = onePortion + returnString;
-
-    // handle special case where negative is in front of the invalid characters
-    if (number < 0) {
-      returnString = neg + returnString;
-    }
-
-    if (returnString) {
-      if (returnString === this._decSep) {
-        returnString = '0';
-      } else if (returnString.indexOf(this._decSep) === 0) {
-        returnString = '0' + returnString;
-      }
-    }
-
-    returnString = this._trimFractionalDigits(returnString);
-    return String(returnString);
-  }
-
-  stringToValue(strValue) {
-    let stringValue = strValue || null;
-    if (stringValue === null) {
+  stringToValue(string) {
+    if (string === null) {
       return null;
     }
 
-    this._throwIfNumberIsNotValidFormString(stringValue);
+    if (typeof string !== 'string') {
+      throw TypeError(`'${string}' is not a String!`);
+    }
 
-    const valid = '1234567890.-';
+    this._validateStringIfItIsANumber(string);
 
-    // now we need to convert it into a number
+    // removing decimal and grouping separator
+    let stringValue = string;
     if (this._groupSep) {
       while (stringValue.indexOf(this._groupSep) > -1) {
         stringValue = stringValue.replace(this._groupSep, '');
       }
     }
-
     stringValue = stringValue.replace(this._decSep, '.');
-
-    let validText = '';
-    for (let i = 0; i < stringValue.length; i++) {
-      if (valid.indexOf(stringValue.charAt(i)) > -1) {
-        validText = validText + stringValue.charAt(i);
-      }
-    }
-
-    let result = parseFloat(validText);
-
-    if (this._format.indexOf('.') !== -1) {
-      result = result.toFixed(this._decimalFormat.length);
-    } else {
-      result = result.toFixed();
-    }
-
-    return +result;
+    // converting to number
+    return parseFloat(stringValue).toFixed(this._decimalFormat.length);
   }
 }

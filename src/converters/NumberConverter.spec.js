@@ -12,11 +12,12 @@ describe('NumberConverter', () => {
     assert.strictEqual(dc.valueToString(10000000), '10,000,000.00');
     assert.strictEqual(dc.valueToString(-10000), '-10,000.00');
     assert.strictEqual(dc.valueToString(1100.99), '1,100.99');
-    assert.strictEqual(dc.valueToString('werwe'), 'werwe');
+    assert.throws(() => {return dc.valueToString('werwe')}, TypeError, `'werwe' is not a Number!`);
 
     assert.equal(dc.stringToValue('10,000.00'), 10000);
     assert.equal(dc.stringToValue('-10,000.00'), -10000);
     assert.equal(dc.stringToValue('1,100.99'), 1100.99);
+    assert.throws(() => {return dc.stringToValue(12345)}, TypeError, `'12345' is not a String!`);
 
     dc = new NumberConverter('#,##0.00', null, '.');
 
@@ -38,6 +39,8 @@ describe('NumberConverter', () => {
     assert.equal(dc.valueToString(10000), '10 000,00');
     assert.equal(dc.valueToString(-10000), '-10 000,00');
     assert.equal(dc.valueToString(1100.55), '1 100,55');
+    assert.equal(dc.valueToString(-1.1), '-1,10');
+    assert.equal(dc.valueToString(-1.9), '-1,90');
 
     assert.equal(dc.stringToValue('10 000,00'), 10000);
     assert.equal(dc.stringToValue('-10 000,00'), -10000);
@@ -75,6 +78,9 @@ describe('NumberConverter', () => {
 
     assert.equal(dc.valueToString(100.01), '100,01');
 
+    assert.equal(dc.valueToString(0.0), '0');
+    assert.equal(dc.valueToString(0), '0');
+
     dc = new NumberConverter('#.##', null, ',', true);
 
     assert.equal(dc.valueToString(100), '100,');
@@ -84,7 +90,7 @@ describe('NumberConverter', () => {
 
     assert.equal(dc.valueToString(100.01), '100,01');
 
-    assert.equal(dc.valueToString(0.0), '0');
+    assert.equal(dc.valueToString(0.0), '0,');
     assert.equal(dc.valueToString(0.1), '0,1');
 
     dc = new NumberConverter('#.##########', null, ',', false);
