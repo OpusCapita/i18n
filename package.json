@@ -43,10 +43,10 @@
     "esdoc": "0.4.7",
     "esdoc-es7-plugin": "0.0.3",
     "eslint": "2.10.2",
-    "eslint-config-jcatalog": "1.0.2",
+    "eslint-config-jcatalog": "1.0.1",
     "eslint-plugin-react": "5.1.1",
     "mocha": "2.4.5",
     "rimraf": "2.5.2",
-    "jcatalog-dev-tools": "2.0.15"
+    "jcatalog-dev-tools": "2.0.14"
   }
 }
