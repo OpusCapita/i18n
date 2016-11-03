@@ -6,3 +6,5 @@ build
 dist
 esdoc
 lib
+coverage
+.nyc_output

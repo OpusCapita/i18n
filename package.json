@@ -9,8 +9,8 @@
   "scripts": {
     "clean": "rimraf esdoc",
     "lint": "eslint src",
-    "test": "mocha src/**/*.spec.js",
-    "esdoc": "esdoc -c esdoc.json",
+    "test": "rimraf ./.nyc_output ./coverage && cross-env nyc mocha --recursive 'src/**/*.spec.js'",
+    "testonly": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
     "npm-publish": "npm run npm-build && npm-publish",
     "publish-snapshot": "npm run npm-publish",
@@ -37,16 +37,18 @@
     "babel-cli": "6.9.0",
     "babel-core": "6.9.0",
     "babel-eslint": "6.0.4",
+    "babel-plugin-istanbul": "2.0.3",
     "babel-preset-es2015": "6.9.0",
     "babel-preset-stage-0": "6.5.0",
+    "babel-register": "6.18.0",
     "chai": "3.5.0",
-    "esdoc": "0.4.7",
-    "esdoc-es7-plugin": "0.0.3",
+    "cross-env": "3.1.3",
     "eslint": "2.10.2",
-    "eslint-config-jcatalog": "1.0.1",
+    "eslint-config-jcatalog": "1.0.2",
     "eslint-plugin-react": "5.1.1",
+    "jcatalog-dev-tools": "2.0.14",
     "mocha": "2.4.5",
-    "rimraf": "2.5.2",
-    "jcatalog-dev-tools": "2.0.14"
+    "nyc": "8.4.0",
+    "rimraf": "2.5.2"
   }
 }

@@ -9,11 +9,13 @@ describe('NumberConverter', () => {
     // formating decimal values
     let dc = new NumberConverter('#,##0.00', ',', '.');
 
+    assert.strictEqual(dc.valueToString(null), null);
     assert.strictEqual(dc.valueToString(10000000), '10,000,000.00');
     assert.strictEqual(dc.valueToString(-10000), '-10,000.00');
     assert.strictEqual(dc.valueToString(1100.99), '1,100.99');
     assert.throws(() => {return dc.valueToString('werwe')}, TypeError, `'werwe' is not a Number!`);
 
+    assert.strictEqual(dc.stringToValue(null), null);
     assert.equal(dc.stringToValue('10,000.00'), 10000);
     assert.equal(dc.stringToValue('-10,000.00'), -10000);
     assert.equal(dc.stringToValue('1,100.99'), 1100.99);
@@ -101,5 +103,8 @@ describe('NumberConverter', () => {
 
     // throw exceptions on large integers
     assert.throws(() => dc.valueToString(12345678912345678910), AccuracyError);
+
+    dc = new NumberConverter('00', null, '.');
+    assert.equal(dc.valueToString(9), '09');
   });
 });

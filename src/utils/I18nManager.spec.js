@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import I18nManager from './I18nManager';
+import { DEFAULT_FORMAT_INFO } from './constants';
 
 describe('I18nManager', () => {
   let i18n;
@@ -21,6 +22,9 @@ describe('I18nManager', () => {
       locales: ['en-US'],
       messages: {
         test: 'test',
+        subcomponent: {
+          hint: 'nested hint'
+        }
       },
     }], formatInfos);
     i18n = i18n.register('component', [{
@@ -29,6 +33,9 @@ describe('I18nManager', () => {
         component: {
           test: 'test component',
           format: 'min={min}, max={max}',
+          subcomponent: {
+            label: 'nested'
+          }
         },
       },
     }]);
@@ -109,5 +116,43 @@ describe('I18nManager', () => {
 
     message = i18n.getMessage('component.format', { min: 10, max: 100 });
     assert.equal('min=10, max=100', message);
+  });
+
+  it('getMessage using fallback locale', () => {
+    const i18n = new I18nManager('de', [
+      {
+        locales: ['en'],
+        messages: {
+          a: 'fallback'
+        },
+      }
+    ]);
+    // there is no message in default/current locale 'de'
+    // fallback to default locale -> 'en' message
+    assert.strictEqual(i18n.getMessage('a'), 'fallback');
+  });
+
+  it('dateFormat returns configured date format', () => {
+    const i18n = new I18nManager('es', null,
+      {
+        'es': {
+          datePattern: 'YY',
+          dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+          integerPattern: '#,##0',
+          numberPattern: '#,##0.00#######',
+          numberDecimalSeparator: '.',
+          numberGroupingSeparator: ',',
+          numberGroupingSeparatorUse: true,
+        }
+      }
+    );
+    // configured date pattern
+    assert.strictEqual(i18n.dateFormat, 'YY');
+  });
+
+  it('dateFormat returns default date format', () => {
+    const i18n = new I18nManager('en', null);
+    // default date pattern
+    assert.strictEqual(i18n.dateFormat, DEFAULT_FORMAT_INFO.datePattern);
   });
 });

@@ -132,9 +132,9 @@ export default class NumberConverter extends Converter {
   }
 
   valueToString(number) {
-    // null -> '' is returned
+    // null -> null is returned
     if (number === null) {
-      return '';
+      return null;
     }
 
     // throw TypeError if vakue is not a number

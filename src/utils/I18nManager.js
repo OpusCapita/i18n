@@ -1,16 +1,7 @@
 import lodash from 'lodash';
 import { DateConverter, NumberConverter } from '../converters';
 
-const DEFAULT_FORMAT_INFO = {
-  datePattern: 'dd/MM/yyyy',
-  dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
-  integerPattern: '#,##0',
-  numberPattern: '#,##0.00',
-  numberDecimalSeparator: '.',
-  numberDecimalSeparatorUseAlways: false,
-  numberGroupingSeparator: ',',
-  numberGroupingSeparatorUse: true,
-};
+import { DEFAULT_FORMAT_INFO } from './constants';
 
 const deepMerge = function(object, source) {
   return lodash.mergeWith(object, source,
@@ -38,7 +29,7 @@ class I18nManager {
    *- defaultLocale - fallback locale, 'en' by default
    * (see React Intl Data format)
    */
-  constructor(locale, intlDatas, formatInfos, defaultLocale = 'en') {
+  constructor(locale, intlDatas, formatInfos = null, defaultLocale = 'en') {
     this._intlData = { locales: [locale], messages: {} };
 
     this._intlDatas = [this._intlData];
@@ -52,8 +43,8 @@ class I18nManager {
     }
 
     this._formatInfos = formatInfos;
-    if (formatInfos) {
-      this._formatInfo = formatInfos[locale] || DEFAULT_FORMAT_INFO;
+    if (formatInfos && formatInfos[locale]) {
+      this._formatInfo = formatInfos[locale];
     } else {
       this._formatInfo = DEFAULT_FORMAT_INFO;
     }
@@ -151,31 +142,34 @@ class I18nManager {
     const messages = this._intlData.messages;
     const pathParts = path.split('.');
 
-    let message;
+    let message = undefined;
     try {
       message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
     } catch (e) {
+      // ignore and go next
+    }
+    if (message === undefined) {
       try {
         message = pathParts.reduce(
           (obj, pathPart) => obj[pathPart],
           this._getMessageBundleForLocale(this._getFallbackLocale()).messages
         );
-        if (message === undefined) {
-          throw new ReferenceError('Could not find Intl message: ' + path);
-        }
-      } catch (ee) {
-        try {
-          message = pathParts.reduce(
-            (obj, pathPart) => obj[pathPart],
-            this._getMessageBundleForLocale(this.defaultLocale).messages
-          );
-          if (message === undefined) {
-            throw new ReferenceError('Could not find Intl message: ' + path);
-          }
-        } catch (eee) {
-          message = path;
-        }
+      } catch (e) {
+        // ignore and go next
       }
+    }
+    if (message === undefined) {
+      try {
+        message = pathParts.reduce(
+          (obj, pathPart) => obj[pathPart],
+          this._getMessageBundleForLocale(this.defaultLocale).messages
+        );
+      } catch (eee) {
+        // ignore and go next
+      }
+    }
+    if (message === undefined) {
+      message = path;
     }
 
     // this check covers use case of object message,
