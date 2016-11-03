@@ -1,14 +1,4 @@
 
-Release 1.1.4 Wed Nov 02 2016 16:50:04 GMT+0300 (MSK)
-=======================================================
-
- - Moved to the latest dependencies. (Daniel Zhitomirsky <danielzhitomirsky@MacBook-Pro-Daniel.local>, Wed Nov 2 14:23:07 2016 +0300)
- - (CMMN-5044) Cleaup code. Throwing TypeError in case when not a number is passed to NumberConverter.valueToString and when not a string is passed to NumberConverter.stringToValue, if null is passed null will be returted from both methods. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Wed Nov 2 12:49:53 2016 +0300)
- - (CMMN-5044) Added throwing exception if integer number is too big. (volkovich <Kirill.Volkovich@jCatalog.com>, Tue Nov 1 18:24:44 2016 +0300)
- - (CMMN-5044) Fixed problem when the integer part of number has 7 and more symbols. (volkovich <Kirill.Volkovich@jCatalog.com>, Tue Nov 1 17:03:29 2016 +0300)
- - (CMMN-5044) Added tests for formatDecimalNumber method. (volkovich <Kirill.Volkovich@jCatalog.com>, Mon Oct 31 17:53:47 2016 +0300)
- - Updating to a version to  1.1.4 (Dmitry Divin <dmitry.divin@jcatalog.com>, Wed Oct 12 12:57:02 2016 +0300)
-
 Release 1.1.3 Wed Oct 12 2016 12:57:01 GMT+0300 (MSK)
 =======================================================
 
