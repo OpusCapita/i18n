@@ -1,20 +1,4 @@
 
-Release 1.1.4 Fri Nov 04 2016 09:02:04 GMT+0300 (MSK)
-=======================================================
-
- - Updating to compatible dependency versions (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Fri Nov 4 09:01:40 2016 +0300)
- - Adding more tests. Adding test coverage monitoring (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 10:59:19 2016 +0300)
- - Revert "Moved to the latest dependencies."
-    
-    This reverts commit 96b5dc8069cff351bd94f219f09373ca4608c486. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:16 2016 +0300)
- - Revert "Updated CHANGES.txt"
-    
-    This reverts commit d481f93c3fd8d3d53967d806a6716cff9b159063. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:13 2016 +0300)
- - Revert "Updating to a version to  1.1.5"
-    
-    This reverts commit 2f538efddcc60f4e4acbd7ad494edc45430b81d9. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:05 2016 +0300)
- - Updating to a version to  1.1.5 (dzhitomirsky <daniel.zhitomirsky@jcatalog.com>, Wed Nov 2 16:50:06 2016 +0300)
-
 Release 1.1.3 Wed Oct 12 2016 12:57:01 GMT+0300 (MSK)
 =======================================================
 
