@@ -1,4 +1,29 @@
 
+Release 1.1.4 Fri Nov 04 2016 09:10:58 GMT+0300 (MSK)
+=======================================================
+
+ - Revert "Updated CHANGES.txt"
+    
+    This reverts commit 175bd4d3aa5b23938d387fcdd32e66d8c8c8b6bc. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Fri Nov 4 09:05:59 2016 +0300)
+ - Updating to compatible dependency versions (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Fri Nov 4 09:01:40 2016 +0300)
+ - Adding more tests. Adding test coverage monitoring (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 10:59:19 2016 +0300)
+ - Revert "Moved to the latest dependencies."
+    
+    This reverts commit 96b5dc8069cff351bd94f219f09373ca4608c486. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:16 2016 +0300)
+ - Revert "Updated CHANGES.txt"
+    
+    This reverts commit d481f93c3fd8d3d53967d806a6716cff9b159063. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:13 2016 +0300)
+ - Revert "Updating to a version to  1.1.5"
+    
+    This reverts commit 2f538efddcc60f4e4acbd7ad494edc45430b81d9. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Thu Nov 3 08:51:05 2016 +0300)
+ - Updating to a version to  1.1.5 (dzhitomirsky <daniel.zhitomirsky@jcatalog.com>, Wed Nov 2 16:50:06 2016 +0300)
+ - Moved to the latest dependencies. (Daniel Zhitomirsky <danielzhitomirsky@MacBook-Pro-Daniel.local>, Wed Nov 2 14:23:07 2016 +0300)
+ - (CMMN-5044) Cleaup code. Throwing TypeError in case when not a number is passed to NumberConverter.valueToString and when not a string is passed to NumberConverter.stringToValue, if null is passed null will be returted from both methods. (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Wed Nov 2 12:49:53 2016 +0300)
+ - (CMMN-5044) Added throwing exception if integer number is too big. (volkovich <Kirill.Volkovich@jCatalog.com>, Tue Nov 1 18:24:44 2016 +0300)
+ - (CMMN-5044) Fixed problem when the integer part of number has 7 and more symbols. (volkovich <Kirill.Volkovich@jCatalog.com>, Tue Nov 1 17:03:29 2016 +0300)
+ - (CMMN-5044) Added tests for formatDecimalNumber method. (volkovich <Kirill.Volkovich@jCatalog.com>, Mon Oct 31 17:53:47 2016 +0300)
+ - Updating to a version to  1.1.4 (Dmitry Divin <dmitry.divin@jcatalog.com>, Wed Oct 12 12:57:02 2016 +0300)
+
 Release 1.1.3 Wed Oct 12 2016 12:57:01 GMT+0300 (MSK)
 =======================================================
 
