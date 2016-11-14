@@ -1,4 +1,11 @@
 
+Release 1.1.5 Mon Nov 14 2016 15:43:52 GMT+0300 (+03)
+=======================================================
+
+ - Fixed NumberConverter bug when 'stringToValue' method returns string. (volkovich <Kirill.Volkovich@jCatalog.com>, Mon Nov 14 15:33:03 2016 +0300)
+ - Improved tests of NumberConverter. (volkovich <Kirill.Volkovich@jCatalog.com>, Mon Nov 14 15:31:50 2016 +0300)
+ - Updating to a version to  1.1.5 (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Fri Nov 4 09:10:59 2016 +0300)
+
 Release 1.1.4 Fri Nov 04 2016 09:10:58 GMT+0300 (MSK)
 =======================================================
 
