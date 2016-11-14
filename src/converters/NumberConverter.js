@@ -188,6 +188,6 @@ export default class NumberConverter extends Converter {
     }
     stringValue = stringValue.replace(this._decSep, '.');
     // converting to number
-    return parseFloat(stringValue).toFixed(this._decimalFormat.length);
+    return parseFloat(stringValue);
   }
 }
