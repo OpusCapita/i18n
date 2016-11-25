@@ -1,4 +1,4 @@
-# js-i18n 
+# JS - i18n 
 
 ## Synopsis
 
