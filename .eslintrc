@@ -1,7 +1,3 @@
 {
-  "extends": "eslint-config-jcatalog",
-  "env": {
-    "node": true,
-    "mocha": true
-  }
+  "extends": "@opuscapita/eslint-config"
 }
