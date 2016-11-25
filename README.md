@@ -1,3 +1,5 @@
+# js-i18n 
+
 ## Synopsis
 
 Provides simple i18n mechanism for JS applications/modules.
