@@ -16,7 +16,7 @@ describe('DateConverter', () => {
     assert.equal(stringAsDate.toString(), date.toString());
 
     dc = new DateConverter('dd/MM/yy');
-    assert.equal(dc.valueToString(date), '15/01/01');
+    assert.strictEqual(dc.valueToString(date), '15/01/01');
 
     assert.throws(() => {
       assert.isNull(dc.stringToValue('aaaa'));
