@@ -48,7 +48,7 @@ export default class NumberConverter extends Converter {
   }
 
   _parseFractionalPart(number) {
-    // noting to format
+    // nothing to format
     if (this._decimalFormat === '') {
       return '';
     }
@@ -137,7 +137,7 @@ export default class NumberConverter extends Converter {
       return null;
     }
 
-    // throw TypeError if vakue is not a number
+    // throw TypeError if value is not a number
     if (typeof number !== 'number') {
       throw TypeError(`'${number}' is not a Number!`);
     }
@@ -150,7 +150,7 @@ export default class NumberConverter extends Converter {
       }
     }
 
-    // parse integrer and fcartional part separately
+    // parse integrer and fractional part separately
     const integerPartString = this._parseIntegerPart(number);
     const fractionalPartString = this._parseFractionalPart(number);
 
