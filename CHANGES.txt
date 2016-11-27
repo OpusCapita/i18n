@@ -1,4 +1,17 @@
 
+Release 1.0.1 Sun Nov 27 2016 18:39:21 GMT+0300 (Belarus Standard Time)
+=======================================================
+
+ - Fixed lint errors. (volkovich <Kirill.Volkovich@jCatalog.com>, Sun Nov 27 18:36:44 2016 +0300)
+ - Fixed - DateConverter constructor call throws error if no `format` argument specified. (volkovich <Kirill.Volkovich@jCatalog.com>, Sun Nov 27 18:32:29 2016 +0300)
+ - Fixed typos. (volkovich <Kirill.Volkovich@jCatalog.com>, Sat Nov 26 18:57:03 2016 +0300)
+ - Improved test of DateConverter. (volkovich <Kirill.Volkovich@jCatalog.com>, Sat Nov 26 18:48:54 2016 +0300)
+ - Fixed tests running. (volkovich <Kirill.Volkovich@jCatalog.com>, Sat Nov 26 18:41:45 2016 +0300)
+ - Sorted dependny list by alphabet order. (volkovich <Kirill.Volkovich@jCatalog.com>, Sat Nov 26 18:40:45 2016 +0300)
+ - Update README.md (Kirill Volkovich <kirill.volkovich@jcatalog.com>, Fri Nov 25 12:05:42 2016 +0300)
+ - Update README.md (Kirill Volkovich <kirill.volkovich@jcatalog.com>, Fri Nov 25 11:59:07 2016 +0300)
+ - Updating to a version to  1.0.1 (Alexey Sergeev <alexey.sergeev@jcatalog.com>, Fri Nov 25 09:29:53 2016 +0300)
+
 Release 1.0.0 Fri Nov 25 2016 09:29:47 GMT+0300 (MSK)
 =======================================================
 
