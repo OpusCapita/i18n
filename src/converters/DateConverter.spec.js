@@ -27,6 +27,8 @@ describe('DateConverter', () => {
     }, ParseError, 'invalid parsed value [11111]');
   });
   it('should not throw error if no `format` argument specified', () => {
-    assert.doesNotThrow(() => { let dc = new DateConverter(); });
+    assert.doesNotThrow(() => {
+      let dc = new DateConverter(); // eslint-disable-line no-unused-vars
+    });
   });
 });
