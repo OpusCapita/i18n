@@ -9,9 +9,10 @@ import 'moment-jdateformatparser';
 export const ERROR_CODE = 'error.parse.date';
 
 export default class DateConverter extends Converter {
-  constructor(format, locale) {
+  constructor(format = '', locale) {
     super();
-    this.momentFormat = moment().toMomentFormatString(format);
+    let _format = format;
+    this.momentFormat = moment().toMomentFormatString(_format);
     this.locale = locale;
   }
 

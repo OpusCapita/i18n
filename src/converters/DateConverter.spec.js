@@ -26,4 +26,7 @@ describe('DateConverter', () => {
       assert.isNull(dc.stringToValue('11111'));
     }, ParseError, 'invalid parsed value [11111]');
   });
+  it('should not throw error if no `format` argument specified', () => {
+    assert.doesNotThrow(() => { let dc = new DateConverter(); });
+  });
 });
