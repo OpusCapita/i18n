@@ -11,8 +11,7 @@ export const ERROR_CODE = 'error.parse.date';
 export default class DateConverter extends Converter {
   constructor(format = '', locale) {
     super();
-    let _format = format;
-    this.momentFormat = moment().toMomentFormatString(_format);
+    this.momentFormat = moment().toMomentFormatString(format);
     this.locale = locale;
   }
 
