@@ -1,4 +1,11 @@
 
+Release 1.0.2 Wed Dec 07 2016 11:49:45 GMT+0300 (+03)
+=======================================================
+
+ - 'moment-jdateformatparser' dependency moved to local. Purpose: 'yarn' 0.19.x package manager can't resolve dependencies with specified commit hash. (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 7 11:15:02 2016 +0300)
+ - Removed odd code. (volkovich <Kirill.Volkovich@jCatalog.com>, Mon Nov 28 12:15:59 2016 +0300)
+ - Updating to a version to  1.0.2 (volkovich <Kirill.Volkovich@jCatalog.com>, Sun Nov 27 18:39:41 2016 +0300)
+
 Release 1.0.1 Sun Nov 27 2016 18:39:21 GMT+0300 (Belarus Standard Time)
 =======================================================
 
