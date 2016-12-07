@@ -29,7 +29,6 @@
   "dependencies": {
     "lodash": "4.16.4",
     "moment": "2.17.0",
-    "moment-jdateformatparser": "git+https://github.com/MadMG/moment-jdateformatparser#88f3580f6f5a281fd678d760e146452bc2f04c97",
     "underscore": "1.8.3",
     "underscore-deep-extend": "0.0.5"
   },
@@ -52,5 +51,10 @@
     "nyc": "10.0.0",
     "rimraf": "2.5.4",
     "underscore-deep-extend": "1.1.5"
+  },
+  "nyc": {
+    "exclude": [
+      "external_modules"
+    ]
   }
 }
