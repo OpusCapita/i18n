@@ -1,4 +1,10 @@
 
+Release 1.0.3 Wed Dec 07 2016 12:46:40 GMT+0300 (+03)
+=======================================================
+
+ - Fixed build. (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 7 12:46:30 2016 +0300)
+ - Updating to a version to  1.0.3 (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 7 11:58:17 2016 +0300)
+
 Release 1.0.2 Wed Dec 07 2016 11:49:45 GMT+0300 (+03)
 =======================================================
 
