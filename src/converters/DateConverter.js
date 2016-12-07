@@ -4,7 +4,7 @@ import ParseError from './ParseError';
 import moment from 'moment';
 
 // only load the modules
-import '../../external_modules/moment-jdateformatparser';
+import '../external_modules/moment-jdateformatparser';
 
 export const ERROR_CODE = 'error.parse.date';
 

@@ -54,7 +54,7 @@
   },
   "nyc": {
     "exclude": [
-      "external_modules"
+      "src/external_modules"
     ]
   }
 }
