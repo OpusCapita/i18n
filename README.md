@@ -56,7 +56,7 @@ dc.stringToValue('01/15/2001').toISOString() === new Date(2001, 0, 15).toISOStri
 
 **NumberConverter**
 
-Similar to Java's [_DecimalFormat_](https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html)  class, but **exponent is not supported**
+Format definition is similar to Java's [_DecimalFormat_](https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html)  class, but **exponent is not supported**
 
 
 ```javascript
