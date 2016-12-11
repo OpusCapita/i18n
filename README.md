@@ -99,7 +99,7 @@ let i18n = = new I18nManager('en', [{
 i18n.getMessage('test') === 'test' // true
 
 //getting translation with attributes
-i18n.getMessage('format', { min: 10, max: 100 }) === min=10, max=100' //true
+i18n.getMessage('format', { min: 10, max: 100 }) === 'min=10, max=100' //true
 
 //adding translations on runtime
 i18n = new I18nManager('de-DE', [], {});
