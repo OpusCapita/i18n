@@ -1,0 +1,16 @@
+stage('install dependencies (yarn)') {
+  sh "yarn"
+}
+stage('lint code') {
+  sh "npm run lint"
+}
+stage('run test') {
+  sh "npm run test"
+}
+stage('deploy') {
+  if(env.RELEASE == 'TRUE') {
+    sh "npm run publish-release"
+  } else {
+    sh "npm run publish-snapshot"
+  }
+}
