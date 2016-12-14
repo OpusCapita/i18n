@@ -1,4 +1,17 @@
 
+Release 1.0.4 Wed Dec 14 2016 17:11:13 GMT+0300 (+03)
+=======================================================
+
+ - Prepared to publish public to npm registry (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 14 17:10:56 2016 +0300)
+ - Added 'LICENSE' file (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 14 15:52:05 2016 +0300)
+ - Moved to Jenkinsfile buildprocess (kirillvolkovich <kirill.volkovich@jcatalog.com>, Mon Dec 12 19:18:43 2016 +0300)
+ - Update README.md (Kirill Volkovich <kirill.volkovich@jcatalog.com>, Sun Dec 11 17:00:35 2016 +0300)
+ - Update README.md (Kirill Volkovich <kirill.volkovich@jcatalog.com>, Sun Dec 11 16:59:41 2016 +0300)
+ - Update README.md (Daniel <daniilzhitomirsky@gmail.com>, Sun Dec 11 13:03:56 2016 +0300)
+ - Update README.md (Daniel <daniilzhitomirsky@gmail.com>, Sun Dec 11 13:02:30 2016 +0300)
+ - Fixed lint. (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 7 22:49:53 2016 +0300)
+ - Updating to a version to  1.0.4 (kirillvolkovich <kirill.volkovich@jcatalog.com>, Wed Dec 7 12:46:48 2016 +0300)
+
 Release 1.0.3 Wed Dec 07 2016 12:46:40 GMT+0300 (+03)
 =======================================================
 
