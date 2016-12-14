@@ -9,7 +9,6 @@
   "scripts": {
     "clean": "rimraf esdoc",
     "lint": "eslint src",
-    "decorate-jenkinsfile": "decorate-jenkinsfile",
     "test": "rimraf ./.nyc_output ./coverage && cross-env nyc mocha --recursive src/**/*.spec.js",
     "testonly": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --ignore *.spec.js src --out-dir lib",
@@ -34,8 +33,6 @@
     "underscore-deep-extend": "0.0.5"
   },
   "devDependencies": {
-    "@opuscapita/npm-scripts": "1.0.4",
-    "eslint-config-opuscapita": "1.0.1",
     "babel-cli": "6.18.0",
     "babel-core": "6.18.2",
     "babel-eslint": "7.1.1",
@@ -46,10 +43,12 @@
     "chai": "3.5.0",
     "cross-env": "3.1.3",
     "eslint": "3.10.2",
+    "eslint-config-opuscapita": "1.0.1",
     "eslint-plugin-react": "6.7.1",
     "lodash": "4.17.2",
     "mocha": "3.2.0",
     "nyc": "10.0.0",
+    "opuscapita-npm-scripts": "1.0.5",
     "rimraf": "2.5.4",
     "underscore-deep-extend": "1.1.5"
   },
