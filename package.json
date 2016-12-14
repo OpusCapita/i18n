@@ -1,7 +1,7 @@
 {
-  "name": "@opuscapita/i18n",
+  "name": "opuscapita-i18n",
   "version": "1.0.4",
-  "description": "Provides simple i18n mechanism",
+  "description": "OpusCapita simple i18n mechanism",
   "main": "lib/index.js",
   "files": [
     "lib"
@@ -17,15 +17,15 @@
     "publish-snapshot": "npm run npm-publish",
     "publish-release": "npm run npm-publish -- --release"
   },
+  "homepage": "https://github.com/OpusCapitaBES/js-i18n",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/OpusCapitaBES/js-i18n.git"
   },
-  "author": {
-    "name": "Dmitry Divin",
-    "email": "dmitry.divin@jcatalog.com"
-  },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "readme": "README.md",
   "dependencies": {
     "lodash": "4.16.4",
@@ -34,8 +34,8 @@
     "underscore-deep-extend": "0.0.5"
   },
   "devDependencies": {
-    "@opuscapita/eslint-config": "1.0.0",
     "@opuscapita/npm-scripts": "1.0.4",
+    "eslint-config-opuscapita": "1.0.1",
     "babel-cli": "6.18.0",
     "babel-core": "6.18.2",
     "babel-eslint": "7.1.1",

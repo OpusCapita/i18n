@@ -1,4 +1,4 @@
-# JS - i18n 
+# OpusCapita i18n 
 
 ## Synopsis
 
@@ -14,7 +14,7 @@ Provides simple i18n mechanism for JS applications/modules.
 Using npm
 
 ```shell
-$ npm i --save @opuscapita/i18n
+$ npm i --save opuscapita-i18n
 ```
 
 ## Npm scripts
@@ -47,7 +47,7 @@ Converter is a class that converts value from object representation to string on
 **Date Converter**
 
 ```javascript
-import DateConverter from 'js-i18n';
+import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
 
 let dc = new DateConverter(''MM/dd/yyyy'', 'en');
 dc.valueToString(new Date(2001, 0, 15)) === '01/15/2001' // true
@@ -60,7 +60,7 @@ Format definition is similar to Java's [_DecimalFormat_](https://docs.oracle.com
 
 
 ```javascript
-import NumberConverter from 'js-i18n';
+import NumberConverter from 'opuscapita-i18n/lib/converters/NumberConverter';
 
 let nc = new NumberConverter('#,##0.00', ',', '.'); // format, groupSep, decSep, decSepUseAlways = false
 nc.valueToString(10000000) === '10,000,000.00' // true
@@ -70,7 +70,7 @@ nc.stringToValue('10,000.00') === 10000 // true
 **Strip to null converter**
 
 ```javascript
-import StripToNullConverter from 'js-i18n';
+import StripToNullConverter from 'opuscapita-i18n/lib/converters/StripToNullConverter';
 
 let stnc = new StripToNullConverter();
 stnc.valueToString(null) === '' // true
@@ -83,7 +83,7 @@ Provides mechanism for internationalization according to the locale (with fallba
 Also provides facade function for operating with converters, according to format patterns.
 
 ```javascript
-import I18nManager from 'js-i18n';
+import I18nManager from 'opuscapita-i18n/utils/I18nManager';
 
 const formatInfos = {
   'en': {
@@ -150,8 +150,8 @@ i18n.formatDate(new Date(2001, 0, 10)) === '10/01/2001' //true
 i18n.parseDate('10/01/2001').toISOString() === new Date(2001, 0, 10).toISOString() // true
 i18n.formatDateTime(new Date(2001, 0, 10)) === '10/01/2001 00:00:00' // true
 
-i18n.formatNumber(10000) === '10,000' //true
-i18n.parseNumber('10,000') === 10000 //true
+i18n.formatNumber(10000) === '10,000' // true
+i18n.parseNumber('10,000') === 10000 // true
 
 i18n.formatDecimalNumber(10000) === '10,000.00' // true
 i18n.parseDecimalNumber('10,000.00') === 10000 // true
@@ -169,4 +169,4 @@ i18n.dateFormat === 'YY' // true
 
 ## License
 
-OpusCapita 2016
+**OpusCapita i18n** is licensed under the Apache License, Version 2.0. See [LICENSE](./LICENSE) for the full license text.
