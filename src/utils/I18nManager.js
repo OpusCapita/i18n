@@ -65,7 +65,7 @@ class I18nManager {
     this._numberConverter = new NumberConverter(
       this._formatInfo.integerPattern,
       numberGroupingSeparator,
-      null,
+      this._formatInfo.numberDecimalSeparator,
       this._formatInfo.numberDecimalSeparatorUseAlways
     );
   }

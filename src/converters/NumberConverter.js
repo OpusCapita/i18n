@@ -155,7 +155,7 @@ export default class NumberConverter extends Converter {
     const fractionalPartString = this._parseFractionalPart(number);
 
     // setup decimal separator if it is needed
-    let decimalSeparator = ''
+    let decimalSeparator = '';
     if (fractionalPartString !== '' || this._decSepUseAlways) {
       decimalSeparator = this._decSep;
     }

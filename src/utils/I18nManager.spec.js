@@ -110,6 +110,84 @@ describe('I18nManager', () => {
     assert.strictEqual(i18n.formatDecimalNumber(55454545.12), '55,454,545.12');
   });
 
+  it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (1)', () => {
+    const formatInfos = {
+      'en-US': {
+        datePattern: 'dd/MM/yyyy',
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+        integerPattern: '#,##0',
+        numberPattern: '#,##0.00#######',
+        numberDecimalSeparator: '.',
+        numberGroupingSeparator: ',',
+        numberGroupingSeparatorUse: true,
+        numberDecimalSeparatorUseAlways: true
+      },
+    };
+    let i18n = new I18nManager('en-US', [{
+      locales: ['en-US'],
+      messages: {
+        test: 'test',
+        subcomponent: {
+          hint: 'nested hint'
+        }
+      },
+    }], formatInfos);
+    i18n = i18n.register('component', [{
+      locales: ['en-US'],
+      messages: {
+        component: {
+          test: 'test component',
+          format: 'min={min}, max={max}',
+          subcomponent: {
+            label: 'nested'
+          }
+        },
+      },
+    }]);
+
+    assert.equal('10,000.', i18n.formatNumber(10000));
+    assert.equal(10000, i18n.parseNumber('10,000'));
+  });
+
+  it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (2)', () => {
+    const formatInfos = {
+      'en-US': {
+        datePattern: 'dd/MM/yyyy',
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+        integerPattern: '#,##0.00',
+        numberPattern: '#,##0.00#######',
+        numberDecimalSeparator: '.',
+        numberGroupingSeparator: ',',
+        numberGroupingSeparatorUse: true,
+        numberDecimalSeparatorUseAlways: true
+      },
+    };
+    let i18n = new I18nManager('en-US', [{
+      locales: ['en-US'],
+      messages: {
+        test: 'test',
+        subcomponent: {
+          hint: 'nested hint'
+        }
+      },
+    }], formatInfos);
+    i18n = i18n.register('component', [{
+      locales: ['en-US'],
+      messages: {
+        component: {
+          test: 'test component',
+          format: 'min={min}, max={max}',
+          subcomponent: {
+            label: 'nested'
+          }
+        },
+      },
+    }]);
+
+    assert.equal('10,000.00', i18n.formatNumber(10000));
+    assert.equal(10000, i18n.parseNumber('10,000.00'));
+  });
+
   it('should formatted message', () => {
     let message = i18n.getMessage('component.format');
     assert.equal('min={min}, max={max}', message);
