@@ -87,7 +87,7 @@ export default class NumberConverter extends Converter {
     }
 
     // cut fractional part
-    integerNumber = Math.trunc(integerNumber);
+    integerNumber = integerNumber > 0 ? Math.floor(integerNumber) : Math.ceil(integerNumber);
 
     if (this._integerFormat.charAt(this._integerFormat.length - 1) === '#' && integerNumber === 0) {
       return 0;
