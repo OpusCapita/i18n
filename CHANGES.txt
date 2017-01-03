@@ -1,4 +1,11 @@
 
+Release 1.0.8 Tue Jan 03 2017 13:44:59 GMT+0300 (+03)
+=======================================================
+
+ - (CMMN-5115) Fixed bug. (Dmitriy Sanko <dmitriy.sanko@jcatalog.com>, Tue Dec 27 14:18:18 2016 +0300)
+ - Fixing format number when numberDecimalSeparatorUseAlways=true (Dmitry Divin <dmitry.divin@jcatalog.com>, Tue Dec 20 16:47:06 2016 +0300)
+ - Updating to a version to  1.0.8 (kirillvolkovich <kirill.volkovich@jcatalog.com>, Thu Dec 15 10:47:48 2016 +0300)
+
 Release 1.0.7 Thu Dec 15 2016 10:47:40 GMT+0300 (+03)
 =======================================================
 
