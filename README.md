@@ -42,7 +42,7 @@ $ npm run clean
 
 ### Converters
 
-Converter is a class that converts value from object representation to string one and reverse. All converters (Date, Number, StripToNull) implement the same interface that provides two methods _valueToString_ and _stringToValue_.
+Converter is a class that converts a value from its object representation to string one and reverse. All converters (Date, Number, StripToNull) implement the same interface that provides two methods _valueToString_ and _stringToValue_.
 
 **Date Converter**
 
