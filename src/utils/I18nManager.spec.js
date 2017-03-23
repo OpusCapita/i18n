@@ -188,12 +188,45 @@ describe('I18nManager', () => {
     assert.equal(10000, i18n.parseNumber('10,000.00'));
   });
 
-  it('should formatted message', () => {
+  it('should substitute params in message', () => {
+    const formatInfos = {
+      'en-US': {
+        datePattern: 'dd/MM/yyyy',
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+        integerPattern: '#,##0',
+        numberPattern: '#,##0.00#######',
+        numberDecimalSeparator: '.',
+        numberGroupingSeparator: ',',
+        numberGroupingSeparatorUse: true,
+      },
+    };
+    i18n = new I18nManager('en-US', [{
+      locales: ['en-US'],
+      messages: {
+        test: 'test',
+        subcomponent: {
+          hint: 'nested hint'
+        }
+      },
+    }], formatInfos);
+    i18n = i18n.register('component', [{
+      locales: ['en-US'],
+      messages: {
+        component: {
+          test: 'test component',
+          format: 'min={min}, max1={max}, max2={max}, max3={max}',
+          subcomponent: {
+            label: 'nested'
+          }
+        },
+      },
+    }]);
+
     let message = i18n.getMessage('component.format');
-    assert.equal('min={min}, max={max}', message);
+    assert.equal('min={min}, max1={max}, max2={max}, max3={max}', message);
 
     message = i18n.getMessage('component.format', { min: 10, max: 100 });
-    assert.equal('min=10, max=100', message);
+    assert.equal('min=10, max1=100, max2=100, max3=100', message);
   });
 
   it('getMessage using fallback locale', () => {

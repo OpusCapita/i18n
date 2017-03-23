@@ -178,11 +178,11 @@ class I18nManager {
       return path;
     }
 
-    lodash.each(lodash.keys(args), (param) => {
+    Object.keys(args).forEach((param) => {
       const paramValue = args[param];
 
       if (paramValue !== null && paramValue !== undefined) {
-        message = message.replace(`{${param}}`, paramValue.toString());
+        message = message.replace(new RegExp(`{${param}}`, 'g'), paramValue.toString());
       }
     });
     return message;
