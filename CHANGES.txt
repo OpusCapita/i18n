@@ -1,4 +1,17 @@
 
+Release 1.0.11 Tue Apr 04 2017 10:48:16 GMT+0300 (+03)
+=======================================================
+
+ - Fixed lodash version: 4.17.2 (Kirill Volkovich <volkovich@scand.com>, Tue Apr 4 10:47:34 2017 +0300)
+ - Updating to a version to  1.0.11 (Kirill Volkovich <volkovich@scand.com>, Thu Mar 23 14:04:07 2017 +0300)
+ - Path version (Kirill Volkovich <volkovich@scand.com>, Thu Mar 23 14:03:40 2017 +0300)
+ - (RFQ-463) Fixed 'getMessage()' bug when only first arg occurence has been replaced (Kirill Volkovich <volkovich@scand.com>, Thu Mar 23 13:56:49 2017 +0300)
+ - Merge pull request #1 from amourzenkov-sc/patch-1
+    
+    Minor wording corrections in README.md (cf97cac 8d4ccde, Kirill Volkovich <kvolkovich-sc@users.noreply.github.com>)
+ - Minor wording corrections in README.md (Andrei Mourzenkov <amourzenkov-sc@users.noreply.github.com>, Sat Mar 4 13:38:58 2017 +0300)
+ - Updating to a version to  1.0.9 (kirillvolkovich <kirill.volkovich@jcatalog.com>, Tue Jan 3 13:45:12 2017 +0300)
+
 Release 1.0.10 Thu Mar 23 2017 14:03:55 GMT+0300 (+03)
 =======================================================
 
