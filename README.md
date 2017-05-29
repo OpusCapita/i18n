@@ -1,4 +1,4 @@
-# OpusCapita i18n 
+# OpusCapita i18n
 
 ## Synopsis
 
@@ -30,12 +30,6 @@ Runing tests
 ```shell
 $ npm run test // with coverage
 $ npm run testonly // only test resylts
-```
-
-Cleaning work directory (removing built docs, etc.)
-
-```shell
-$ npm run clean
 ```
 
 ## Usage & API
@@ -79,7 +73,7 @@ converter.stringToValue('') === null // true
 
 ### I18nManager
 
-Provides mechanism for internationalization according to the locale (with fallback), passed in the constructor. 
+Provides mechanism for internationalization according to the locale (with fallback), passed in the constructor.
 Also provides facade function for operating with converters, according to format patterns.
 
 ```javascript
