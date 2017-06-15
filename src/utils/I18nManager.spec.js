@@ -217,7 +217,8 @@ describe('I18nManager', () => {
           format: 'min={min}, max1={max}, max2={max}, max3={max}',
           subcomponent: {
             label: 'nested'
-          }
+          },
+          'Next W': 'Next Week'
         },
       },
     }]);
@@ -227,6 +228,9 @@ describe('I18nManager', () => {
 
     message = i18n.getMessage('component.format', { min: 10, max: 100 });
     assert.equal('min=10, max1=100, max2=100, max3=100', message);
+
+    message = i18n.getMessage('component["Next W"]');
+    assert.equal('Next Week', message);
   });
 
   it('getMessage using fallback locale', () => {

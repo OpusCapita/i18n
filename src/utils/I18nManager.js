@@ -119,7 +119,7 @@ class I18nManager {
   };
 
   /**
-  * Searches for a budle that locales collection containes argument-locale
+  * Searches for a bundle that locales collection containes argument-locale
   */
   _getMessageBundleForLocale(locale) {
     return lodash.find(this._intlDatas, (storedIntlData) => {
@@ -140,7 +140,7 @@ class I18nManager {
 
   getMessage = (path, args = {}) => {
     const messages = this._intlData.messages;
-    const pathParts = path.split('.');
+    const pathParts = lodash.toPath(path);
 
     let message = undefined;
     try {
