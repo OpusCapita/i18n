@@ -4,7 +4,6 @@ import { DEFAULT_FORMAT_INFO } from './constants';
 
 describe('I18nManager', () => {
   let i18n;
-  let deI18n;
 
   before('instantiate new intl manager', () => {
     const formatInfos = {
@@ -18,70 +17,150 @@ describe('I18nManager', () => {
         numberGroupingSeparatorUse: true,
       },
     };
-    i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max={max}',
-          subcomponent: {
-            label: 'nested'
-          }
-        },
-      },
-    }]);
+    i18n = new I18nManager('en-US', null, formatInfos);
   });
 
-  it('should get fallback message', () => {
-    deI18n = new I18nManager('de-DE', [], {});
+  describe('I18nManager.getMessage', () => {
+    beforeEach(() => {
+      i18n = new I18nManager('de-DE', [], {});
+    });
 
-    deI18n.register('test_component', [
-      {
-        locales: ['en'],
+    it('should get a message directly by the code', () => {
+      i18n.register('component', [{
+        locales: ['de-DE'],
         messages: {
-          component: {
-            testMessage1: 'en test message 1',
-            testMessage2: 'en test message 2',
-          },
-        },
-      },
-      {
+          'user.name': 'User name',
+          'user.organization.name': 'My organization'
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should get a message directly by the code using fallback locale', () => {
+      i18n.register('component', [{
         locales: ['de'],
         messages: {
+          'user.name': 'User name',
+          'user.organization.name': 'My organization'
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should get a message directly by the code using default locale', () => {
+      i18n.register('component', [{
+        locales: [i18n.defaultLocale],
+        messages: {
+          'user.name': 'User name',
+          'user.organization.name': 'My organization'
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should get a message by the looking in a nested objects', () => {
+      i18n.register('component', [{
+        locales: ['de-DE'],
+        messages: {
+          user: {
+            name: 'User name',
+            organization: {
+              name: 'My organization'
+            }
+          }
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should get a message by the looking in a nested objects using fallback locale', () => {
+      i18n.register('component', [{
+        locales: ['de'],
+        messages: {
+          user: {
+            name: 'User name',
+            organization: {
+              name: 'My organization'
+            }
+          }
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should get a message by the looking in a nested objects using default locale', () => {
+      i18n.register('component', [{
+        locales: [i18n.defaultLocale],
+        messages: {
+          user: {
+            name: 'User name',
+            organization: {
+              name: 'My organization'
+            }
+          }
+        }
+      }]);
+
+      assert.strictEqual(i18n.getMessage('user.name'), 'User name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'My organization');
+    });
+
+    it('should return a code as a message', () => {
+      assert.strictEqual(i18n.getMessage('user.name'), 'user.name');
+      assert.strictEqual(i18n.getMessage('user.organization.name'), 'user.organization.name');
+    });
+
+    it('should substitute params in message', () => {
+      i18n = new I18nManager('en-US', [{
+        locales: ['en-US'],
+        messages: {}
+      }]);
+      i18n = i18n.register('component', [{
+        locales: ['en-US'],
+        messages: {
           component: {
-            testMessage2: 'de test message 2',
+            format: 'min={min}, max1={max}, max2={max}, max3={max}',
+            'Next W': 'Next Week'
           },
         },
-      },
-    ]);
+      }]);
 
-    assert.equal('en test message 1', deI18n.getMessage('component.testMessage1'));
-    assert.equal('de test message 2', deI18n.getMessage('component.testMessage2'));
-    assert.equal('component.testMessage3', deI18n.getMessage('component.testMessage3'));
-  });
+      let message = i18n.getMessage('component.format');
+      assert.equal('min={min}, max1={max}, max2={max}, max3={max}', message);
 
-  it('should contain test message', () => {
-    const message = i18n.getMessage('test');
-    assert.equal('test', message);
-  });
+      message = i18n.getMessage('component.format', { min: 10, max: 100 });
+      assert.equal('min=10, max1=100, max2=100, max3=100', message);
 
-  it('should contain component test message', () => {
-    const message = i18n.getMessage('component.test');
-    assert.equal('test component', message);
-  });
+      message = i18n.getMessage('component["Next W"]');
+      assert.equal('Next Week', message);
+    });
 
-  it('test object message', () => {
-    const message = i18n.getMessage('component');
-    assert.equal('component', message);
+    it('should get a message by the code with spaces', () => {
+      i18n = new I18nManager('en-US', [{
+        locales: ['en-US'],
+        messages: {}
+      }]);
+      i18n = i18n.register('component', [{
+        locales: ['en-US'],
+        messages: {
+          component: {
+            'Next W': 'Next Week'
+          },
+        },
+      }]);
+
+      assert.equal(i18n.getMessage('component["Next W"]'), 'Next Week');
+    });
   });
 
   it('should format and parse date', () => {
@@ -123,27 +202,7 @@ describe('I18nManager', () => {
         numberDecimalSeparatorUseAlways: true
       },
     };
-    let i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max={max}',
-          subcomponent: {
-            label: 'nested'
-          }
-        },
-      },
-    }]);
+    let i18n = new I18nManager('en-US', null, formatInfos);
 
     assert.equal('10,000.', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000'));
@@ -162,89 +221,10 @@ describe('I18nManager', () => {
         numberDecimalSeparatorUseAlways: true
       },
     };
-    let i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max={max}',
-          subcomponent: {
-            label: 'nested'
-          }
-        },
-      },
-    }]);
+    let i18n = new I18nManager('en-US', null, formatInfos);
 
     assert.equal('10,000.00', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000.00'));
-  });
-
-  it('should substitute params in message', () => {
-    const formatInfos = {
-      'en-US': {
-        datePattern: 'dd/MM/yyyy',
-        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
-        integerPattern: '#,##0',
-        numberPattern: '#,##0.00#######',
-        numberDecimalSeparator: '.',
-        numberGroupingSeparator: ',',
-        numberGroupingSeparatorUse: true,
-      },
-    };
-    i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max1={max}, max2={max}, max3={max}',
-          subcomponent: {
-            label: 'nested'
-          },
-          'Next W': 'Next Week'
-        },
-      },
-    }]);
-
-    let message = i18n.getMessage('component.format');
-    assert.equal('min={min}, max1={max}, max2={max}, max3={max}', message);
-
-    message = i18n.getMessage('component.format', { min: 10, max: 100 });
-    assert.equal('min=10, max1=100, max2=100, max3=100', message);
-
-    message = i18n.getMessage('component["Next W"]');
-    assert.equal('Next Week', message);
-  });
-
-  it('getMessage using fallback locale', () => {
-    const i18n = new I18nManager('de', [
-      {
-        locales: ['en'],
-        messages: {
-          a: 'fallback'
-        },
-      }
-    ]);
-    // there is no message in default/current locale 'de'
-    // fallback to default locale -> 'en' message
-    assert.strictEqual(i18n.getMessage('a'), 'fallback');
   });
 
   it('dateFormat returns configured date format', () => {

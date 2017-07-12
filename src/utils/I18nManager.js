@@ -140,34 +140,53 @@ class I18nManager {
 
   getMessage = (path, args = {}) => {
     const messages = this._intlData.messages;
-    const pathParts = lodash.toPath(path);
 
-    let message = undefined;
-    try {
-      message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
-    } catch (e) {
-      // ignore and go next
-    }
+    // 1st step: getting message directly by the code with fallback to fallback and default locales
+    let message = messages[path];
     if (message === undefined) {
       try {
-        message = pathParts.reduce(
-          (obj, pathPart) => obj[pathPart],
-          this._getMessageBundleForLocale(this._getFallbackLocale()).messages
-        );
+        message = this._getMessageBundleForLocale(this._getFallbackLocale()).messages[path];
       } catch (e) {
         // ignore and go next
       }
     }
     if (message === undefined) {
       try {
-        message = pathParts.reduce(
-          (obj, pathPart) => obj[pathPart],
-          this._getMessageBundleForLocale(this.defaultLocale).messages
-        );
-      } catch (eee) {
+        message = this._getMessageBundleForLocale(this.defaultLocale).messages[path];
+      } catch (e) {
         // ignore and go next
       }
     }
+
+    // 2nd step: getting message by code like a nested property with fallback to fallback and default locales
+    if (message === undefined) {
+      const pathParts = lodash.toPath(path);
+      try {
+        message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
+      } catch (e) {
+        // ignore and go next
+      }
+      if (message === undefined) {
+        try {
+          message = pathParts.reduce((obj, pathPart) => obj[pathPart],
+            this._getMessageBundleForLocale(this._getFallbackLocale()).messages
+          );
+        } catch (e) {
+          // ignore and go next
+        }
+      }
+      if (message === undefined) {
+        try {
+          message = pathParts.reduce((obj, pathPart) => obj[pathPart],
+            this._getMessageBundleForLocale(this.defaultLocale).messages
+          );
+        } catch (eee) {
+          // ignore and go next
+        }
+      }
+    }
+
+    // 3rd step: set the code as a message
     if (message === undefined) {
       message = path;
     }
