@@ -233,20 +233,6 @@ describe('I18nManager', () => {
     assert.equal('Next Week', message);
   });
 
-  it('getMessage using fallback locale', () => {
-    const i18n = new I18nManager('de', [
-      {
-        locales: ['en'],
-        messages: {
-          a: 'fallback'
-        },
-      }
-    ]);
-    // there is no message in default/current locale 'de'
-    // fallback to default locale -> 'en' message
-    assert.strictEqual(i18n.getMessage('a'), 'fallback');
-  });
-
   it('dateFormat returns configured date format', () => {
     const i18n = new I18nManager('es', null,
       {
