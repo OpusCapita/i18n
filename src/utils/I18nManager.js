@@ -28,7 +28,6 @@ const _obsoleteConstructor = function(
   intlDatas = null,
   localeFormattingInfo = {},
   fallbackLocale = 'en') {
-
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
@@ -81,8 +80,8 @@ const createNumberConverter = (formattingInfo) => {
 const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
-  formattingInfo = {}} = {}
-) {
+  formattingInfo = {}
+} = {}) {
 
 }
 
