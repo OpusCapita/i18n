@@ -10,64 +10,100 @@ const deepMerge = function(object, source) {
         return deepMerge(objValue, srcValue);
       }
       return undefined;
-    });
+    }
+  );
 };
 
 /**
- * Performs initialization and handling of intl data.
- * It supports intl data in React Intl format.
+ * Creates and initialize new manager instance.
+ * Where:
+ *- locale is current locale, 'en' by default
+ *- intDatas is an list with messages for different locales.
+ *- formatInfos is format pattern data
+ *- fallbackLocale - fallback locale, 'en' by default
+ * (see React Intl Data format)
+ */
+const _obsoleteConstructor = function(
+  locale = 'en',
+  intlDatas = null,
+  localeFormattingInfo = {},
+  fallbackLocale = 'en') {
+
+  this.locale = locale;
+  this.fallbackLocale = fallbackLocale;
+  this.localeFormattingInfo = localeFormattingInfo;
+
+  //
+  this._intlDatas = [{ locales: [locale], messages: {} }];
+  this._components = [];
+  if (intlDatas) {
+    this.register('default', intlDatas);
+  }
+};
+
+const createDateConverter = (formattingInfo) => {
+  return new DateConverter(formattingInfo.datePattern);
+}
+
+const createDateTimeConverter = (formattingInfo) => {
+  return new DateConverter(formattingInfo.dateTimePattern);
+};
+
+const createDecimalNumberConverter = (formattingInfo) => {
+  let numberGroupingSeparator = null;
+  if (formattingInfo.numberGroupingSeparatorUse) {
+    numberGroupingSeparator = formattingInfo.numberGroupingSeparator;
+  }
+
+  return new NumberConverter(
+    formattingInfo.numberPattern,
+    numberGroupingSeparator,
+    formattingInfo.numberDecimalSeparator,
+    formattingInfo.numberDecimalSeparatorUseAlways
+  )
+}
+
+const createNumberConverter = (formattingInfo) => {
+  let numberGroupingSeparator = null;
+  if (formattingInfo.numberGroupingSeparatorUse) {
+    numberGroupingSeparator = formattingInfo.numberGroupingSeparator;
+  }
+
+  return new NumberConverter(
+    formattingInfo.integerPattern,
+    numberGroupingSeparator,
+    formattingInfo.numberDecimalSeparator,
+    formattingInfo.numberDecimalSeparatorUseAlways
+  )
+};
+
+
+const _actualConstructor = function({
+  locale = 'en',
+  fallbackLocale = 'en',
+  formattingInfo = {}} = {}
+) {
+
+}
+
+/**
+ * Manages i18n for JS applications, which includes:
+ * - text localization
+ * - data formatting
  *
  * @author Alexander Frolov
+ * @author Alexey Sergeev
  */
 class I18nManager {
-  /**
-   * Creates and initialize new manager instance.
-   * Where:
-   *- locale is current locale
-   *- intDatas is an list with messages for different locales.
-   *- formatInfos is format pattern data
-   *- defaultLocale - fallback locale, 'en' by default
-   * (see React Intl Data format)
-   */
-  constructor(locale, intlDatas, formatInfos = null, defaultLocale = 'en') {
-    this._intlData = { locales: [locale], messages: {} };
 
-    this._intlDatas = [this._intlData];
-    this._components = [];
-
-    // current locale
-    this.locale = locale;
-    this.defaultLocale = defaultLocale;
-    if (intlDatas) {
-      this.register('default', intlDatas);
-    }
-
-    this._formatInfos = formatInfos;
-    if (formatInfos && formatInfos[locale]) {
-      this._formatInfo = formatInfos[locale];
+  constructor() {
+    if (arguments.length === 0 ||
+        (arguments.length === 1 && (_.isNil(arguments[0]) || _.isObject(arguments[0])))
+      ) {
+      _actualConstructor.apply(this, arguments);
     } else {
-      this._formatInfo = DEFAULT_FORMAT_INFO;
+      _obsoleteConstructor.apply(this, arguments);
     }
-
-    let numberGroupingSeparator = null;
-    if (this._formatInfo.numberGroupingSeparatorUse) {
-      numberGroupingSeparator = this._formatInfo.numberGroupingSeparator;
-    }
-
-    this._dateConverter = new DateConverter(this._formatInfo.datePattern);
-    this._dateTimeConverter = new DateConverter(this._formatInfo.dateTimePattern);
-    this._decimalNumberConverter = new NumberConverter(
-      this._formatInfo.numberPattern,
-      numberGroupingSeparator,
-      this._formatInfo.numberDecimalSeparator,
-      this._formatInfo.numberDecimalSeparatorUseAlways
-    );
-    this._numberConverter = new NumberConverter(
-      this._formatInfo.integerPattern,
-      numberGroupingSeparator,
-      this._formatInfo.numberDecimalSeparator,
-      this._formatInfo.numberDecimalSeparatorUseAlways
-    );
   }
 
   register = (component, intlDatas) => {
@@ -111,7 +147,6 @@ class I18nManager {
           that._intlDatas.push(intlData);
         }
       });
-      this._intlData = this._getMessageBundleForLocale(this.locale);
       this._components.push(component);
     }
 
@@ -135,16 +170,18 @@ class I18nManager {
       return this.locale.substring(0, this.locale.indexOf('-'));
     }
 
-    return this.defaultLocale;
+    return this.fallbackLocale;
   }
 
   getMessage = (path, args = {}) => {
-    const messages = this._intlData.messages;
     const pathParts = lodash.toPath(path);
 
     let message = undefined;
     try {
-      message = pathParts.reduce((obj, pathPart) => obj[pathPart], messages);
+      message = pathParts.reduce(
+        (obj, pathPart) => obj[pathPart],
+        this._getMessageBundleForLocale(this.locale).messages
+      );
     } catch (e) {
       // ignore and go next
     }
@@ -162,7 +199,7 @@ class I18nManager {
       try {
         message = pathParts.reduce(
           (obj, pathPart) => obj[pathPart],
-          this._getMessageBundleForLocale(this.defaultLocale).messages
+          this._getMessageBundleForLocale(this.fallbackLocale).messages
         );
       } catch (eee) {
         // ignore and go next
@@ -188,36 +225,44 @@ class I18nManager {
     return message;
   };
 
+  // todo: add locale fallback logic usage
+  _findFormattingInfo = () => {
+    if (this.localeFormattingInfo[this.locale]) {
+      return this.localeFormattingInfo[this.locale];
+    }
+    return DEFAULT_FORMAT_INFO;
+  }
+
   get dateFormat() {
-    return this._formatInfo.datePattern;
+    return this._findFormattingInfo().datePattern;
   }
 
   formatDate = (date) => {
-    return this._dateConverter.valueToString(date);
+    return createDateConverter(this._findFormattingInfo()).valueToString(date);
   };
 
   formatDateTime = (date) => {
-    return this._dateTimeConverter.valueToString(date);
+    return createDateTimeConverter(this._findFormattingInfo()).valueToString(date);
   };
 
   formatDecimalNumber = (number) => {
-    return this._decimalNumberConverter.valueToString(number);
+    return createDecimalNumberConverter(this._findFormattingInfo()).valueToString(number);
   };
 
   formatNumber = (number) => {
-    return this._numberConverter.valueToString(number);
+    return createNumberConverter(this._findFormattingInfo()).valueToString(number);
   };
 
   parseDate = (string) => {
-    return this._dateConverter.stringToValue(string);
+    return createDateConverter(this._findFormattingInfo()).stringToValue(string);
   };
 
   parseDecimalNumber = (string) => {
-    return this._decimalNumberConverter.stringToValue(string);
+    return createDecimalNumberConverter(this._findFormattingInfo()).stringToValue(string);
   };
 
   parseNumber = (string) => {
-    return this._numberConverter.stringToValue(string);
+    return createNumberConverter(this._findFormattingInfo()).stringToValue(string);
   };
 }
 
