@@ -28,6 +28,7 @@
   "repository": "OpusCapita/i18n",
   "license": "Apache-2.0",
   "dependencies": {
+    "flat": "2.0.1",
     "lodash": "4.17.2",
     "moment": "2.17.0"
   },
@@ -52,6 +53,7 @@
   },
   "nyc": {
     "exclude": [
+      "**/*.spec.js",
       "src/external_modules"
     ]
   }

@@ -1,98 +1,87 @@
 import lodash from 'lodash';
 import { DateConverter, NumberConverter } from '../converters';
+import flatten from 'flat';
 
 import { DEFAULT_FORMAT_INFO } from './constants';
-
-const deepMerge = function(object, source) {
-  return lodash.mergeWith(object, source,
-    function(objValue, srcValue) {
-      if (lodash.isObject(objValue) && srcValue) {
-        return deepMerge(objValue, srcValue);
-      }
-      return undefined;
-    }
-  );
-};
 
 /**
  * Creates and initialize new manager instance.
  * Where:
  *- locale is current locale, 'en' by default
- *- intDatas is an list with messages for different locales.
+ *- localeBundles is an list with messages for different locales. Each bundle has
+ *   the following structure {locales: ['en', 'en-GB], messages: {a: {b: {c: 'some message'}}}
  *- formatInfos is format pattern data
  *- fallbackLocale - fallback locale, 'en' by default
  * (see React Intl Data format)
  */
 const _obsoleteConstructor = function(
   locale = 'en',
-  intlDatas = null,
+  localeBundles = null,
   localeFormattingInfo = {},
   fallbackLocale = 'en') {
+
+  if (console) {
+    console.log(`
+Such I18nManager constructor signature is deprecated and will be removed soon!
+Instead of:
+
+new I18nmanager(locale, localeBundles, localeFormattingInfo, fallbackLocale)
+
+use the following one:
+
+new I18nManager({locale, localeFormattingInfo, fallbackLocale})
+
+for locale bundle registration use 'register' method
+`);
+  }
+
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
 
-  this.register('default', intlDatas);
+  this.register('default', localeBundles);
 };
 
+/**
+ * Register translation bundles for specified component
+ * @param  {String} component name of the component: 'InputDateField', 'SimMenu'
+ * @param  {Array} locale specific message bundle array, where each bundle has
+ *   the following structure {locales: ['en', 'en-GB], messages: {a: {b: {c: 'some message'}}}
+ * @return {I18NManager} reference to i18n manager instance (method could be used like a builder)
+ */
+const _obsoleteRegister = function(component, localeBundles = []) {
+  if (console) {
+    console.log(`
+Such I18nManager 'register' method signature is deprecated and its support will be removed soon!
+Instead of using locale bundles sturcture like this:
 
-const _obsoleteRegister = function(component, intlDatas) {
-  // console.log(`intlDatas '${JSON.stringify(intlDatas)}'`);
+[
+  {locales: ['en'], messages: {yes: 'jes'}}
+  {locales: ['de'], messages: {yes: 'ja'}}
+]
 
-  if (!this._components) {
-    this._components = [];
+use the following structure:
+
+{
+  'en': {yes: 'jes'},
+  'de': {yes: 'ja'}
+}
+`);
   }
-  // if (!this.localeBundles) {
-  //   this.localeBundles = {};
-  // }
-  if (!this._intlDatas) {
-    this._intlDatas = [{ locales: [this.locale], messages: {} }];
+  if (this.components.indexOf(component) >= 0) {
+    // component was added already -> nothing to do
+    return this;
   }
 
-  if (this._components.indexOf(component) < 0) {
-    // function to check if locales have common elements
-    const intersects = (l1, l2) => {
-      for (let i = 0; i < l1.length; i++) {
-        if (l2.indexOf(l1[i]) >= 0) {
-          return true;
-        }
+  localeBundles.forEach(({ locales = [], messages = {} }) => {
+    locales.forEach((locale) => {
+      if (!this.localeBundles[locale]) {
+        this.localeBundles[locale] = {};
       }
-      return false;
-    };
-
-    const that = this;
-
-    // processing collection of bundle arguments:
-    // in the next commnts 'bundle' means js object with the next notation:
-    // {locales: [], messages: {}}
-    intlDatas.forEach((intlData) => {
-      // searching for already existing bundle with 'similliar' locale collection
-      const indexToExtend = lodash.findIndex(that._intlDatas, (storedIntlData) => {
-        return intersects(storedIntlData.locales, intlData.locales);
-      });
-
-      // if we find bundle with locales that intersect with the exteernal one
-      // we merge merge map of their messages and unite locales-collections
-      if (indexToExtend !== -1) {
-        that._intlDatas[indexToExtend] = lodash.extend(
-          {},
-          { locales: lodash.union(that._intlDatas[indexToExtend].locales, intlData.locales) },
-          {
-            messages: deepMerge(
-              that._intlDatas[indexToExtend].messages,
-              intlData.messages
-            ),
-          }
-        );
-      } else {
-        // otherwise we save this bundle to the internal collection of bundles
-        that._intlDatas.push(intlData);
-      }
-    });
-    this._components.push(component);
-  }
-
-  // console.log(`this._intlDatas '${JSON.stringify(this._intlDatas)}'`);
+      this.localeBundles[locale] = { ...this.localeBundles[locale], ...flatten(messages) };
+    })
+  });
+  this.components.push(component);
 
   return this;
 }
@@ -136,15 +125,39 @@ const createNumberConverter = (formattingInfo) => {
 const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
-  formattingInfo = {}
+  localeFormattingInfo = {}
 } = {}) {
-
+  this.locale = locale;
+  this.fallbackLocale = fallbackLocale;
+  this.localeFormattingInfo = localeFormattingInfo;
 }
 
+/**
+ * Reister locale bundles for the component
+ * @param  {String} component     component name
+ * @param  {[type]} localeBundles {'en': {'a.b.c': 'abc en message'}, 'de': {'a.b.c': 'abc de message'}}
+ * @return {I18nManager}          i18n manager instance
+ */
 const _actualRegister = function(component, localeBundles) {
-  if (!this._intlDatas) {
-    this._intlDatas = [{ locales: [this.locale], messages: {} }];
+  if (this.components.indexOf(component) >= 0) {
+    // component was added already -> nothing to do
+    return this;
   }
+
+  if (!localeBundles) {
+    // nothing to register
+    return this;
+  }
+
+  lodash.each(localeBundles, (bundle, locale) => {
+    if (!this.localeBundles[locale]) {
+      this.localeBundles[locale] = {};
+    }
+    this.localeBundles[locale] = { ...this.localeBundles[locale], ...flatten(bundle) };
+  })
+  this.components.push(component);
+
+  return this;
 }
 
 const generateFallbackLocaleList = function(locale, fallbackLocale) {
@@ -172,8 +185,15 @@ const generateFallbackLocaleList = function(locale, fallbackLocale) {
 class I18nManager {
 
   constructor() {
+    this.components = [];
+    this.localeBundles = {};
+
     if (arguments.length === 0 ||
-        (arguments.length === 1 && (_.isNil(arguments[0]) || _.isObject(arguments[0])))
+        (arguments.length === 1 &&
+          (lodash.isNil(arguments[0]) ||
+            lodash.isObject(arguments[0])
+          )
+        )
       ) {
       _actualConstructor.apply(this, arguments);
     } else {
@@ -181,50 +201,17 @@ class I18nManager {
     }
   }
 
-  register = (component, intlDatas) => {
-    if (!lodash.isNil(intlDatas) &&
-      lodash.isArray(intlDatas) &&
-      intlDatas.length > 0 &&
-      intlDatas[0].locales &&
-      lodash.isArray(intlDatas[0].locales)
+  register = (component, localeBundles) => {
+    if (!lodash.isNil(localeBundles) &&
+      lodash.isArray(localeBundles) &&
+      localeBundles.length > 0 &&
+      localeBundles[0].locales &&
+      lodash.isArray(localeBundles[0].locales)
     ) {
-      return _obsoleteRegister.bind(this, component, intlDatas)();
+      return _obsoleteRegister.bind(this, component, localeBundles)();
     }
-    // console.log('opa!!!!!!!!');
-    // console.log(`component: ${component}`);
-    // console.log(JSON.stringify(intlDatas));
-    return _actualRegister.apply(this, arguments)
+    return _actualRegister.bind(this, component, localeBundles)();
   };
-
-  /**
-  * Searches for a bundle that locales collection containes argument-locale
-  */
-  _getMessagesForLocale(locale) {
-    const intlData = lodash.find(this._intlDatas, (storedIntlData) => {
-      return lodash.indexOf(storedIntlData.locales, locale) !== -1;
-    });
-    if (intlData) {
-      return intlData.messages
-    }
-    return {};
-  }
-
-  /**
-  * Returns fallback locale with the next logic: fr-FR->fr->en
-  */
-  _getFallbackLocale() {
-    const result = this.__getFallbackLocale();
-    // console.log(`fallback locale for '${this.locale}' is '${result}'`);
-    return result;
-  }
-
-  __getFallbackLocale() {
-    if (this.locale.indexOf('-') !== -1) {
-      return this.locale.substring(0, this.locale.indexOf('-'));
-    }
-
-    return this.fallbackLocale;
-  }
 
   /**
    * the following path 'a.b' will be found when locale specific messages are defined
@@ -242,16 +229,10 @@ class I18nManager {
 
     let message = undefined;
     for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
-      message = lodash.get(this._getMessagesForLocale(locales[localeIndex]), path);
+      message = lodash.get(this.localeBundles[locales[localeIndex]], path);
     }
 
     if (message === undefined) {
-      return path;
-    }
-
-    // this check covers use case of object message,
-    // f.e. message === { test: 'test component', format: 'min={min}, max={max}' }
-    if (!lodash.isString(message)) {
       return path;
     }
 
