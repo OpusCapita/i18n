@@ -19,7 +19,6 @@ const _obsoleteConstructor = function(
   localeBundles = null,
   localeFormattingInfo = {},
   fallbackLocale = 'en') {
-
   if (console) {
     console.log(`
 Such I18nManager constructor signature is deprecated and will be removed soon!
