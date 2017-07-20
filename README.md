@@ -14,72 +14,28 @@ Provides simple i18n mechanism for JS applications/modules.
 Using npm
 
 ```shell
-$ npm i --save opuscapita-i18n
+$ npm i --save @opuscapita/i18n
 ```
 
-## Npm scripts
-
-Linting
+or
 
 ```shell
-$ npm run lint
-```
-
-Runing tests
-
-```shell
-$ npm run test // with coverage
-$ npm run testonly // only test resylts
+$ yarn add @opuscapita/i18n
 ```
 
 ## Usage & API
-
-### Converters
-
-Converter is a class that converts a value from its object representation to string one and reverse. All converters (Date, Number, StripToNull) implement the same interface that provides two methods _valueToString_ and _stringToValue_.
-
-**Date Converter**
-
-```javascript
-import DateConverter from 'opuscapita-i18n/lib/converters/DateConverter';
-
-let dc = new DateConverter(''MM/dd/yyyy'', 'en');
-dc.valueToString(new Date(2001, 0, 15)) === '01/15/2001' // true
-dc.stringToValue('01/15/2001').toISOString() === new Date(2001, 0, 15).toISOString() // true
-```
-
-**NumberConverter**
-
-Format definition is similar to Java's [_DecimalFormat_](https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html)  class, but **exponent is not supported**
-
-
-```javascript
-import NumberConverter from 'opuscapita-i18n/lib/converters/NumberConverter';
-
-let nc = new NumberConverter('#,##0.00', ',', '.'); // format, groupSep, decSep, decSepUseAlways = false
-nc.valueToString(10000000) === '10,000,000.00' // true
-nc.stringToValue('10,000.00') === 10000 // true
-```
-
-**Strip to null converter**
-
-```javascript
-import StripToNullConverter from 'opuscapita-i18n/lib/converters/StripToNullConverter';
-
-let stnc = new StripToNullConverter();
-stnc.valueToString(null) === '' // true
-converter.stringToValue('') === null // true
-```
 
 ### I18nManager
 
 Provides mechanism for internationalization according to the locale (with fallback), passed in the constructor.
 Also provides facade function for operating with converters, according to format patterns.
 
-```javascript
-import I18nManager from 'opuscapita-i18n/utils/I18nManager';
+#### I18n manager creation
 
-const formatInfos = {
+```javascript
+import { I18nManager } from '@opuscapita/i18n';
+
+const localeFormattingInfo = {
   'en': {
     datePattern: 'dd/MM/yyyy',
     dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
@@ -91,71 +47,197 @@ const formatInfos = {
   }
 };
 
-let i18n = = new I18nManager('en', [{
-  locales: ['en'],
-  messages: {
-    test: 'test',
-    format: 'min={min}, max={max}',
-    subcomponent: {
-      hint: 'nested hint'
+let i18n = = new I18nManager({
+  locale: 'de-DE',         // current locale, by default 'en'
+  fallbackLocale: 'en', // fallback locale, by default 'en'
+  localeFormattingInfo  // by default formatting information is set up for 'en' with values that you see in this sample
+})                      
+```
+
+**Deprecated constructor, please, don't use it anymore. It will be removed soon!**
+```javascript
+// obsolete constructor, please don't use it
+let i18n = = new I18nManager(
+  'de-DE',                                // current locale
+  [{                                   // default message bundles (use 'register' method for adding bundles)
+    locales: ['en'],
+    messages: {
+      test: 'test message',
+      format: 'min={min}, max={max}',
+      subcomponent: {
+        hint: 'nested hint'
+      }
+    },
+  }],
+  localeFormattingInfo,               // by default formatting information is set up for 'en' with values that you see in this sample
+  'en'                                // fallback locale
+);
+```
+
+#### Adding message bundles
+
+Using flat structure (prefferable)
+```javascript
+i18n.register('test_component', {
+  'en': {
+    'button.save.label': 'Save',
+    'button.cancel.label': 'Cancel'
+  },
+  'de': {
+    'button.cancel.label': 'Abbrechen'
+  }
+});
+```
+
+Using deep nested object structure
+```javascript
+i18n.register('test_component', {
+  'en': {
+    button: {
+      save: {
+        label: 'Save'
+      },
+      cancel: {
+        label:  'Cancel'
+      }
     }
   },
-}], formatInfos);
+  'de': {
+    button: {
+      cancel: {
+        label:  'Abbrechen'
+      }
+    }
+  }
+});
+```
 
-// getting simple translation
-i18n.getMessage('test') === 'test' // true
-
-// getting translation with attributes
-i18n.getMessage('format', { min: 10, max: 100 }) === 'min=10, max=100' // true
-
-// adding translations on runtime
-i18n = new I18nManager('de-DE', [], {});
+**Deprecated message bundle structure, please, don't use it anymore. It will be removed soon!**
+```javascript
 i18n.register('test_component', [
   {
     locales: ['en'],
     messages: {
-      component: {
-        testMessage1: 'en test message 1',
-        testMessage2: 'en test message 2',
-      },
-    },
+      button: {
+        save: {
+          label: 'Save'
+        },
+        cancel: {
+          label:  'Cancel'
+        }
+      }
+    }
   },
   {
     locales: ['de'],
     messages: {
-      component: {
-        testMessage2: 'de test message 2',
-      },
-    },
+      button: {
+        cancel: {
+          label:  'Abbrechen'
+        }
+      }
+    }
   },
 ]);
+```
+
+**N.B.** Message defined in this way:
+```javascript
+{
+  'a.b.c': 'hi'
+}
+```
+or another way
+```javascript
+{
+  a: {
+    b: {
+      c: 'hi'
+    }
+  }
+}
+```
+are considered by i18n manager as equal and corresponds to  the same message key/path 'a.b.c'
+
+#### Retrieving messages
+
+Message is returned for current locale. If is not found then fallback locale logic is use. For example, if current locale is 'de-DE', then its fallback locale will be 'de', so message will be searched using 'de' locale. Final fallback language is the one that is passed in constructor (by default 'en').
+
+```javascript
+// getting simple message
+i18n.getMessage('test') // returns 'test message'
+
+// getting message with arguments
+i18n.getMessage('format', { min: 10, max: 100 }) // returns  'min=10, max=100'
 
 // getting fallback message in default locale (en) in case of error (example de-DE -> de -> en)
-i18n.getMessage('component.testMessage1') === 'en test message 1' // true
+i18n.getMessage('button.save.label') // returns 'Save'
 
 // getting fallback message in root locale in case of error (example de-DE -> de)
-i18n.getMessage('component.testMessage2') === 'de test message 2' // true
+i18n.getMessage('button.cancel.label') // returns 'de test message 2'
 
 // getting fallback message key in case no values were found
-i18n.getMessage('component.testMessage3') === 'component.testMessage3' // true
+i18n.getMessage('button.saveandnew.label') // returns 'button.saveandnew.label'
+
+#### Data conversion
 
 // Converter wrappers
-i18n.formatDate(new Date(2001, 0, 10)) === '10/01/2001' //true
-i18n.parseDate('10/01/2001').toISOString() === new Date(2001, 0, 10).toISOString() // true
-i18n.formatDateTime(new Date(2001, 0, 10)) === '10/01/2001 00:00:00' // true
+i18n.formatDate(new Date(2001, 0, 10)) // returns '10/01/2001'
+i18n.parseDate('10/01/2001').toISOString() // returns new Date(2001, 0, 10).toISOString()
+i18n.formatDateTime(new Date(2001, 0, 10)) // returns '10/01/2001 00:00:00'
 
-i18n.formatNumber(10000) === '10,000' // true
-i18n.parseNumber('10,000') === 10000 // true
+i18n.formatNumber(10000) // returns '10,000'
+i18n.parseNumber('10,000')// returns 10000
 
-i18n.formatDecimalNumber(10000) === '10,000.00' // true
-i18n.parseDecimalNumber('10,000.00') === 10000 // true
+i18n.formatDecimalNumber(10000) // returns '10,000.00'
+i18n.parseDecimalNumber('10,000.00') // returns 10000
 
-// getting some format value
-i18n.dateFormat === 'YY' // true
+// getting date format
+i18n.dateFormat // returns 'dd/MM/yyyy'
+```
 
+### Converters
+
+Converter is a class that converts a value from its object representation to string one and reverse. All converters (Date, Number, StripToNull) implement the same interface that provides two methods _valueToString_ and _stringToValue_.
+
+**Date Converter**
+
+```javascript
+import DateConverter from '@opuscapita/i18n/DateConverter';
+
+let dc = new DateConverter(''MM/dd/yyyy'', 'en');
+dc.valueToString(new Date(2001, 0, 15)) // returns '01/15/2001'
+dc.stringToValue('01/15/2001') // returns new Date(2001, 0, 15)
+```
+
+**NumberConverter**
+
+Format definition is similar to Java's [_DecimalFormat_](https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html) class, but **exponent is not supported**
+
+```javascript
+import NumberConverter from '@opuscapita/i18n/NumberConverter';
+
+let nc = new NumberConverter('#,##0.00', ',', '.'); // format, groupSep, decSep, decSepUseAlways = false
+nc.valueToString(10000000) // returns '10,000,000.00'
+nc.stringToValue('10,000.00') // returns 10000
+```
+
+**Strip to null converter**
+
+```javascript
+import StripToNullConverter from '@opuscapita/i18n/StripToNullConverter';
+
+let stnc = new StripToNullConverter();
+stnc.valueToString(null) // returns ''
+converter.stringToValue('') // returns null
 ```
 
 ## Contributors
+
+| <img src="https://avatars.githubusercontent.com/u/24733803?v=3" width="100px;"/> | [**Dmitry Divin**](https://github.com/ddivin-sc)     |
+| :---: | :---: |
+| <img src="https://avatars3.githubusercontent.com/u/24650360?v=3" width="100px;"/> | [**Daniel Zhitomirsky**](https://github.com/dzhitomirsky-sc) |
+| <img src="https://avatars.githubusercontent.com/u/24603787?v=3" width="100px;"/> | [**Alexey Sergeev**](https://github.com/asergeev-sc)     |
 
 * Dmitry Divin dmirty.divin@jcatalog.com
 * Daniel Zhitomirsky daniel.zhitomirsky@jcatalog.com

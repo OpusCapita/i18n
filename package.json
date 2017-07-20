@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint src",
     "test": "rimraf ./.nyc_output ./coverage && cross-env nyc mocha --recursive src/**/*.spec.js",
-    "testonly": "mocha src/**/*.spec.js --require config/mocha-setup.js",
+    "test-only": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --plugins lodash --ignore *.spec.js src --out-dir lib",
     "npm-publish": "npm run npm-build && npm-publish",
     "publish-snapshot": "npm run npm-publish",
