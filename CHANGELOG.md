@@ -28,7 +28,7 @@
     ```
     message bundles registration should be done using 'register' method.
     * Renaming goal 'testonly' to 'test-only'
-    * Fixing code styles. Updating dev dependencies. (Alexey Sergeev <sab@scand.com, 72851de)
+    * Fixing code styles. Updating dev dependencies. (Alexey Sergeev <sab@scand.com>, 72851de)
 
 ## [v1.0.14](https://github.com/OpusCapita/i18n/compare/v1.0.13...v1.0.14) (Thu, 15 Jun 2017 10:44:19 GMT)
  - Merge pull request #3 from OpusCapita/issue/2
