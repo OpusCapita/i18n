@@ -17,9 +17,11 @@ export default class DateConverter extends Converter {
    */
   constructor(format = '', locale = null) {
     super();
+
     this.momentFormat = moment().toMomentFormatString(format);
+
+    /* istanbul ignore next */
     if (locale) {
-      /* istanbul ignore next */
       if (console) {
         console.log(`
 WARNING:
