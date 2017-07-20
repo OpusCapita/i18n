@@ -1,3 +1,9 @@
+## [v1.0.15-rc.2](https://github.com/OpusCapita/i18n/compare/v1.0.15-rc.1...v1.0.15-rc.2) (Thu, 20 Jul 2017 09:55:44 GMT)
+ - Update CHANGELOG.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 8e1bcb3)
+ - Merge branch 'master' of github.com:OpusCapita/i18n (e4c8c00 2256e02, a651447)
+ - Refactor jdateformat parser module to return single function with could be invoked over passed moment instance to enhance it with the methods that support java formats. Refactor DateConverter tests. (Alexey Sergeev <sab@scand.com>, e4c8c00)
+ - Update CHANGELOG.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 2256e02)
+
 ## [v1.0.15-rc.1](https://github.com/OpusCapita/i18n/compare/v1.0.14...v1.0.15-rc.1) (Thu, 20 Jul 2017 07:28:57 GMT)
  - Updating README.md (Alexey Sergeev <sab@scand.com>, 5d68fb9)
  - Switch to plain/flat bundle structure (#6)
