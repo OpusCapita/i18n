@@ -2,12 +2,11 @@ import { assert } from 'chai';
 import I18nManager from './I18nManager';
 import { DEFAULT_FORMAT_INFO } from './constants';
 
-describe('I18nManager', () => {
+describe('I18nManager: converters', () => {
   let i18n;
-  let deI18n;
 
   before('instantiate new intl manager', () => {
-    const formatInfos = {
+    const localeFormattingInfo = {
       'en-US': {
         datePattern: 'dd/MM/yyyy',
         dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
@@ -18,70 +17,31 @@ describe('I18nManager', () => {
         numberGroupingSeparatorUse: true,
       },
     };
-    i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max={max}',
+
+    i18n = new I18nManager({ locale: 'en-US', localeFormattingInfo }).register(
+      'first component',
+      {
+        'en-US': {
+          test: 'test',
           subcomponent: {
-            label: 'nested'
+            hint: 'nested hint',
           }
-        },
-      },
-    }]);
-  });
-
-  it('should get fallback message', () => {
-    deI18n = new I18nManager('de-DE', [], {});
-
-    deI18n.register('test_component', [
+        }
+      }
+    ).register(
+      'second component',
       {
-        locales: ['en'],
-        messages: {
+        'en-US': {
           component: {
-            testMessage1: 'en test message 1',
-            testMessage2: 'en test message 2',
+            test: 'test component',
+            format: 'min={min}, max={max}',
+            subcomponent: {
+              label: 'nested'
+            }
           },
         },
-      },
-      {
-        locales: ['de'],
-        messages: {
-          component: {
-            testMessage2: 'de test message 2',
-          },
-        },
-      },
-    ]);
-
-    assert.equal('en test message 1', deI18n.getMessage('component.testMessage1'));
-    assert.equal('de test message 2', deI18n.getMessage('component.testMessage2'));
-    assert.equal('component.testMessage3', deI18n.getMessage('component.testMessage3'));
-  });
-
-  it('should contain test message', () => {
-    const message = i18n.getMessage('test');
-    assert.equal('test', message);
-  });
-
-  it('should contain component test message', () => {
-    const message = i18n.getMessage('component.test');
-    assert.equal('test component', message);
-  });
-
-  it('test object message', () => {
-    const message = i18n.getMessage('component');
-    assert.equal('component', message);
+      }
+    );
   });
 
   it('should format and parse date', () => {
@@ -111,7 +71,7 @@ describe('I18nManager', () => {
   });
 
   it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (1)', () => {
-    const formatInfos = {
+    const localeFormattingInfo = {
       'en-US': {
         datePattern: 'dd/MM/yyyy',
         dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
@@ -123,27 +83,31 @@ describe('I18nManager', () => {
         numberDecimalSeparatorUseAlways: true
       },
     };
-    let i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max={max}',
+
+    i18n = new I18nManager({ locale: 'en-US', localeFormattingInfo }).register(
+      'first component',
+      {
+        'en-US': {
+          test: 'test',
           subcomponent: {
-            label: 'nested'
+            hint: 'nested hint',
           }
+        }
+      }
+    ).register(
+      'second component',
+      {
+        'en-US': {
+          component: {
+            test: 'test component',
+            format: 'min={min}, max={max}',
+            subcomponent: {
+              label: 'nested'
+            }
+          },
         },
-      },
-    }]);
+      }
+    );
 
     assert.equal('10,000.', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000'));
@@ -186,65 +150,6 @@ describe('I18nManager', () => {
 
     assert.equal('10,000.00', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000.00'));
-  });
-
-  it('should substitute params in message', () => {
-    const formatInfos = {
-      'en-US': {
-        datePattern: 'dd/MM/yyyy',
-        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
-        integerPattern: '#,##0',
-        numberPattern: '#,##0.00#######',
-        numberDecimalSeparator: '.',
-        numberGroupingSeparator: ',',
-        numberGroupingSeparatorUse: true,
-      },
-    };
-    i18n = new I18nManager('en-US', [{
-      locales: ['en-US'],
-      messages: {
-        test: 'test',
-        subcomponent: {
-          hint: 'nested hint'
-        }
-      },
-    }], formatInfos);
-    i18n = i18n.register('component', [{
-      locales: ['en-US'],
-      messages: {
-        component: {
-          test: 'test component',
-          format: 'min={min}, max1={max}, max2={max}, max3={max}',
-          subcomponent: {
-            label: 'nested'
-          },
-          'Next W': 'Next Week'
-        },
-      },
-    }]);
-
-    let message = i18n.getMessage('component.format');
-    assert.equal('min={min}, max1={max}, max2={max}, max3={max}', message);
-
-    message = i18n.getMessage('component.format', { min: 10, max: 100 });
-    assert.equal('min=10, max1=100, max2=100, max3=100', message);
-
-    message = i18n.getMessage('component["Next W"]');
-    assert.equal('Next Week', message);
-  });
-
-  it('getMessage using fallback locale', () => {
-    const i18n = new I18nManager('de', [
-      {
-        locales: ['en'],
-        messages: {
-          a: 'fallback'
-        },
-      }
-    ]);
-    // there is no message in default/current locale 'de'
-    // fallback to default locale -> 'en' message
-    assert.strictEqual(i18n.getMessage('a'), 'fallback');
   });
 
   it('dateFormat returns configured date format', () => {

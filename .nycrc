@@ -2,7 +2,8 @@
   "sourceMap": false,
   "instrument": false,
   "exclude": [
-    "**/*.spec.js"
+    "**/*.spec.js",
+    "src/external_modules"
   ],
   "check-coverage": true,
   "reporter": [
@@ -16,5 +17,5 @@
   "lines": 95,
   "statements": 95,
   "functions": 95,
-  "branches": 90
+  "branches": 85
 }
