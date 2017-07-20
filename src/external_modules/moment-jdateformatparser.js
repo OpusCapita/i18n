@@ -1,22 +1,4 @@
-// OPUSCAPITA INFO:
-// This file here because yarn package manager don't resolve dependencies with specified commit head
-// Can be deleted when problem will fixed
-// Source: https://raw.githubusercontent.com/MadMG/moment-jdateformatparser/88f3580f6f5a281fd678d760e146452bc2f04c97/moment-jdateformatparser.js
-
-/**
- *
- */
-(function (root, cb) {
-	if (typeof define === 'function' && define.amd) {
-		require(['moment'], cb);
-	} else if (typeof exports !== 'undefined')  {
-		var moment = require('moment');
-		cb(moment);
-		module.exports = moment;
-	} else {
-		cb(root.moment);
-	}
-}(this, function (moment) {
+export default function(moment) {
 
   if (!moment) {
     throw 'Moment JDateFormatParser cannot find Moment.js';
@@ -30,97 +12,97 @@
    */
   var javaDateFormats = {},
 
-      /**
-       * The internal **moment.js** date formats cache.
-       *
-       * @property momentDateFormats
-       * @type {Object}
-       */
-      momentDateFormats = {},
+    /**
+     * The internal **moment.js** date formats cache.
+     *
+     * @property momentDateFormats
+     * @type {Object}
+     */
+    momentDateFormats = {},
 
-      /**
-       * The format pattern mapping from Java format to momentjs.
-       *
-       * @property javaFormatMapping
-       * @type {Object}
-       */
-      javaFormatMapping = {
-        d: 'D',
-        dd: 'DD',
-        y: 'YYYY',
-        yy: 'YY',
-        yyy: 'YYYY',
-        yyyy: 'YYYY',
-        a: 'a',
-        A: 'A',
-        M: 'M',
-        MM: 'MM',
-        MMM: 'MMM',
-        MMMM: 'MMMM',
-        h: 'h',
-        hh: 'hh',
-        H: 'H',
-        HH: 'HH',
-        m: 'm',
-        mm: 'mm',
-        s: 's',
-        ss: 'ss',
-        S: 'SSS',
-        SS: 'SSS',
-        SSS: 'SSS',
-        E: 'ddd',
-        EEE: 'ddd',
-        EEEE: 'dddd',
-        D: 'DDD',
-        w: 'W',
-        ww: 'WW',
-        z: 'ZZ',
-        zzzz: 'Z',
-        Z: 'ZZ',
-        X: 'ZZ',
-        XX: 'ZZ',
-        XXX: 'Z',
-        u: 'E'
-      },
+    /**
+     * The format pattern mapping from Java format to momentjs.
+     *
+     * @property javaFormatMapping
+     * @type {Object}
+     */
+    javaFormatMapping = {
+      d: 'D',
+      dd: 'DD',
+      y: 'YYYY',
+      yy: 'YY',
+      yyy: 'YYYY',
+      yyyy: 'YYYY',
+      a: 'a',
+      A: 'A',
+      M: 'M',
+      MM: 'MM',
+      MMM: 'MMM',
+      MMMM: 'MMMM',
+      h: 'h',
+      hh: 'hh',
+      H: 'H',
+      HH: 'HH',
+      m: 'm',
+      mm: 'mm',
+      s: 's',
+      ss: 'ss',
+      S: 'SSS',
+      SS: 'SSS',
+      SSS: 'SSS',
+      E: 'ddd',
+      EEE: 'ddd',
+      EEEE: 'dddd',
+      D: 'DDD',
+      w: 'W',
+      ww: 'WW',
+      z: 'ZZ',
+      zzzz: 'Z',
+      Z: 'ZZ',
+      X: 'ZZ',
+      XX: 'ZZ',
+      XXX: 'Z',
+      u: 'E'
+    },
 
-      /**
-       * The format pattern mapping from Java format to momentjs.
-       *
-       * @property momentFormatMapping
-       * @type {Object}
-       */
-      momentFormatMapping = {
-        D: 'd',
-        DD: 'dd',
-        YY: 'yy',
-        YYY: 'yyyy',
-        YYYY: 'yyyy',
-        a: 'a',
-        A: 'A',
-        M: 'M',
-        MM: 'MM',
-        MMM: 'MMM',
-        MMMM: 'MMMM',
-        h: 'h',
-        hh: 'hh',
-        H: 'H',
-        HH: 'HH',
-        m: 'm',
-        mm: 'mm',
-        s: 's',
-        ss: 'ss',
-        S: 'S',
-        SS: 'S',
-        SSS: 'S',
-        ddd: 'E',
-        dddd: 'EEEE',
-        DDD: 'D',
-        W: 'w',
-        WW: 'ww',
-        ZZ: 'z',
-        Z: 'XXX',
-        E: 'u'
-      };
+    /**
+     * The format pattern mapping from Java format to momentjs.
+     *
+     * @property momentFormatMapping
+     * @type {Object}
+     */
+    momentFormatMapping = {
+      D: 'd',
+      DD: 'dd',
+      YY: 'yy',
+      YYY: 'yyyy',
+      YYYY: 'yyyy',
+      a: 'a',
+      A: 'A',
+      M: 'M',
+      MM: 'MM',
+      MMM: 'MMM',
+      MMMM: 'MMMM',
+      h: 'h',
+      hh: 'hh',
+      H: 'H',
+      HH: 'HH',
+      m: 'm',
+      mm: 'mm',
+      s: 's',
+      ss: 'ss',
+      S: 'S',
+      SS: 'S',
+      SSS: 'S',
+      ddd: 'E',
+      dddd: 'EEEE',
+      DDD: 'D',
+      W: 'w',
+      WW: 'ww',
+      ZZ: 'z',
+      Z: 'XXX',
+      E: 'u'
+    };
 
   /**
    * Translates the java date format String to a momentjs format String.
@@ -222,4 +204,4 @@
     return momentDateFormats[formatString];
   };
 
-}));
+};

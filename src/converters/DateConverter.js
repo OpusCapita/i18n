@@ -3,8 +3,8 @@ import Converter from './Converter';
 import ParseError from './ParseError';
 import moment from 'moment';
 
-// only load the modules
-import '../external_modules/moment-jdateformatparser';
+import enhanceMomentWithJDateparser from '../external_modules/moment-jdateformatparser';
+enhanceMomentWithJDateparser(moment);
 
 export const ERROR_CODE = 'error.parse.date';
 
@@ -16,27 +16,26 @@ export default class DateConverter extends Converter {
   }
 
   valueToString(value) {
-    if (value) {
-      let m = moment(value);
-      if (this.locale) {
-        m = m.locale(this.locale);
-      }
-
-      return m.format(this.momentFormat);
+    if (!value) {
+      return '';
     }
 
-    return '';
+    let m = moment(value);
+    if (this.locale) {
+      m = m.locale(this.locale);
+    }
+
+    return m.format(this.momentFormat);
   }
 
-  stringToValue(val) {
-    const stringValue = val || null;
-    if (stringValue === null) {
+  stringToValue(string) {
+    if (!string) {
       return null;
     }
 
-    const result = moment(stringValue, this.momentFormat, true);
+    const result = moment(string, this.momentFormat, true);
     if (!result.isValid()) {
-      throw new ParseError(ERROR_CODE, { value: stringValue });
+      throw new ParseError(ERROR_CODE, { value: string });
     }
 
     return result.toDate();

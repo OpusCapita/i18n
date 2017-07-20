@@ -4,6 +4,18 @@ import DateConverter from './DateConverter';
 import ParseError from './ParseError';
 
 describe('DateConverter', () => {
+  it('should convert null to empty string', () => {
+    let dc = new DateConverter('MM/dd/yyyy');
+    assert.strictEqual(dc.valueToString(null), '');
+  });
+
+  it('should convert empty or null or undefined string to null', () => {
+    let dc = new DateConverter('MM/dd/yyyy');
+    assert.strictEqual(dc.stringToValue(null), null);
+    assert.strictEqual(dc.stringToValue(''), null);
+    assert.strictEqual(dc.stringToValue(undefined), null);
+  });
+
   it('should convert date to string', () => {
     let dc = new DateConverter('MM/dd/yyyy');
 
@@ -26,6 +38,7 @@ describe('DateConverter', () => {
       assert.isNull(dc.stringToValue('11111'));
     }, ParseError, 'invalid parsed value [11111]');
   });
+
   it('should not throw error if no `format` argument specified', () => {
     assert.doesNotThrow(() => {
       let dc = new DateConverter(); // eslint-disable-line no-unused-vars
