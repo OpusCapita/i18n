@@ -140,7 +140,7 @@ i18n.register('test_component', [
 ]);
 ```
 
-**N.B.** Message defined in this way:
+**N.B.** Messages defined in this way:
 ```javascript
 {
   'a.b.c': 'hi'
@@ -156,7 +156,7 @@ or another way
   }
 }
 ```
-are considered by i18n manager as equal and corresponds to  the same message key/path 'a.b.c'
+are considered by i18n manager as equal and correspond to the same message key/path 'a.b.c'
 
 #### Retrieving messages
 
