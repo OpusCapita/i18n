@@ -9,10 +9,27 @@ enhanceMomentWithJDateparser(moment);
 export const ERROR_CODE = 'error.parse.date';
 
 export default class DateConverter extends Converter {
-  constructor(format = '', locale) {
+  /**
+   * Create Date converter
+   * @param  {String} [format='']   date format, documentation of supported format could be found here: https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+   * @param  {[type]} [locale=null] locale, @deprecated
+   * @return {[type]}               DateConverter constructor
+   */
+  constructor(format = '', locale = null) {
     super();
     this.momentFormat = moment().toMomentFormatString(format);
-    this.locale = locale;
+    if (locale) {
+      /* istanbul ignore next */
+      if (console) {
+        console.log(`
+WARNING:
+
+Such DateConverter constructor 'new DateConverter(format, locale)' signature is used.
+'locale' argument is deprecated and is not used any more.
+Please, use the following constructor signature: 'new DateConverter(format)'.
+`);
+      }
+    }
   }
 
   valueToString(value) {
@@ -20,12 +37,7 @@ export default class DateConverter extends Converter {
       return '';
     }
 
-    let m = moment(value);
-    if (this.locale) {
-      m = m.locale(this.locale);
-    }
-
-    return m.format(this.momentFormat);
+    return moment(value).format(this.momentFormat);
   }
 
   stringToValue(string) {
