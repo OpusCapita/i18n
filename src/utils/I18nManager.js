@@ -21,6 +21,7 @@ const _obsoleteConstructor = function(
   fallbackLocale = 'en') {
   if (console) {
     console.log(`
+WARNING:
 Such I18nManager constructor signature is deprecated and will be removed soon!
 Instead of:
 
@@ -51,6 +52,7 @@ for locale bundle registration use 'register' method
 const _obsoleteRegister = function(component, localeBundles = []) {
   if (console) {
     console.log(`
+WARNING:
 Such I18nManager 'register' method signature is deprecated and its support will be removed soon!
 Instead of using locale bundles sturcture like this:
 

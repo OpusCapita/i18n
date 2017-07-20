@@ -6,7 +6,7 @@ export const ERROR_CODE = 'error.parse.number';
 
 const floatNumberReg = /^-?\d+\.?\d*$/;
 const intNumberReg = /^-?\d+$/;
-const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || 9007199254740991;
+const MAX_SAFE_INTEGER = Number.MAX_SAFE_INTEGER || /* istanbul ignore next */ 9007199254740991;
 
 export default class NumberConverter extends Converter {
   constructor(format, groupSep, decSep, decSepUseAlways) {
