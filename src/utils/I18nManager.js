@@ -247,11 +247,17 @@ class I18nManager {
     return message;
   };
 
-  // todo: add locale fallback logic usage
+  // locale 'de-DE' -> calculated fallback locale 'de' ->
+  // passed fallback locale 'en' -> default fomatting info from 'constants.js'
   _findFormattingInfo = () => {
-    if (this.localeFormattingInfo[this.locale]) {
-      return this.localeFormattingInfo[this.locale];
+    const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
+
+    for (let localeIndex = 0; localeIndex < locales.length; localeIndex++) {
+      if (this.localeFormattingInfo[locales[localeIndex]]) {
+        return this.localeFormattingInfo[locales[localeIndex]];
+      }
     }
+
     return DEFAULT_FORMAT_INFO;
   }
 

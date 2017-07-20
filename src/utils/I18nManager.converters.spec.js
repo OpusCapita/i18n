@@ -153,8 +153,9 @@ describe('I18nManager: converters', () => {
   });
 
   it('dateFormat returns configured date format', () => {
-    const i18n = new I18nManager('es', null,
-      {
+    const i18n = new I18nManager({
+      locale: 'es',
+      localeFormattingInfo: {
         'es': {
           datePattern: 'YY',
           dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
@@ -165,14 +166,73 @@ describe('I18nManager: converters', () => {
           numberGroupingSeparatorUse: true,
         }
       }
-    );
+    });
     // configured date pattern
     assert.strictEqual(i18n.dateFormat, 'YY');
   });
 
-  it('dateFormat returns default date format', () => {
-    const i18n = new I18nManager('en', null);
+  it('"dateFormat" returns default date format', () => {
+    const i18n = new I18nManager({ locale: 'en' });
     // default date pattern
     assert.strictEqual(i18n.dateFormat, DEFAULT_FORMAT_INFO.datePattern);
+  });
+
+  it('"_findFormattingInfo" uses locale fallbak logic', () => {
+    // no format for the 'fe-FR' -> fallback to default formats
+    let i18n = new I18nManager(
+      {
+        locale: 'fr-FR',
+        localeFormattingInfo: {}
+      }
+    );
+    assert.strictEqual(i18n._findFormattingInfo(), DEFAULT_FORMAT_INFO);
+
+    // no format for the 'fr-FR', but there is a format for fallbackLocale, e.g. 'de'
+    const deFormattingInfo = {
+      datePattern: 'YYYY'
+    };
+    i18n = new I18nManager(
+      {
+        locale: 'fr-FR',
+        fallbackLocale: 'de',
+        localeFormattingInfo: {
+          'de': deFormattingInfo
+        }
+      }
+    );
+    assert.strictEqual(i18n._findFormattingInfo(), deFormattingInfo);
+
+    // no format for the 'fr-FR', but there is a format for 'fr' locale
+    const frFormattingInfo = {
+      datePattern: 'DD'
+    };
+    i18n = new I18nManager(
+      {
+        locale: 'fr-FR',
+        fallbackLocale: 'de',
+        localeFormattingInfo: {
+          'fr': frFormattingInfo,
+          'de': deFormattingInfo
+        }
+      }
+    );
+    assert.strictEqual(i18n._findFormattingInfo(), frFormattingInfo);
+
+    // no format for the 'fr-FR' and there is a format for 'fr-FR' locale
+    const frFrFormattingInfo = {
+      datePattern: 'MM'
+    };
+    i18n = new I18nManager(
+      {
+        locale: 'fr-FR',
+        fallbackLocale: 'de',
+        localeFormattingInfo: {
+          'fr-FR': frFrFormattingInfo,
+          'fr': frFormattingInfo,
+          'de': deFormattingInfo
+        }
+      }
+    );
+    assert.strictEqual(i18n._findFormattingInfo(), frFrFormattingInfo);
   });
 });
