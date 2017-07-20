@@ -9,6 +9,7 @@
   "scripts": {
     "lint": "eslint src",
     "test": "rimraf ./.nyc_output ./coverage && cross-env nyc --reporter=lcov --reporter=text mocha --recursive src/**/*.spec.js",
+    "upload-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test-only": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --plugins lodash --ignore *.spec.js src --out-dir lib",
     "npm-publish": "npm run npm-build && npm-publish",
@@ -43,6 +44,7 @@
     "babel-preset-stage-0": "6.24.1",
     "babel-register": "6.24.1",
     "chai": "4.1.0",
+    "coveralls": "2.13.1",
     "cross-env": "5.0.1",
     "eslint": "3.10.2",
     "eslint-config-opuscapita": "1.0.8",
