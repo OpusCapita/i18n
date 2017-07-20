@@ -2,12 +2,11 @@
 
 ## Synopsis
 
-Provides data <-> value converters for:
-- Dates
-- Numbers
-- Empty values (Strip to null converter)
-
-Provides simple i18n mechanism for JS applications/modules.
+- Provides simple i18n mechanism for JS applications/modules.
+- Provides data <-> string converters for
+  - Dates
+  - Numbers
+  - Empty values (Strip to null converter)
 
 ## Installation
 
