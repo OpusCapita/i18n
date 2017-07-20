@@ -1,3 +1,6 @@
+[![CircleCI Status](https://circleci.com/gh/OpusCapita/i18n/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/OpusCapita/i18n)
+![badge-npm-version](https://img.shields.io/npm/v/@opuscapita/i18n.svg) 
+![badge-license](https://img.shields.io/github/license/OpusCapita/i18n.svg)
 # OpusCapita i18n
 
 ## Synopsis
