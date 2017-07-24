@@ -1,3 +1,28 @@
+## [v1.1.0](https://github.com/OpusCapita/i18n/compare/v1.0.15-rc.2...v1.1.0) (Mon, 24 Jul 2017 12:53:36 GMT)
+ - Preparing 1.1.0 release (Alexey Sergeev <sab@scand.com>, b3f0999)
+ - Adding fallback support logic for data converters, e.g. if formatting information is not declared for current locale 'de-AT' then formatting information for 'de' locale will be searched, if latest also is not defined then corresponding info will be searched for passed 'fallbackLocale', if it also is not defined then default formatting configuration will be used:
+    
+    {
+      datePattern: 'dd/MM/yyyy',
+      dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+      integerPattern: '#,##0',
+      numberPattern: '#,##0.00',
+      numberDecimalSeparator: '.',
+      numberDecimalSeparatorUseAlways: false,
+      numberGroupingSeparator: ',',
+      numberGroupingSeparatorUse: true,
+    } (Alexey Sergeev <sab@scand.com>, d6aaaab)
+ - Configuring code coverage (Alexey Sergeev <sab@scand.com>, 9acf78a)
+ - Update README.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 231433b)
+ - Update README.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 58c72ab)
+ - Update README.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, a54e6c1)
+ - Minor changes (Alexey Sergeev <sab@scand.com>, 462f83b)
+ - Deprecating locale usage in DateConverter and its passing in constructor. E.g. 'new DateConverter(fomat)' should be used, signature 'new DateConverter(format, locale)' is deprecated (Alexey Sergeev <sab@scand.com>, 0132c17)
+ - Removing unused babel configuration file (Alexey Sergeev <sab@scand.com>, fb8594f)
+ - Addig coveralls web service usage (Alexey Sergeev <sab@scand.com>, 946c63a)
+ - Update README.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 8e2abdd)
+ - Adding CircleCI configuration files (Alexey Sergeev <sab@scand.com>, c4c326a)
+
 ## [v1.0.15-rc.2](https://github.com/OpusCapita/i18n/compare/v1.0.15-rc.1...v1.0.15-rc.2) (Thu, 20 Jul 2017 09:55:44 GMT)
  - Update CHANGELOG.md (Alexey Sergeev <asergeev-sc@users.noreply.github.com>, 8e1bcb3)
  - Merge branch 'master' of github.com:OpusCapita/i18n (e4c8c00 2256e02, a651447)
