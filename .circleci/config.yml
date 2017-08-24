@@ -27,7 +27,9 @@ jobs:
 
       - run:
           name: test
-          command: npm test
+          command: npm test -- --reporter mocha-junit-reporter
+          environment:
+            MOCHA_FILE: $CIRCLE_TEST_REPORTS/test-results.xml
 
       - run:
           name: upload-coverage
