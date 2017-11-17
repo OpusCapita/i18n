@@ -1,6 +1,6 @@
 [![CircleCI Status](https://circleci.com/gh/OpusCapita/i18n/tree/master.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/OpusCapita/i18n)
 [![Coverage Status](https://coveralls.io/repos/github/OpusCapita/i18n/badge.svg?branch=master)](https://coveralls.io/github/OpusCapita/i18n?branch=master)
-![badge-npm-version](https://img.shields.io/npm/v/@opuscapita/i18n.svg)
+[![npm version](https://img.shields.io/npm/v/@opuscapita/i18n.svg)](https://npmjs.org/package/@opuscapita/i18n)
 [![Dependency Status](https://img.shields.io/david/OpusCapita/i18n.svg)](https://david-dm.org/OpusCapita/i18n)
 [![NPM Downloads](https://img.shields.io/npm/dm/@opuscapita/i18n.svg)](https://npmjs.org/package/@opuscapita/i18n)
 ![badge-license](https://img.shields.io/github/license/OpusCapita/i18n.svg)
