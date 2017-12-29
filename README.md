@@ -53,7 +53,7 @@ const localeFormattingInfo = {
   }
 };
 
-let i18n = = new I18nManager({
+let i18n = new I18nManager({
   locale: 'de-DE',         // current locale, by default 'en'
   fallbackLocale: 'en', // fallback locale, by default 'en'
   localeFormattingInfo  // by default formatting information is set up for 'en' with values that you see in this sample
@@ -63,7 +63,7 @@ let i18n = = new I18nManager({
 **Deprecated constructor, please, don't use it anymore. It will be removed soon!**
 ```javascript
 // obsolete constructor, please don't use it
-let i18n = = new I18nManager(
+let i18n = new I18nManager(
   'de-DE',                                // current locale
   [{                                   // default message bundles (use 'register' method for adding bundles)
     locales: ['en'],
