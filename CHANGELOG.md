@@ -1,3 +1,18 @@
+
+Release 1.1.1 Tue Feb 13 2018 11:11:38 GMT+0000 (UTC)
+=======================================================
+
+- Updated build config. (Dmitry Shienok dshienok@scand.com, 2018-02-13 14:02:00 +0300)
+- Updated package.json (Dmitry Shienok dshienok@scand.com, 2018-02-13 13:53:25 +0300)
+- Merge pull request #8 from OpusCapita/issue-7 (GitHub 31243790+estambakio-sc@users.noreply.github.com, 2018-02-13 13:34:35 +0300)
+- Update README.md (GitHub kvolkovich-sc@users.noreply.github.com, 2017-12-29 18:07:01 +0300)
+- Fixes numerical keys thrown `{0} nothing to repeat` exception. (Egor Stambakio stambakio@scand.com, 2017-12-27 09:38:57 +0300)
+- Update README [skip ci] (GitHub asergeev-sc@users.noreply.github.com, 2017-11-17 13:25:59 +0300)
+- Fixing test result publishing (Alexey Sergeev sab@scand.com, 2017-08-24 16:39:41 +0300)
+- Adding mocha junit reporer (Alexey Sergeev sab@scand.com, 2017-08-24 16:28:42 +0300)
+- Removing nyc reportsers from command line (Alexey Sergeev sab@scand.com, 2017-08-24 16:21:29 +0300)
+- Removing CHANGES.txt, use CHANGES.md instead (Alexey Sergeev sab@scand.com, 2017-07-24 16:24:29 +0300)
+- Updating to a version to  1.1.1 (Alexey Sergeev sab@scand.com, 2017-07-24 15:53:47 +0300)
 ## [v1.1.0](https://github.com/OpusCapita/i18n/compare/v1.0.15-rc.2...v1.1.0) (Mon, 24 Jul 2017 12:53:36 GMT)
  - Preparing 1.1.0 release (Alexey Sergeev <sab@scand.com>, b3f0999)
  - Adding fallback support logic for data converters, e.g. if formatting information is not declared for current locale 'de-AT' then formatting information for 'de' locale will be searched, if latest also is not defined then corresponding info will be searched for passed 'fallbackLocale', if it also is not defined then default formatting configuration will be used:
