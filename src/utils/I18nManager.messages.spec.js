@@ -150,4 +150,17 @@ describe('I18nManager: messages', () => {
     message = i18n.getMessage('component.Next W');
     assert.equal('Next Week', message);
   });
+
+  it('should replace numerical params with payload array values', () => {
+    const i18n = new I18nManager();
+    i18n.register('randomCmp', {
+      en: {
+        'mymessage': 'My message with {0} and {1}.'
+      }
+    });
+
+    assert.equal('My message with first and last.', i18n.getMessage('mymessage', ['first', 'last']));
+    assert.equal('My message with first and {1}.', i18n.getMessage('mymessage', ['first']));
+    assert.equal('My message with {0} and {1}.', i18n.getMessage('mymessage'));
+  });
 });

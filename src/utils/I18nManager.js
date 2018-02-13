@@ -240,7 +240,7 @@ class I18nManager {
     // fill message parameter placeholders with passed values
     lodash.each(args, function(value, key) {
       if (!lodash.isNil(value)) {
-        message = message.replace(new RegExp(`{${key}}`, 'g'), value.toString());
+        message = message.replace(new RegExp(`\\{${key}\\}`, 'g'), value.toString());
       }
     });
 
