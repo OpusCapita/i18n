@@ -12,9 +12,8 @@
     "upload-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test-only": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --plugins lodash --ignore *.spec.js src --out-dir lib",
-    "npm-publish": "npm run npm-build && npm-publish",
-    "publish-snapshot": "npm run npm-publish",
-    "publish-release": "npm run npm-publish -- --release"
+    "npm-publish": "npm run npm-build && npm publish",
+    "publish-release": "npm run npm-publish"
   },
   "homepage": "https://github.com/OpusCapita/i18n.git",
   "contributors": [
