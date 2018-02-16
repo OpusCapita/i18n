@@ -27,7 +27,7 @@ jobs:
       - save_cache:
           key: i18n-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-              - /root/build/node_mmodules
+              - /root/build/node_modules
               - /root/build/yarn.lock
 
       - run:
@@ -74,7 +74,7 @@ jobs:
       - save_cache:
           key: i18n-{{ .Branch }}-{{ checksum "package.json" }}
           paths:
-              - /root/build/node_mmodules
+              - /root/build/node_modules
               - /root/build/yarn.lock
 
       - run:
