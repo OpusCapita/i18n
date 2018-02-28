@@ -278,7 +278,7 @@ class I18nManager {
   };
 
   formatDecimalNumberWithPattern = (number, pattern) => {
-    const formattingInfo =  Object.assign({}, this._findFormattingInfo(), { numberPattern: pattern} );
+    const formattingInfo = Object.assign({}, this._findFormattingInfo(), { numberPattern: pattern });
     return createDecimalNumberConverter(formattingInfo).valueToString(number);
   };
 

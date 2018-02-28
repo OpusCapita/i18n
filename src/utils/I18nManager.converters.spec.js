@@ -66,6 +66,9 @@ describe('I18nManager: converters', () => {
     assert.equal('10,000.00', i18n.formatDecimalNumber(10000));
     assert.equal(10000, i18n.parseDecimalNumber('10,000.00'));
 
+    assert.equal('10,000.000001', i18n.formatDecimalNumberWithPattern(10000.000001, '#,##0.000000'));
+    assert.strictEqual(i18n.formatDecimalNumberWithPattern(123456789.12, '#,##0.000000'), '123,456,789.120000');
+
     assert.strictEqual(i18n.formatDecimalNumber(123456789.12), '123,456,789.12');
     assert.strictEqual(i18n.formatDecimalNumber(55454545.12), '55,454,545.12');
   });
