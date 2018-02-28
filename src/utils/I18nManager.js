@@ -160,12 +160,6 @@ const _actualRegister = function(component, localeBundles) {
     }
   }
 
-  // lodash.each(localeBundles, (bundle, locale) => {
-  //   if (!this.localeBundles[locale]) {
-  //     this.localeBundles[locale] = {};
-  //   }
-  //   this.localeBundles[locale] = { ...this.localeBundles[locale], ...flatten(bundle) };
-  // })
   this.components.push(component);
 
   return this;
