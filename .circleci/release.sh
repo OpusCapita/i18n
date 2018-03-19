@@ -74,7 +74,7 @@ creating_github_release(){
     echo "[INFO] ================================================================================================="
 
     GITHUB_RELEASE=$(curl -sS --user "$GH_NAME:$GH_TOKEN" -X POST -w "%{http_code}" -o /dev/null --data \
-    '{"tag_name": "v'${RELEASE_VERSION}'","name": "'${RELEASE_VERSION}'","body": "'${DRAFT_BODY}'","draft": true}' \
+    '{"tag_name": "v'${RELEASE_VERSION}'","name": "'${RELEASE_VERSION}'","body": "'${DRAFT_BODY}'"}' \
     $REPO_URL)
 
     if [ $GITHUB_RELEASE == 201 ]; then
