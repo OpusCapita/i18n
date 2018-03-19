@@ -198,6 +198,9 @@ i18n.parseNumber('10,000')// returns 10000
 i18n.formatDecimalNumber(10000) // returns '10,000.00'
 i18n.parseDecimalNumber('10,000.00') // returns 10000
 
+// Wraps decimal number converter but allows the use of custom patterns
+i18n.formatDecimalNumberWithPattern(10000, '#,##0.000000') // returns 10,000.000000
+
 // getting date format
 i18n.dateFormat // returns 'dd/MM/yyyy'
 ```

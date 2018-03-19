@@ -277,6 +277,10 @@ class I18nManager {
     return createDecimalNumberConverter(this._findFormattingInfo()).valueToString(number);
   };
 
+  formatDecimalNumberWithPattern = (number, numberPattern) => {
+    return createDecimalNumberConverter({ ...this._findFormattingInfo(), numberPattern }).valueToString(number);
+  };
+
   formatNumber = (number) => {
     return createNumberConverter(this._findFormattingInfo()).valueToString(number);
   };
