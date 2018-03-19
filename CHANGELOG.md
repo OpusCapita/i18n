@@ -1,4 +1,10 @@
 
+Release 1.2.1 Mon Mar 19 2018 05:35:53 GMT+0000 (UTC)
+=======================================================
+
+- [#11](https://github.com/OpusCapita/i18n/issues/11) Adding a new method in I18nManager to format decimals more flexibly. ([#12](https://github.com/OpusCapita/i18n/issues/12)) (Alexey Sergeev sunttu159@gmail.com, 2018-03-19 07:31:06 +0200)
+- Update config.yml (GitHub asergeev-sc@users.noreply.github.com, 2018-02-16 10:41:50 +0300)
+
 Release 1.1.1 Tue Feb 13 2018 11:11:38 GMT+0000 (UTC)
 =======================================================
 
