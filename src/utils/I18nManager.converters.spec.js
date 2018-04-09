@@ -116,6 +116,48 @@ describe('I18nManager: converters', () => {
     assert.equal(10000, i18n.parseNumber('10,000'));
   });
 
+  it('should format and parse numbers with numberDecimalSeparatorUseAlways=false', () => {
+    const localeFormattingInfo = {
+      'en-US': {
+        datePattern: 'dd/MM/yyyy',
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss',
+        integerPattern: '#,##0',
+        numberPattern: '#,##0.00#######',
+        numberDecimalSeparator: '.',
+        numberGroupingSeparator: ',',
+        numberGroupingSeparatorUse: false,
+        numberDecimalSeparatorUseAlways: false
+      },
+    };
+
+    i18n = new I18nManager({ locale: 'en-US', localeFormattingInfo }).register(
+      'first component',
+      {
+        'en-US': {
+          test: 'test',
+          subcomponent: {
+            hint: 'nested hint',
+          }
+        }
+      }
+    ).register(
+      'second component',
+      {
+        'en-US': {
+          component: {
+            test: 'test component',
+            format: 'min={min}, max={max}',
+            subcomponent: {
+              label: 'nested'
+            }
+          },
+        },
+      }
+    );
+
+    assert.equal(10000, i18n.formatNumber(10000));
+  });
+
   it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (2)', () => {
     const formatInfos = {
       'en-US': {
