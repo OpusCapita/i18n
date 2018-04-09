@@ -167,27 +167,79 @@ describe('DateConverter', () => {
     let stringAsDate = dc.stringToValue('15/03/2001 10:25:25');
     assert.equal(stringAsDate.toString(), date.toString());
 
-    // dc = new DateConverter('dd/MM/yyyy');
-    // stringAsDate = dc.stringToValue('15/03/2001');
-    // assert.equal(stringAsDate.toString(), date.toString());
-  });
-
-  it('should convert date to string 2', () => {
-    let dc = new DateConverter('MM/dd/yyyy');
-
-    const date = new Date(2001, 0, 15);
-    const dateAsString = dc.valueToString(date);
-
-    assert.equal(dateAsString, '01/15/2001');
-
-    const stringAsDate = dc.stringToValue(dateAsString);
+    dc = new DateConverter('MM/dd/yyyy HH:mm:ss');
+    stringAsDate = dc.stringToValue('03/15/2001 10:25:25');
     assert.equal(stringAsDate.toString(), date.toString());
 
-    dc = new DateConverter('dd/MM/yy');
-    assert.strictEqual(dc.valueToString(date), '15/01/01');
+    dc = new DateConverter('yyyy/MM/dd HH:mm:ss');
+    stringAsDate = dc.stringToValue('2001/03/15 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
 
-    dc = new DateConverter('MM/dd/yy');
-    assert.strictEqual(dc.valueToString(date), '01/15/01');
+    dc = new DateConverter('yyyy/dd/MM HH:mm:ss');
+    stringAsDate = dc.stringToValue('2001/15/03 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('dd/MM/yy HH:mm:ss');
+    stringAsDate = dc.stringToValue('15/03/01 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('MM/dd/yy HH:mm:ss');
+    stringAsDate = dc.stringToValue('03/15/01 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('yy/MM/dd HH:mm:ss');
+    stringAsDate = dc.stringToValue('01/03/15 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('yy/dd/MM HH:mm:ss');
+    stringAsDate = dc.stringToValue('01/15/03 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('dd-MM-yyyy HH:mm:ss');
+    stringAsDate = dc.stringToValue('15-03-2001 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+
+    dc = new DateConverter('MM-dd-yyyy HH:mm:ss');
+    stringAsDate = dc.stringToValue('03-15-2001 10:25:25');
+    assert.equal(stringAsDate.toString(), date.toString());
+  });
+
+  it('should convert date with time to string', () => {
+    const date = new Date(2001, 2, 15, 10, 25, 25);
+
+    let dc = new DateConverter('dd/MM/yyyy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '15/03/2001 10:25:25');
+
+    dc = new DateConverter('MM/dd/yyyy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '03/15/2001 10:25:25');
+
+    dc = new DateConverter('yyyy/MM/dd HH:mm:ss');
+    assert.equal(dc.valueToString(date), '2001/03/15 10:25:25');
+
+    dc = new DateConverter('yyyy/dd/MM HH:mm:ss');
+    assert.equal(dc.valueToString(date), '2001/15/03 10:25:25');
+
+    dc = new DateConverter('dd/MM/yy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '15/03/01 10:25:25');
+
+    dc = new DateConverter('MM/dd/yy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '03/15/01 10:25:25');
+
+    dc = new DateConverter('yy/MM/dd HH:mm:ss');
+    assert.equal(dc.valueToString(date), '01/03/15 10:25:25');
+
+    dc = new DateConverter('yy/dd/MM HH:mm:ss');
+    assert.equal(dc.valueToString(date), '01/15/03 10:25:25');
+
+    dc = new DateConverter('dd-MM-yyyy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '15-03-2001 10:25:25');
+
+    dc = new DateConverter('MM-dd-yyyy HH:mm:ss');
+    assert.equal(dc.valueToString(date), '03-15-2001 10:25:25');
+  });
+
+  it('should be ParseError', () => {
+    let dc = new DateConverter('MM/dd/yyyy');
 
     assert.throws(() => {
       assert.isNull(dc.stringToValue('aaaa'));
@@ -196,6 +248,66 @@ describe('DateConverter', () => {
     assert.throws(() => {
       assert.isNull(dc.stringToValue('11111'));
     }, ParseError, 'invalid parsed value [11111]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03-15-2001'));
+    }, ParseError, 'invalid parsed value [03-15-2001]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03-15-2001 10:25:25'));
+    }, ParseError, 'invalid parsed value [03-15-2001 10:25:25]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('15/03/2001'));
+    }, ParseError, 'invalid parsed value [15/03/2001]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('2001/15/03'));
+    }, ParseError, 'invalid parsed value [2001/15/03]');
+
+    dc = new DateConverter('dd/MM/yyyy');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('aaaa'));
+    }, ParseError, 'invalid parsed value [aaaa]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('11111'));
+    }, ParseError, 'invalid parsed value [11111]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('15-03-2001'));
+    }, ParseError, 'invalid parsed value [15-03-2001]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03-15-2001 10:25:25'));
+    }, ParseError, 'invalid parsed value [03-15-2001 10:25:25]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03/15/2001'));
+    }, ParseError, 'invalid parsed value [03/15/2001]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('2001/03/15'));
+    }, ParseError, 'invalid parsed value [2001/03/15]');
+
+    dc = new DateConverter('yyyy/MM/dd HH:mm:ss');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('2001/03/15'));
+    }, ParseError, 'invalid parsed value [2001/03/15]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03-15-2001 10:25:25'));
+    }, ParseError, 'invalid parsed value [03-15-2001 10:25:25]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('03/15/2001 10:25:25'));
+    }, ParseError, 'invalid parsed value [03/15/2001 10:25:25]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('2001/03/15'));
+    }, ParseError, 'invalid parsed value [2001/03/15]');
   });
 
   it('should not throw error if no `format` argument specified', () => {

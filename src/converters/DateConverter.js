@@ -1,6 +1,5 @@
 import Converter from './Converter';
 import ParseError from './ParseError';
-// import date from 'date-and-time';
 import date from '../external_modules/date-and-time';
 import toMomentFormatString from '../external_modules/jdateformatparser';
 
