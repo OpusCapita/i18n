@@ -248,10 +248,6 @@ converter.stringToValue('') // returns null
 | <img src="https://avatars3.githubusercontent.com/u/24650360?v=3" width="100px;"/> | [**Daniel Zhitomirsky**](https://github.com/dzhitomirsky-sc) |
 | <img src="https://avatars.githubusercontent.com/u/24603787?v=3" width="100px;"/> | [**Alexey Sergeev**](https://github.com/asergeev-sc)     |
 
-* Dmitry Divin dmirty.divin@jcatalog.com
-* Daniel Zhitomirsky daniel.zhitomirsky@jcatalog.com
-* Alexey Sergeev alexey.sergeev@jcatalog.com
-
 ## License
 
 **OpusCapita i18n** is licensed under the Apache License, Version 2.0. See [LICENSE](./LICENSE) for the full license text.
