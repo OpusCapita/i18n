@@ -1,4 +1,14 @@
 
+Release 1.2.2 Wed Apr 11 2018 09:55:13 GMT+0000 (UTC)
+=======================================================
+
+- Remove MomentJS usage (Issue [#13](https://github.com/OpusCapita/i18n/issues/13)) (PR [#14](https://github.com/OpusCapita/i18n/issues/14)) (GitHub kvolkovich-sc@users.noreply.github.com, 2018-04-11 12:52:59 +0300)
+- Add test (baliunov baliunov@scand.com, 2018-04-09 17:34:44 +0300)
+- Change .nycrc (baliunov baliunov@scand.com, 2018-04-09 17:24:23 +0300)
+- [#13](https://github.com/OpusCapita/i18n/issues/13) Change date-and-time.js (baliunov baliunov@scand.com, 2018-04-09 16:32:26 +0300)
+- [#13](https://github.com/OpusCapita/i18n/issues/13) Add tests for DateConverter.js (baliunov baliunov@scand.com, 2018-04-09 14:48:57 +0300)
+- [#13](https://github.com/OpusCapita/i18n/issues/13) Removing moment usage from the library (baliunov baliunov@scand.com, 2018-04-09 12:25:40 +0300)
+
 Release 1.2.1 Mon Mar 19 2018 05:35:53 GMT+0000 (UTC)
 =======================================================
 
