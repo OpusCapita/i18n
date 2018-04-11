@@ -147,11 +147,11 @@ if [ "$?" != 0 ]; then
   exit 1
 fi
 
+push
+
 creating_milestone
 
 creating_github_release
-
-push
 
 node_version ${SNAPSHOT_VERSION}
 echo -e "\n[INFO] ================================================================================================="
