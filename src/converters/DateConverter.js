@@ -1,24 +1,22 @@
 import Converter from './Converter';
-
 import ParseError from './ParseError';
-import moment from 'moment';
-
-import enhanceMomentWithJDateparser from '../external_modules/moment-jdateformatparser';
-enhanceMomentWithJDateparser(moment);
+import date from '../external_modules/date-and-time';
+import toMomentFormatString from '../external_modules/jdateformatparser';
 
 export const ERROR_CODE = 'error.parse.date';
 
 export default class DateConverter extends Converter {
   /**
    * Create Date converter
-   * @param  {String} [format='']   date format, documentation of supported format could be found here: https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
+   * @param  {String} [format='']   date format, documentation of supported format
+   *    could be found here: https://docs.oracle.com/javase/8/docs/api/java/text/SimpleDateFormat.html
    * @param  {[type]} [locale=null] locale, @deprecated
    * @return {[type]}               DateConverter constructor
    */
   constructor(format = '', locale = null) {
     super();
 
-    this.momentFormat = moment().toMomentFormatString(format);
+    this.momentFormat = toMomentFormatString(format);
 
     /* istanbul ignore next */
     if (locale) {
@@ -39,7 +37,7 @@ Please, use the following constructor signature: 'new DateConverter(format)'.
       return '';
     }
 
-    return moment(value).format(this.momentFormat);
+    return date.format(value, this.momentFormat);
   }
 
   stringToValue(string) {
@@ -47,11 +45,10 @@ Please, use the following constructor signature: 'new DateConverter(format)'.
       return null;
     }
 
-    const result = moment(string, this.momentFormat, true);
-    if (!result.isValid()) {
+    if (!date.isValid(string, this.momentFormat)) {
       throw new ParseError(ERROR_CODE, { value: string });
     }
 
-    return result.toDate();
+    return date.parse(string, this.momentFormat);
   }
 }
