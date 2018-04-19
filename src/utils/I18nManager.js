@@ -123,18 +123,24 @@ const createNumberConverter = (formattingInfo) => {
   )
 };
 
+/**
+ * Actual constructor
+ * @param {Function} overwriteLocaleMessages (locale {String}) => ({ key1: message1, key2: message2, ... })
+ */
 const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
-  localeFormattingInfo = {}
+  localeFormattingInfo = {},
+  overwriteLocaleMessages
 } = {}) {
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
+  this.overwriteLocaleMessages = overwriteLocaleMessages
 }
 
 /**
- * Reister locale bundles for the component
+ * Register locale bundles for the component
  * @param  {String} component     component name
  * @param  {[type]} localeBundles {'en': {'a.b.c': 'abc en message'}, 'de': {'a.b.c': 'abc de message'}}
  * @return {I18nManager}          i18n manager instance
@@ -226,11 +232,19 @@ class I18nManager {
    *  try to use plain object for all messages without nesting.
    */
   getMessage = (path, args = {}) => {
-    const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
+    let message;
 
-    let message = undefined;
-    for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
-      message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+    if (typeof this.overwriteLocaleMessages === 'function') {
+      const overwriteBundle = this.overwriteLocaleMessages(this.locale);
+      message = lodash.get(overwriteBundle || {}, path);
+    }
+
+    if (message === undefined) {
+      const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
+
+      for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
+        message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+      }
     }
 
     if (message === undefined) {

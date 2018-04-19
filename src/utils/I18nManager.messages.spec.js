@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import I18nManager from './I18nManager';
 
-const createDefaulti18nManager = _ => {
-  return new I18nManager({ locale: 'en-US' }).
+const createDefaulti18nManager = ({ overwriteLocaleMessages } = {}) => {
+  return new I18nManager({ locale: 'en-US', overwriteLocaleMessages }).
     register(
       'first component',
     {
@@ -162,5 +162,40 @@ describe('I18nManager: messages', () => {
     assert.equal('My message with first and last.', i18n.getMessage('mymessage', ['first', 'last']));
     assert.equal('My message with first and {1}.', i18n.getMessage('mymessage', ['first']));
     assert.equal('My message with {0} and {1}.', i18n.getMessage('mymessage'));
+  });
+
+  describe('with overwriteLocaleMessages function', () => {
+    const newBundle = {
+      test: 'overWritten test',
+      component: {
+        test: 'overWritten test component'
+      },
+      'component.format': 'more than {min} and less than {max}'
+    };
+    const i18n = createDefaulti18nManager({
+      overwriteLocaleMessages: (locale) => newBundle
+    });
+
+    it('should return registered value if it is not present in outer bundle', () => {
+      assert.equal('nested', i18n.getMessage('component.subcomponent.label'));
+      assert.equal('nested hint', i18n.getMessage('subcomponent.hint'));
+
+      const i18n2 = createDefaulti18nManager({
+        overwriteLocaleMessages: () => {} // in case function doesn't return an object
+      });
+      assert.equal('nested', i18n2.getMessage('component.subcomponent.label'));
+    });
+
+    it('should return overwritten value if it is present in outer bundle', () => {
+      assert.equal(newBundle.test, i18n.getMessage('test'));
+    });
+
+    it('should return overwritten nested value if it is present in outer bundle', () => {
+      assert.equal(newBundle.component.test, i18n.getMessage('component.test'));
+    });
+
+    it('should return dot-delimited value and insert args if it is present in outer bundle', () => {
+      assert.equal('more than -2 and less than 5', i18n.getMessage('component.format', { min: -2, max: 5 }));
+    });
   });
 });
