@@ -131,11 +131,15 @@ const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
   localeFormattingInfo = {},
-  overwriteLocaleMessages
+  overwriteLocaleMessages = (function() { return {}; })
 } = {}) {
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
+
+  if (typeof overwriteLocaleMessages !== 'function') {
+    throw new Error(`I18nManager constructor: 'overwriteLocaleMessages' must be a function.`)
+  }
   this.overwriteLocaleMessages = overwriteLocaleMessages
 }
 
@@ -205,6 +209,9 @@ class I18nManager {
       _actualConstructor.apply(this, arguments);
     } else {
       _obsoleteConstructor.apply(this, arguments);
+      // for consistency with https://github.com/OpusCapita/i18n/issues/16
+      // otherwise tests with old constructor break
+      this.overwriteLocaleMessages = function() { return {}; };
     }
   }
 
@@ -232,12 +239,7 @@ class I18nManager {
    *  try to use plain object for all messages without nesting.
    */
   getMessage = (path, args = {}) => {
-    let message;
-
-    if (typeof this.overwriteLocaleMessages === 'function') {
-      const overwriteBundle = this.overwriteLocaleMessages(this.locale);
-      message = lodash.get(overwriteBundle || {}, path);
-    }
+    let message = lodash.get(this.overwriteLocaleMessages(this.locale), path);
 
     if (message === undefined) {
       const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);

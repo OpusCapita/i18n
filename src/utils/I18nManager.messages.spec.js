@@ -165,6 +165,26 @@ describe('I18nManager: messages', () => {
   });
 
   describe('with overwriteLocaleMessages function', () => {
+    it('should have a default overwriteLocaleMessages function', () => {
+      const i18n = createDefaulti18nManager();
+      assert.ok(typeof i18n.overwriteLocaleMessages === 'function');
+    });
+
+    it('should throw if overwriteLocaleMessages is defined and is not a function', () => {
+      try {
+        createDefaulti18nManager({
+          overwriteLocaleMessages: []
+        });
+        assert.fail(`Constructor didn't throw an Error`);
+      } catch (err) {
+        if (err instanceof Error) {
+          assert(true)
+        } else {
+          assert.fail(`Constructor throwed not an Error`);
+        }
+      }
+    });
+
     const newBundle = {
       test: 'overWritten test',
       component: {
