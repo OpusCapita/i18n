@@ -108,6 +108,12 @@ const date = {
         result = (str.match(exp[i]) || [''])[0];
         dt[p] = (p === 'S' ? (result + '000').slice(0, -token.length) : result) | 0;
         length = result.length;
+        // without the next `if` parser given format DD/MM/YYYY successfully parses 05/05/4 into 05/05/1904
+        // here we require a value to be the same length as the token
+        // see https://github.com/OpusCapita/i18n/issues/19
+        if (token.length > length) {
+          return NaN
+        }
       } else if (p !== ' ' && p !== str[0]) {
         return NaN;
       }
