@@ -308,6 +308,10 @@ describe('DateConverter', () => {
     assert.throws(() => {
       assert.isNull(dc.stringToValue('2001/03/15'));
     }, ParseError, 'invalid parsed value [2001/03/15]');
+
+    assert.throws(() => {
+      assert.isNull(dc.stringToValue('05/05/12'));
+    }, ParseError, 'invalid parsed value [05/05/12]');
   });
 
   it('should not throw error if no `format` argument specified', () => {
