@@ -1,4 +1,12 @@
 
+Release 1.2.5 Fri Jun 01 2018 09:52:47 GMT+0300 (MSK)
+=======================================================
+
+- Merge pull request [#20](https://github.com/OpusCapita/i18n/issues/20) from OpusCapita/issue-19-date-converter (GitHub 31243790+estambakio-sc@users.noreply.github.com, 2018-06-01 09:45:57 +0300)
+- Added stricter rule to date-and-time parser [#19](https://github.com/OpusCapita/i18n/issues/19) (Egor Stambakio stambakio@scand.com, 2018-06-01 09:31:11 +0300)
+- Adding an issue template file [ci skip] (Egor Stambakio egor.stambakio@opuscapita.com, 2018-05-02 12:21:16 +0300)
+- Update  README.md [skip ci] (GitHub asergeev-sc@users.noreply.github.com, 2018-04-11 21:54:31 +0300)
+
 Release 1.2.4 Wed Apr 11 2018 10:06:15 GMT+0000 (UTC)
 =======================================================
 
