@@ -7,7 +7,6 @@
  * @preserve date-and-time.js (c) KNOWLEDGECODE | MIT
  */
 const date = {
-  A: ['a.m.', 'p.m.'],
   formatter: {
     YYYY: d => ('000' + d.getFullYear()).slice(-4),
     YY: d => ('0' + d.getFullYear()).slice(-2),
@@ -18,7 +17,8 @@ const date = {
     D: d => '' + d.getDate(),
     HH: d => ('0' + d.getHours()).slice(-2),
     H: d => '' + d.getHours(),
-    A: d => this.A[d.getHours() > 11 | 0],
+    A: d => ['AM', 'PM'][d.getHours() > 11 | 0],
+    a: d => ['am', 'pm'][d.getHours() > 11 | 0],
     hh: d => ('0' + (d.getHours() % 12 || 12)).slice(-2),
     h: d => '' + (d.getHours() % 12 || 12),
     mm: d => ('0' + d.getMinutes()).slice(-2),

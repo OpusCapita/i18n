@@ -59,6 +59,36 @@ describe('I18nManager: converters', () => {
     assert.equal('10/01/2001 00:00:00', dateTimeAsString);
   });
 
+  it('should format and parse date and time with AM', () => {
+    const localeFormattingInfo = {
+      en: {
+        dateTimePattern: 'dd/MM/yyyy HH:mm:ss A'
+      }
+    };
+    const i18n = new I18nManager({
+      locale: 'en',
+      localeFormattingInfo
+    })
+    const date = new Date('December 17, 2005 09:24:00');
+    const dateTimeAsString = i18n.formatDateTime(date);
+    assert.equal('17/12/2005 09:24:00 AM', dateTimeAsString);
+  });
+
+  it('should format and parse date and time with pm', () => {
+    const localeFormattingInfo = {
+      en: {
+        dateTimePattern: "MM/dd/yyyy h:mm:ss a"
+      }
+    };
+    const i18n = new I18nManager({
+      locale: 'en',
+      localeFormattingInfo
+    })
+    const date = new Date('December 17, 2005 19:24:00');
+    const dateTimeAsString = i18n.formatDateTime(date);
+    assert.equal('12/17/2005 7:24:00 pm', dateTimeAsString);
+  });
+
   it('should format and parse numbers', () => {
     assert.equal('10,000', i18n.formatNumber(10000));
     assert.equal(10000, i18n.parseNumber('10,000'));
