@@ -1,4 +1,10 @@
 
+[Release 1.2.6](https://github.com/OpusCapita/i18n/releases/tag/v1.2.6) Mon Jun 11 2018 09:43:08 GMT+0300 (MSK)
+=======================================================
+
+- Merge pull request [#22](https://github.com/OpusCapita/i18n/issues/22) from OpusCapita/issue-21 (GitHub 31243790+estambakio-sc@users.noreply.github.com, 2018-06-11 09:39:59 +0300)
+- Fixed support for am/pm AM/PM [#21](https://github.com/OpusCapita/i18n/issues/21) (Egor Stambakio stambakio@scand.com, 2018-06-11 09:11:27 +0300)
+
 Release 1.2.5 Fri Jun 01 2018 09:52:47 GMT+0300 (MSK)
 =======================================================
 
