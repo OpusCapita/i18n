@@ -1,6 +1,6 @@
 {
   "name": "@opuscapita/i18n",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "OpusCapita simple i18n mechanism",
   "main": "lib/index.js",
   "files": [
