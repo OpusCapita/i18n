@@ -1,4 +1,11 @@
 
+[Release 1.2.7](https://github.com/OpusCapita/i18n/releases/tag/v1.2.7) Tue Oct 30 2018 14:12:00 GMT+0300 (MSK)
+=======================================================
+
+- Updated loadash from 4.17.2 to 4.17.5 (Issue [#23](https://github.com/OpusCapita/i18n/issues/23), PR [#24](https://github.com/OpusCapita/i18n/issues/24)) (GitHub kvolkovich-sc@users.noreply.github.com, 2018-10-30 13:56:25 +0300)
+- Updated loadash from 4.17.2 to 4.17.5 (Alexander Pyrkh apyrkh@scand.com, 2018-10-30 10:46:58 +0300)
+- Using docker image opuscapita/minsk-core-ci tag grails-2.4.4-jdk-8u131-nodejs-6.9.4-maven-3.3.9 [ci skip] (Alexey Sergeev alexey.sergeev@opuscapita.com, 2018-09-07 09:08:10 +0300)
+
 [Release 1.2.6](https://github.com/OpusCapita/i18n/releases/tag/v1.2.6) Mon Jun 11 2018 09:43:08 GMT+0300 (MSK)
 =======================================================
 
