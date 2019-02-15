@@ -1,4 +1,9 @@
 
+[Release 1.2.8](https://github.com/OpusCapita/i18n/releases/tag/v1.2.8) Fri Feb 15 2019 14:24:48 GMT+0300 (MSK)
+=======================================================
+
+- Upgrade lodash version (security fix) (GitHub kvolkovich-sc@users.noreply.github.com, 2019-02-15 14:07:55 +0300)
+
 [Release 1.2.7](https://github.com/OpusCapita/i18n/releases/tag/v1.2.7) Tue Oct 30 2018 14:12:00 GMT+0300 (MSK)
 =======================================================
 
