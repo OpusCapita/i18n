@@ -123,18 +123,28 @@ const createNumberConverter = (formattingInfo) => {
   )
 };
 
+/**
+ * Actual constructor
+ * @param {Function} overwriteLocaleMessages (locale {String}) => ({ key1: message1, key2: message2, ... })
+ */
 const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
-  localeFormattingInfo = {}
+  localeFormattingInfo = {},
+  overwriteLocaleMessages = (function() { return {}; })
 } = {}) {
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
+
+  if (typeof overwriteLocaleMessages !== 'function') {
+    throw new Error(`I18nManager constructor: 'overwriteLocaleMessages' must be a function.`)
+  }
+  this.overwriteLocaleMessages = overwriteLocaleMessages
 }
 
 /**
- * Reister locale bundles for the component
+ * Register locale bundles for the component
  * @param  {String} component     component name
  * @param  {[type]} localeBundles {'en': {'a.b.c': 'abc en message'}, 'de': {'a.b.c': 'abc de message'}}
  * @return {I18nManager}          i18n manager instance
@@ -199,6 +209,9 @@ class I18nManager {
       _actualConstructor.apply(this, arguments);
     } else {
       _obsoleteConstructor.apply(this, arguments);
+      // for consistency with https://github.com/OpusCapita/i18n/issues/16
+      // otherwise tests with old constructor break
+      this.overwriteLocaleMessages = function() { return {}; };
     }
   }
 
@@ -226,11 +239,14 @@ class I18nManager {
    *  try to use plain object for all messages without nesting.
    */
   getMessage = (path, args = {}) => {
-    const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
+    let message = lodash.get(this.overwriteLocaleMessages(this.locale), path);
 
-    let message = undefined;
-    for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
-      message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+    if (message === undefined) {
+      const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
+
+      for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
+        message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+      }
     }
 
     if (message === undefined) {
