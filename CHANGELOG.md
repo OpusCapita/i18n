@@ -1,4 +1,9 @@
 
+[Release 1.2.9](https://github.com/OpusCapita/i18n/releases/tag/v1.2.9) Mon Aug 26 2019 10:49:40 GMT+0300 (MSK)
+=======================================================
+
+- Fixing Am/pm marker with compatible a Java format (Dmitry Divin divin@scand.com, 2019-08-26 10:45:11 +0300)
+
 [Release 1.2.8](https://github.com/OpusCapita/i18n/releases/tag/v1.2.8) Fri Feb 15 2019 14:24:48 GMT+0300 (MSK)
 =======================================================
 
