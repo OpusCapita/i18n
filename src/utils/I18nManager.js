@@ -18,7 +18,7 @@ const _obsoleteConstructor = function(
   locale = 'en',
   localeBundles = null,
   localeFormattingInfo = {},
-  fallbackLocale = 'en') {
+  fallbackLocale = 'en', overriddenTranslations = {}) {
   if (console) {
     console.log(`
 WARNING:
@@ -38,6 +38,7 @@ for locale bundle registration use 'register' method
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
+  this.overriddenTranslations = overriddenTranslations;
 
   this.register('default', localeBundles);
 };
@@ -126,11 +127,13 @@ const createNumberConverter = (formattingInfo) => {
 const _actualConstructor = function({
   locale = 'en',
   fallbackLocale = 'en',
-  localeFormattingInfo = {}
+  localeFormattingInfo = {},
+  overriddenTranslations = {},
 } = {}) {
   this.locale = locale;
   this.fallbackLocale = fallbackLocale;
   this.localeFormattingInfo = localeFormattingInfo;
+  this.overriddenTranslations = overriddenTranslations;
 }
 
 /**
@@ -228,9 +231,11 @@ class I18nManager {
   getMessage = (path, args = {}) => {
     const locales = generateFallbackLocaleList(this.locale, this.fallbackLocale);
 
-    let message = undefined;
-    for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
-      message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+    let message = lodash.get(this.overriddenTranslations, path);
+    if (message === undefined) {
+      for (let localeIndex = 0; localeIndex < locales.length && message === undefined; localeIndex++) {
+        message = lodash.get(this.localeBundles[locales[localeIndex]], path);
+      }
     }
 
     if (message === undefined) {

@@ -35,22 +35,26 @@ describe('I18nManager: messages', () => {
     const locale = 'de-DE';
     const fallbackLocale = 'es-ES';
     const localeFormattingInfo = {};
-    const i18n = new I18nManager(locale, null, localeFormattingInfo, fallbackLocale);
+    const overriddenTranslations = {};
+    const i18n = new I18nManager(locale, null, localeFormattingInfo, fallbackLocale, overriddenTranslations);
     // check i18n internals
     assert.equal(i18n.locale, locale);
     assert.equal(i18n.fallbackLocale, fallbackLocale);
     assert.equal(i18n.localeFormattingInfo, localeFormattingInfo);
+    assert.equal(i18n.overriddenTranslations, overriddenTranslations);
   });
 
   it('should create i18n manager correctly using "actual" constructor', () => {
     const locale = 'de-DE';
     const fallbackLocale = 'es-ES';
     const localeFormattingInfo = {};
-    const i18n = new I18nManager({ locale, fallbackLocale, localeFormattingInfo });
+    const overriddenTranslations = {};
+    const i18n = new I18nManager({ locale, fallbackLocale, localeFormattingInfo, overriddenTranslations });
     // check i18n internals
     assert.equal(i18n.locale, locale);
     assert.equal(i18n.fallbackLocale, fallbackLocale);
     assert.equal(i18n.localeFormattingInfo, localeFormattingInfo);
+    assert.equal(i18n.overriddenTranslations, overriddenTranslations);
   });
 
   // eslint-disable-next-line max-len
@@ -162,5 +166,26 @@ describe('I18nManager: messages', () => {
     assert.equal('My message with first and last.', i18n.getMessage('mymessage', ['first', 'last']));
     assert.equal('My message with first and {1}.', i18n.getMessage('mymessage', ['first']));
     assert.equal('My message with {0} and {1}.', i18n.getMessage('mymessage'));
+  });
+
+  it('should override message with custom translations', () => {
+    const overriddenTranslations = {
+      'test.a': 'a',
+      test: {
+        b: 'b {0}'
+      }
+    };
+    const i18n = new I18nManager({overriddenTranslations});
+    i18n.register('messages', {
+      en: {
+        'test.a': 'en a',
+        'test.b': 'en b {0}',
+        'test.c': 'en c'
+      }
+    });
+
+    assert.equal('a', i18n.getMessage('test.a'));
+    assert.equal('b arg0', i18n.getMessage('test.b', ['arg0']));
+    assert.equal('en c', i18n.getMessage('test.c'));
   });
 });
