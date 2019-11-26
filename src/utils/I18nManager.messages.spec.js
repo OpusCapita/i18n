@@ -175,7 +175,7 @@ describe('I18nManager: messages', () => {
         b: 'b {0}'
       }
     };
-    const i18n = new I18nManager({overriddenTranslations});
+    const i18n = new I18nManager({ overriddenTranslations });
     i18n.register('messages', {
       en: {
         'test.a': 'en a',
