@@ -56,7 +56,8 @@ const localeFormattingInfo = {
 let i18n = new I18nManager({
   locale: 'de-DE',         // current locale, by default 'en'
   fallbackLocale: 'en', // fallback locale, by default 'en'
-  localeFormattingInfo  // by default formatting information is set up for 'en' with values that you see in this sample
+  localeFormattingInfo,  // by default formatting information is set up for 'en' with values that you see in this sample
+  overriddenTranslations, //key-value object of overridden translations
 })                      
 ```
 
@@ -77,6 +78,9 @@ let i18n = new I18nManager(
   }],
   localeFormattingInfo,               // by default formatting information is set up for 'en' with values that you see in this sample
   'en'                                // fallback locale
+  {
+    'test': 'overridden translations'
+  }                                   //object of overriden translations
 );
 ```
 

@@ -1,4 +1,10 @@
 
+[Release 1.2.10.beta.1](https://github.com/OpusCapita/i18n/releases/tag/v1.2.10.beta.1) Tue Nov 26 2019 10:06:41 GMT+0300 (MSK)
+=======================================================
+
+- Fixing lint (Dmitry Divin divin@scand.com, 2019-11-26 09:55:46 +0300)
+- ([#28](https://github.com/OpusCapita/i18n/issues/28)) Adding override custom translations (Dmitry Divin divin@scand.com, 2019-11-26 09:50:00 +0300)
+
 [Release 1.2.9](https://github.com/OpusCapita/i18n/releases/tag/v1.2.9) Mon Aug 26 2019 10:49:40 GMT+0300 (MSK)
 =======================================================
 
