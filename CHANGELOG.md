@@ -1,4 +1,9 @@
 
+[Release 1.2.10](https://github.com/OpusCapita/i18n/releases/tag/v1.2.10) Wed Nov 27 2019 10:40:47 GMT+0300 (MSK)
+=======================================================
+
+- ([#28](https://github.com/OpusCapita/i18n/issues/28)) Supporting override custom translations (Dmitry Divin divin@scand.com, 2019-11-27 10:38:31 +0300)
+
 [Release 1.2.10.beta.1](https://github.com/OpusCapita/i18n/releases/tag/v1.2.10.beta.1) Tue Nov 26 2019 10:06:41 GMT+0300 (MSK)
 =======================================================
 
