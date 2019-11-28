@@ -245,6 +245,30 @@ stnc.valueToString(null) // returns ''
 converter.stringToValue('') // returns null
 ```
 
+## Migrate i18n-js to properties CLI
+
+You can use i18n-js2properties CLI in your build process when package Grails plugins.
+The properties need to provide property keys and values for text localization service editor.
+
+for example:
+```
+i18n-js2properties --source src/client/components/i18n --target ../plugin/grails-app/i18n/boilerplateEditor
+```
+
+If you want following translations in JavaScript frontend style
+```
+src/client/components/i18n/index.js
+src/client/components/i18n/en.js
+src/client/components/i18n/de.js
+```
+
+After that CLI will be generate following properties files
+```
+../plugin/grails-app/i18n/boilerplateEditor.properties
+../plugin/grails-app/i18n/boilerplateEditor_en.properties
+../plugin/grails-app/i18n/boilerplateEditor_de.properties
+```
+
 ## Contributors
 
 | <img src="https://avatars.githubusercontent.com/u/24733803?v=3" width="100px;"/> | [**Dmitry Divin**](https://github.com/ddivin-sc)     |

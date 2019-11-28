@@ -4,7 +4,8 @@
   "description": "OpusCapita simple i18n mechanism",
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "bin"
   ],
   "scripts": {
     "lint": "eslint src",
@@ -14,6 +15,9 @@
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --plugins lodash --ignore *.spec.js src --out-dir lib",
     "npm-publish": "npm run npm-build && npm publish",
     "publish-release": "npm run npm-publish"
+  },
+  "bin": {
+    "i18n-js2properties": "bin/i18n-js2properties.js"
   },
   "homepage": "https://github.com/OpusCapita/i18n.git",
   "contributors": [
@@ -29,7 +33,9 @@
   "license": "Apache-2.0",
   "dependencies": {
     "flat": "2.0.1",
-    "lodash": "4.17.11"
+    "lodash": "4.17.11",
+    "properties": "1.2.1",
+    "yargs": "15.0.2"
   },
   "devDependencies": {
     "@opuscapita/npm-scripts": "2.0.0-beta.2",
@@ -49,6 +55,7 @@
     "eslint-plugin-react": "7.1.0",
     "mocha": "3.4.2",
     "mocha-junit-reporter": "1.13.0",
+    "mock-fs": "4.10.4",
     "nyc": "11.0.3",
     "rimraf": "2.6.1"
   }
