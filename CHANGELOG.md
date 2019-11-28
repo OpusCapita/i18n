@@ -1,4 +1,9 @@
 
+[Release 1.2.11](https://github.com/OpusCapita/i18n/releases/tag/v1.2.11) Thu Nov 28 2019 16:44:04 GMT+0300 (MSK)
+=======================================================
+
+- ([#29](https://github.com/OpusCapita/i18n/issues/29)) Implementing i18n-js2properties CLI for migrate translations (Dmitry Divin divin@scand.com, 2019-11-28 16:40:53 +0300)
+
 [Release 1.2.10](https://github.com/OpusCapita/i18n/releases/tag/v1.2.10) Wed Nov 27 2019 10:40:47 GMT+0300 (MSK)
 =======================================================
 
