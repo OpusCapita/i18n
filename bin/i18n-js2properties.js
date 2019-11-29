@@ -78,16 +78,11 @@ if (!sourceObject[defaultLanguage]) {
       const language = languages[i];
       const objectTranslationTexts = sourceObject[language];
       const translationTexts = flattenTranslationTexts(objectTranslationTexts);
-      const propertiesText = properties.stringify(translationTexts, {
-        // unicode: true,
-        replacer(key, value) {
-          return value ? unicodeEscape(value) : value;
-        }
-      });
+      const propertiesText = properties.stringify(translationTexts);
       const filePath = path.join(targetPath, `${bundleName}_${language}.properties`);
 
       console.log(`Writing target file [${filePath}]`);
-      fs.writeFileSync(filePath, propertiesText);
+      fs.writeFileSync(filePath, unicodeEscape(propertiesText));
     }
 
     const fromFilePath = path.join(targetPath, `${bundleName}_en.properties`);
