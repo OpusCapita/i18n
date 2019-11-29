@@ -23,6 +23,23 @@ if (sourceObject.default) {
 
 const defaultLanguage = "en";
 
+function padWithLeadingZeros(string) {
+  return new Array(5 - string.length).join("0") + string;
+}
+
+function unicodeCharEscape(charCode) {
+  return "\\u" + padWithLeadingZeros(charCode.toString(16));
+}
+
+function unicodeEscape(string) {
+  return string.split("")
+    .map(function (char) {
+      var charCode = char.charCodeAt(0);
+      return charCode > 127 ? unicodeCharEscape(charCode) : char;
+    })
+    .join("");
+}
+
 if (!sourceObject[defaultLanguage]) {
   console.error(`Default language [${defaultLanguage}] should be defined in translations [${source}]`);
 } else {
@@ -63,6 +80,9 @@ if (!sourceObject[defaultLanguage]) {
       const translationTexts = flattenTranslationTexts(objectTranslationTexts);
       const propertiesText = properties.stringify(translationTexts, {
         // unicode: true,
+        replacer(key, value) {
+          return value ? unicodeEscape(value) : value;
+        }
       });
       const filePath = path.join(targetPath, `${bundleName}_${language}.properties`);
 

@@ -67,7 +67,7 @@ const header = {
 
 const form = {
   "a.b": "de test a b",
-  "a.b.c": "de test a b c"
+  "a.b.c": "de test a b c ü"
 };
 
 export default { messages: {header, form} }
@@ -107,7 +107,7 @@ export default { messages: {header, form} }
       {
         "messages.header.title": "de test title",
         "messages.form.a.b": "de test a b",
-        "messages.form.a.b.c": "de test a b c"
+        "messages.form.a.b.c": "de test a b c \\u00fc"
       }
     );
 
