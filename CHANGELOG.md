@@ -1,4 +1,9 @@
 
+[Release 1.2.12](https://github.com/OpusCapita/i18n/releases/tag/v1.2.12) Fri Nov 29 2019 14:11:38 GMT+0300 (MSK)
+=======================================================
+
+- ([#31](https://github.com/OpusCapita/i18n/issues/31)) Fixing escaping German umlauts with ASCII format (Dmitry Divin divin@scand.com, 2019-11-29 14:09:33 +0300)
+
 [Release 1.2.11](https://github.com/OpusCapita/i18n/releases/tag/v1.2.11) Thu Nov 28 2019 16:44:04 GMT+0300 (MSK)
 =======================================================
 
