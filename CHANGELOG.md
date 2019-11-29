@@ -1,4 +1,10 @@
 
+[Release 1.2.13](https://github.com/OpusCapita/i18n/releases/tag/v1.2.13) Fri Nov 29 2019 14:28:24 GMT+0300 (MSK)
+=======================================================
+
+- Merge branch 'master' of ssh://github.com/OpusCapita/i18n [skip ci] (Dmitry Divin divin@scand.com, 2019-11-29 14:27:24 +0300)
+- Fixing escapting [skip ci] (Dmitry Divin divin@scand.com, 2019-11-29 14:27:01 +0300)
+
 [Release 1.2.12](https://github.com/OpusCapita/i18n/releases/tag/v1.2.12) Fri Nov 29 2019 14:11:38 GMT+0300 (MSK)
 =======================================================
 
