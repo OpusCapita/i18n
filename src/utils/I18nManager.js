@@ -279,7 +279,11 @@ class I18nManager {
   };
 
   formatDecimalNumber = (number) => {
-    return createDecimalNumberConverter(this._findFormattingInfo()).valueToString(number);
+    const numberConverter = createDecimalNumberConverter(this._findFormattingInfo());
+    if ((typeof number) === 'string') {
+      numberConverter.stringToValue(number);
+    }
+    return numberConverter.valueToString(number);
   };
 
   formatDecimalNumberWithPattern = (number, numberPattern) => {
@@ -287,7 +291,11 @@ class I18nManager {
   };
 
   formatNumber = (number) => {
-    return createNumberConverter(this._findFormattingInfo()).valueToString(number);
+    const numberConverter = createNumberConverter(this._findFormattingInfo());
+    if ((typeof number) === 'string') {
+      numberConverter.stringToValue(number);
+    }
+    return numberConverter.valueToString(number);
   };
 
   parseDate = (string) => {
