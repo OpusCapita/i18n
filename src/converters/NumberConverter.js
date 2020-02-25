@@ -131,7 +131,8 @@ export default class NumberConverter extends Converter {
     return result;
   }
 
-  valueToString(number) {
+  valueToString(inputNumber) {
+    let number = inputNumber;
     // null -> null is returned
     if (number === null) {
       return null;
