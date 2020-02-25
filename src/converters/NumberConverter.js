@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import Converter from './Converter';
 import ParseError from './ParseError';
 import AccuracyError from './AccuracyError';
@@ -24,6 +25,14 @@ export default class NumberConverter extends Converter {
       this._integerFormat = format;
       this._decimalFormat = '';
     }
+
+    const roundingRegex = new RegExp('\.0+$');
+    const decimalsAmount = format.match(roundingRegex);
+    this._decimalsAmount = ((decimalsAmount && decimalsAmount[0]) ? (decimalsAmount[0].length - 1) : 2);
+  }
+
+  round(number) {
+    return (new Big(number)).round(this._decimalsAmount).toString();
   }
 
   _validateStringIfItIsANumber(value) {
@@ -53,7 +62,7 @@ export default class NumberConverter extends Converter {
       return '';
     }
 
-    const fractionalPartString = number.toString().split('.')[1] || '';
+    const fractionalPartString = number.split('.')[1] || '';
 
     let result = '';
     for (let i = 0; i < this._decimalFormat.length; i++) {
@@ -79,24 +88,15 @@ export default class NumberConverter extends Converter {
   }
 
   _parseIntegerPart(number) {
-    let integerNumber = number;
-    // if there is not decimal separator in the format, then we round the value
-    // like if it done in DecimalFormat, see https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html
-    if (this._format.indexOf('.') === -1) {
-      integerNumber = Math.round(integerNumber);
-    }
-
-    // cut fractional part
-    integerNumber = integerNumber > 0 ? Math.floor(integerNumber) : Math.ceil(integerNumber);
-
+    let integerNumber = (number.split('.')[0] || '0');
     if (this._integerFormat.charAt(this._integerFormat.length - 1) === '#' && integerNumber === 0) {
-      return 0;
+      return '0';
     }
 
     let result = '';
 
-    // convert number ot a string and cut - sign if any
-    const integerPartWithoutSign = Math.abs(integerNumber).toString();
+    // convert number to a string and cut - sign if any
+    const integerPartWithoutSign = ((integerNumber[0] === '-') ? integerNumber.substr(1) : integerNumber);
 
     // find how many digits are in the group
     let groupLength = 9999;
@@ -137,20 +137,22 @@ export default class NumberConverter extends Converter {
       return null;
     }
 
-    // throw TypeError if value is not a number
-    if (typeof number !== 'number') {
-      throw TypeError(`'${number}' is not a Number!`);
+    if ((typeof number) === 'string') {
+      number = number.split(this._groupSep).join('').replace(this._decSep, '.');
+    } else {
+      number = number.toString();
     }
+    number = this.round(number);
 
     // validate integer number
-    const isInteger = number.toString().indexOf('.') === -1;
+    const isInteger = number.indexOf('.') === -1;
     if (isInteger) {
       if (Math.abs(number) > MAX_SAFE_INTEGER) {
         throw new AccuracyError(ERROR_CODE, { value: number });
       }
     }
 
-    // parse integrer and fractional part separately
+    // parse integer and fractional part separately
     const integerPartString = this._parseIntegerPart(number);
     const fractionalPartString = this._parseFractionalPart(number);
 
@@ -161,7 +163,7 @@ export default class NumberConverter extends Converter {
     }
     // setup negative sign
     let minusSign = '';
-    if (number < 0) {
+    if (number[0] === '-') {
       minusSign = '-';
     }
 
