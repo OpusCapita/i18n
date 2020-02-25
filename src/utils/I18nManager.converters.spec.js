@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import I18nManager from './I18nManager';
 import { DEFAULT_FORMAT_INFO } from './constants';
+import ParseError from './../converters/ParseError';
 
 describe('I18nManager: converters', () => {
   let i18n;
@@ -86,6 +87,9 @@ describe('I18nManager: converters', () => {
 
     assert.strictEqual(i18n.formatDecimalNumber(123456789.12), '123,456,789.12');
     assert.strictEqual(i18n.formatDecimalNumber(55454545.12), '55,454,545.12');
+
+    assert.throws(() => i18n.formatNumber('1 234 506'), ParseError);
+    assert.throws(() => i18n.formatDecimalNumber('1 234,06'), ParseError);
   });
 
   it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (1)', () => {
