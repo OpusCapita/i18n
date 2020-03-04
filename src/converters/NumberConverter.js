@@ -1,4 +1,4 @@
-import Big from 'big.js';
+import {roundAsString} from 'js-round';
 import Converter from './Converter';
 import ParseError from './ParseError';
 import AccuracyError from './AccuracyError';
@@ -21,19 +21,61 @@ export default class NumberConverter extends Converter {
     if (format.lastIndexOf('.') !== -1) {
       this._integerFormat = format.substring(0, format.indexOf('.'));
       this._decimalFormat = format.substring(format.indexOf('.') + 1);
+      this._decimalsAmount = this._decimalFormat.length;
     } else {
       this._integerFormat = format;
       this._decimalFormat = '';
+      this._decimalsAmount = 0;
+    }
+  }
+
+  refreshDecimals(number) {
+    let resultNumber = number;
+    if (this._decimalFormat && this._decimalFormat.indexOf('#') >= 0) {
+      let minDecimals = 0;
+      for (let i = 0; i < this._decimalFormat.length; i++) {
+        if (this._decimalFormat[i] === '0') {
+          minDecimals = minDecimals + 1;
+        }
+      }
+
+      if (minDecimals && resultNumber.indexOf('.') < 0) {
+        resultNumber = resultNumber + '.';
+        for (let i = 0; i < minDecimals; i++) {
+          resultNumber = resultNumber + '0';
+        }
+      }
+
+      if (resultNumber.indexOf('.') >= 0) {
+        let lastIndexOfDecimalZero = 0;
+        let availableValuesToReset = resultNumber.substr(resultNumber.indexOf('.') + 1).length - minDecimals;
+        let finish = false;
+        for (let i = (resultNumber.length - 1); (availableValuesToReset && !finish && (i >= 0)); i--) {
+          if ((resultNumber[i] !== '.') && (resultNumber[i] === '0')) {
+            lastIndexOfDecimalZero = i;
+            availableValuesToReset = availableValuesToReset - 1;
+          } else {
+            finish = true;
+          }
+        }
+        if (lastIndexOfDecimalZero) {
+          resultNumber = resultNumber.substr(0, lastIndexOfDecimalZero);
+        }
+      }
+
+      if (resultNumber[resultNumber.length - 1] === '.') {
+        resultNumber = resultNumber.substr(0, resultNumber.length - 1);
+      }
     }
 
-    const roundingRegex = new RegExp('\.0+$');
-    const decimalsAmount = format.match(roundingRegex);
-    this._decimalsAmount = ((decimalsAmount && decimalsAmount[0]) ? (decimalsAmount[0].length - 1) : 2);
+    return resultNumber;
   }
 
   round(number) {
-    return (new Big(number)).round(this._decimalsAmount).toString();
-  }
+    const roundedNumber = roundAsString(number, this._decimalsAmount);
+    return this.refreshDecimals(roundedNumber);
+  };
+
 
   _validateStringIfItIsANumber(value) {
     let stringValue = value;
@@ -145,9 +187,8 @@ export default class NumberConverter extends Converter {
     }
     number = this.round(number);
 
-    // validate integer number
-    const isInteger = number.indexOf('.') === -1;
-    if (isInteger) {
+    if (!this._decimalFormat) {
+      // validate integer number
       if (Math.abs(number) > MAX_SAFE_INTEGER) {
         throw new AccuracyError(ERROR_CODE, { value: number });
       }

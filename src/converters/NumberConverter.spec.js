@@ -9,6 +9,12 @@ describe('NumberConverter', () => {
     // formating decimal values
     let dc = new NumberConverter('#,##0.00', ',', '.');
 
+    assert.strictEqual(dc.valueToString('99999999999999999.99'), '99,999,999,999,999,999.99');
+    assert.strictEqual(dc.valueToString('9999999999999.99'), '9,999,999,999,999.99');
+    assert.strictEqual(dc.valueToString(9999999999999.99), '9,999,999,999,999.99');
+    assert.strictEqual(dc.valueToString('21321312312312344'), '21,321,312,312,312,344.00');
+    assert.strictEqual(dc.valueToString(21321312312312344), '21,321,312,312,312,344.00');
+
     assert.strictEqual(dc.valueToString(null), null);
     assert.strictEqual(dc.valueToString(10000000), '10,000,000.00');
     assert.strictEqual(dc.valueToString('10000000'), '10,000,000.00');
@@ -91,6 +97,10 @@ describe('NumberConverter', () => {
     // formatting integer values
     dc = new NumberConverter('#,##0', '`');
 
+    // throw exceptions on large integers
+    assert.throws(() => dc.valueToString(12345678912345678910), AccuracyError);
+    assert.throws(() => dc.valueToString('12345678912345678910'), AccuracyError);
+
     assert.strictEqual(dc.valueToString(10000), '10`000');
     assert.strictEqual(dc.valueToString('10000'), '10`000');
     assert.strictEqual(dc.valueToString('10`000'), '10`000');
@@ -145,9 +155,8 @@ describe('NumberConverter', () => {
     assert.strictEqual(dc.valueToString('123456789.12'), '123,456,789.12');
     assert.strictEqual(dc.valueToString('123,456,789.12'), '123,456,789.12');
 
-    // throw exceptions on large integers
-    assert.throws(() => dc.valueToString(12345678912345678910), AccuracyError);
-    assert.throws(() => dc.valueToString('12345678912345678910'), AccuracyError);
+    assert.strictEqual(dc.valueToString('12345678912345678910'), '12,345,678,912,345,678,910.0');
+    assert.strictEqual(dc.valueToString('12345678912345678910246'), '12,345,678,912,345,678,910,246.0');
 
     dc = new NumberConverter('00', null, '.');
     assert.strictEqual(dc.valueToString(9), '09');
