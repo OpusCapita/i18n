@@ -1,4 +1,4 @@
-import {roundAsString} from 'js-round';
+import { roundAsString } from 'js-round';
 import Converter from './Converter';
 import ParseError from './ParseError';
 import AccuracyError from './AccuracyError';
@@ -74,7 +74,7 @@ export default class NumberConverter extends Converter {
   round(number) {
     const roundedNumber = roundAsString(number, this._decimalsAmount);
     return this.refreshDecimals(roundedNumber);
-  };
+  }
 
 
   _validateStringIfItIsANumber(value) {
