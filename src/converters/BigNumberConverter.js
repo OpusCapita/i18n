@@ -52,7 +52,7 @@ export default class BigNumberConverter extends Converter {
       return '';
     }
 
-    const fractionalPartString = bigNumber.toString().split('.')[1] || '';
+    const fractionalPartString = bigNumber.toFixed().split('.')[1] || '';
 
     let result = '';
     for (let i = 0; i < this._decimalFormat.length; i++) {
@@ -99,7 +99,7 @@ export default class BigNumberConverter extends Converter {
     let result = '';
 
     // convert number ot a string and cut - sign if any
-    const integerPartWithoutSign = integerNumber.abs().toString();
+    const integerPartWithoutSign = integerNumber.abs().toFixed();
 
     // find how many digits are in the group
     let groupLength = 9999;

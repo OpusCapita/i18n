@@ -328,7 +328,7 @@ class I18nManager {
   };
 
   formatBigNumber = (numberAsString) => {
-    return cre(this._findFormattingInfo()).valueToString(numberAsString);
+    return createBigNumberConverter(this._findFormattingInfo()).valueToString(numberAsString);
   };
 
   parseDate = (string) => {

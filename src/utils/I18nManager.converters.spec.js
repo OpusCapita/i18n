@@ -88,6 +88,20 @@ describe('I18nManager: converters', () => {
     assert.strictEqual(i18n.formatDecimalNumber(55454545.12), '55,454,545.12');
   });
 
+
+  it('should format and parse big numbers', () => {
+    assert.equal('100,000,000,000,000,000,000,000', i18n.formatBigNumber('100000000000000000000000'));
+    assert.equal('100000000000000000000000', i18n.parseBigNumber('100,000,000,000,000,000,000,000'));
+
+    assert.equal('100,000,000,000,000,000,000,000.00', i18n.formatBigDecimalNumber('100000000000000000000000'));
+    assert.equal('100000000000000000000000', i18n.parseBigDecimalNumber('100,000,000,000,000,000,000,000.00'));
+
+    assert.equal('100,000,000,000,000,000,000,000.000001', i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.000001', '#,##0.000000'));
+    assert.strictEqual(i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.12', '#,##0.000000'), '100,000,000,000,000,000,000,000.120000');
+
+    assert.strictEqual(i18n.formatBigDecimalNumber('100000000000000000000000.12'), '100,000,000,000,000,000,000,000.12');
+  });
+
   it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (1)', () => {
     const localeFormattingInfo = {
       'en-US': {
