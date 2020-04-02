@@ -96,10 +96,13 @@ describe('I18nManager: converters', () => {
     assert.equal('100,000,000,000,000,000,000,000.00', i18n.formatBigDecimalNumber('100000000000000000000000'));
     assert.equal('100000000000000000000000', i18n.parseBigDecimalNumber('100,000,000,000,000,000,000,000.00'));
 
-    assert.equal('100,000,000,000,000,000,000,000.000001', i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.000001', '#,##0.000000'));
-    assert.strictEqual(i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.12', '#,##0.000000'), '100,000,000,000,000,000,000,000.120000');
+    assert.equal('100,000,000,000,000,000,000,000.000001',
+      i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.000001', '#,##0.000000'));
+    assert.strictEqual(i18n.formatBigDecimalNumberWithPattern('100000000000000000000000.12', '#,##0.000000'),
+      '100,000,000,000,000,000,000,000.120000');
 
-    assert.strictEqual(i18n.formatBigDecimalNumber('100000000000000000000000.12'), '100,000,000,000,000,000,000,000.12');
+    assert.strictEqual(i18n.formatBigDecimalNumber('100000000000000000000000.12'),
+      '100,000,000,000,000,000,000,000.12');
   });
 
   it('should format and parse numbers with numberDecimalSeparatorUseAlways=true (1)', () => {
