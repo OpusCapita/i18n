@@ -319,7 +319,8 @@ class I18nManager {
   };
 
   formatBigDecimalNumberWithPattern = (numberAsString, numberPattern) => {
-    return createBigDecimalNumberConverter({ ...this._findFormattingInfo(), numberPattern }).valueToString(numberAsString);
+    return createBigDecimalNumberConverter({ ...this._findFormattingInfo(), numberPattern }).
+      valueToString(numberAsString);
   };
 
   formatNumber = (number) => {
