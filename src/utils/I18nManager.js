@@ -1,5 +1,5 @@
 import lodash from 'lodash';
-import { DateConverter, NumberConverter } from '../converters';
+import { DateConverter, NumberConverter, BigNumberConverter } from '../converters';
 import flatten from 'flat';
 
 import { DEFAULT_FORMAT_INFO } from './constants';
@@ -110,6 +110,20 @@ const createDecimalNumberConverter = (formattingInfo) => {
   )
 }
 
+const createBigDecimalNumberConverter = (formattingInfo) => {
+  let numberGroupingSeparator = null;
+  if (formattingInfo.numberGroupingSeparatorUse) {
+    numberGroupingSeparator = formattingInfo.numberGroupingSeparator;
+  }
+
+  return new BigNumberConverter(
+    formattingInfo.numberPattern,
+    numberGroupingSeparator,
+    formattingInfo.numberDecimalSeparator,
+    formattingInfo.numberDecimalSeparatorUseAlways
+  )
+}
+
 const createNumberConverter = (formattingInfo) => {
   let numberGroupingSeparator = null;
   if (formattingInfo.numberGroupingSeparatorUse) {
@@ -117,6 +131,20 @@ const createNumberConverter = (formattingInfo) => {
   }
 
   return new NumberConverter(
+    formattingInfo.integerPattern,
+    numberGroupingSeparator,
+    formattingInfo.numberDecimalSeparator,
+    formattingInfo.numberDecimalSeparatorUseAlways
+  )
+};
+
+const createBigNumberConverter = (formattingInfo) => {
+  let numberGroupingSeparator = null;
+  if (formattingInfo.numberGroupingSeparatorUse) {
+    numberGroupingSeparator = formattingInfo.numberGroupingSeparator;
+  }
+
+  return new BigNumberConverter(
     formattingInfo.integerPattern,
     numberGroupingSeparator,
     formattingInfo.numberDecimalSeparator,
@@ -282,12 +310,24 @@ class I18nManager {
     return createDecimalNumberConverter(this._findFormattingInfo()).valueToString(number);
   };
 
+  formatBigDecimalNumber = (numberAsString) => {
+    return createBigDecimalNumberConverter(this._findFormattingInfo()).valueToString(numberAsString);
+  };
+
   formatDecimalNumberWithPattern = (number, numberPattern) => {
     return createDecimalNumberConverter({ ...this._findFormattingInfo(), numberPattern }).valueToString(number);
   };
 
+  formatBigDecimalNumberWithPattern = (numberAsString, numberPattern) => {
+    return createBigDecimalNumberConverter({ ...this._findFormattingInfo(), numberPattern }).valueToString(numberAsString);
+  };
+
   formatNumber = (number) => {
     return createNumberConverter(this._findFormattingInfo()).valueToString(number);
+  };
+
+  formatBigNumber = (numberAsString) => {
+    return cre(this._findFormattingInfo()).valueToString(numberAsString);
   };
 
   parseDate = (string) => {
@@ -298,8 +338,16 @@ class I18nManager {
     return createDecimalNumberConverter(this._findFormattingInfo()).stringToValue(string);
   };
 
+  parseBigDecimalNumber = (string) => {
+    return createBigDecimalNumberConverter(this._findFormattingInfo()).stringToValue(string);
+  };
+
   parseNumber = (string) => {
     return createNumberConverter(this._findFormattingInfo()).stringToValue(string);
+  };
+
+  parseBigNumber = (string) => {
+    return createBigNumberConverter(this._findFormattingInfo()).stringToValue(string);
   };
 }
 

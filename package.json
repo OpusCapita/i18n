@@ -32,6 +32,7 @@
   "repository": "OpusCapita/i18n",
   "license": "Apache-2.0",
   "dependencies": {
+    "bignumber.js": "9.0.0",
     "flat": "2.0.1",
     "lodash": "4.17.11",
     "properties": "1.2.1",
