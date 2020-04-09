@@ -1,4 +1,9 @@
 
+[Release 1.2.14](https://github.com/OpusCapita/i18n/releases/tag/v1.2.14) Thu Apr 09 2020 09:58:33 GMT+0300 (MSK)
+=======================================================
+
+- (https://github.com/OpusCapita/i18n/issues/32) Supported converter for big numbers (Dmitry Divin divin@scand.com, 2020-04-09 09:42:29 +0300)
+
 [Release 1.2.13](https://github.com/OpusCapita/i18n/releases/tag/v1.2.13) Fri Nov 29 2019 14:28:24 GMT+0300 (MSK)
 =======================================================
 
