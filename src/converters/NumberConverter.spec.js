@@ -5,8 +5,7 @@ import ParseError from './ParseError';
 import AccuracyError from './AccuracyError';
 
 describe('NumberConverter', () => {
-  it('should convert number to value and value to number', () => {
-    // formating decimal values
+  it('should decimal format with group separator', () => {
     let dc = new NumberConverter('#,##0.00', ',', '.');
 
     assert.strictEqual(dc.valueToString(null), null);
@@ -20,8 +19,10 @@ describe('NumberConverter', () => {
     assert.strictEqual(dc.stringToValue('-10,000.00'), -10000);
     assert.strictEqual(dc.stringToValue('1,100.99'), 1100.99);
     assert.throws(() => {return dc.stringToValue(12345)}, TypeError, `'12345' is not a String!`);
+  });
 
-    dc = new NumberConverter('#,##0.00', null, '.');
+  it('should decimal format', () => {
+    let dc = new NumberConverter('#,##0.00', null, '.');
 
     assert.strictEqual(dc.valueToString(10000), '10000.00');
     assert.strictEqual(dc.valueToString(-10000), '-10000.00');
@@ -35,8 +36,10 @@ describe('NumberConverter', () => {
     assert.throws(() => {
       dc.stringToValue(badValue);
     }, ParseError, `invalid parsed value [${badValue}]`);
+  });
 
-    dc = new NumberConverter('#,##0.00', ' ', ',');
+  it('should decimal format with space group separator', () => {
+    let dc = new NumberConverter('#,##0.00', ' ', ',');
 
     assert.strictEqual(dc.valueToString(10000), '10 000,00');
     assert.strictEqual(dc.valueToString(-10000), '-10 000,00');
@@ -58,9 +61,11 @@ describe('NumberConverter', () => {
     for (const value of invalidValues) {
       assert.throws(convertToNumber(value), ParseError, `invalid parsed value [${value}]`);
     }
+  });
 
-    // formating integer values
-    dc = new NumberConverter('#,##0', '`');
+  it('should integer format with ` group separator', () => {
+    // formatting integer values
+    let dc = new NumberConverter('#,##0', '`');
 
     assert.strictEqual(dc.valueToString(10000), '10`000');
     assert.strictEqual(dc.stringToValue('10`000'), 10000);
@@ -70,8 +75,10 @@ describe('NumberConverter', () => {
     assert.throws(() => {
       dc.stringToValue('10`000.99');
     }, ParseError, 'invalid parsed value [10`000.99]');
+  });
 
-    dc = new NumberConverter('#.##', null, ',');
+  it('should decimal format with custom decimal separator', () => {
+    let dc = new NumberConverter('#.##', null, ',');
 
     assert.strictEqual(dc.valueToString(100), '100');
 
@@ -82,8 +89,10 @@ describe('NumberConverter', () => {
 
     assert.strictEqual(dc.valueToString(0.0), '0');
     assert.strictEqual(dc.valueToString(0), '0');
+  });
 
-    dc = new NumberConverter('#.##', null, ',', true);
+  it('should decimal format with always decimal separator', () => {
+    let dc = new NumberConverter('#.##', null, ',', true);
 
     assert.strictEqual(dc.valueToString(100), '100,');
 
@@ -94,17 +103,26 @@ describe('NumberConverter', () => {
 
     assert.strictEqual(dc.valueToString(0.0), '0,');
     assert.strictEqual(dc.valueToString(0.1), '0,1');
+  });
 
-    dc = new NumberConverter('#.##########', null, ',', false);
-    assert.strictEqual(dc.valueToString(1000000), '1000000');
-
-    dc = new NumberConverter('#,##0.0#########', ',', '.');
-    assert.strictEqual(dc.valueToString(123456789.12), '123,456,789.12');
-
+  it('should out of max safe integer value', () => {
+    let dc = new NumberConverter('#,##0.0#########', ',', '.');
     // throw exceptions on large integers
     assert.throws(() => dc.valueToString(12345678912345678910), AccuracyError);
+  });
 
-    dc = new NumberConverter('00', null, '.');
+  it('should zero first for integer format', () => {
+    let dc = new NumberConverter('00', null, '.');
     assert.strictEqual(dc.valueToString(9), '09');
+  });
+
+  it('should decimal format with custom format', () => {
+    let dc = new NumberConverter('#.##########', null, ',', false);
+    assert.strictEqual(dc.valueToString(1000000), '1000000');
+  });
+
+  it('should decimal format with custom format and group separator', () => {
+    let dc = new NumberConverter('#,##0.0#########', ',', '.');
+    assert.strictEqual(dc.valueToString(123456789.12), '123,456,789.12');
   });
 });
