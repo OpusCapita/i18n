@@ -196,6 +196,7 @@ i18n.formatDate(new Date(2001, 0, 10)) // returns '10/01/2001'
 i18n.parseDate('10/01/2001').toISOString() // returns new Date(2001, 0, 10).toISOString()
 i18n.formatDateTime(new Date(2001, 0, 10)) // returns '10/01/2001 00:00:00'
 
+//format and parse numbers
 i18n.formatNumber(10000) // returns '10,000'
 i18n.parseNumber('10,000')// returns 10000
 
@@ -204,6 +205,15 @@ i18n.parseDecimalNumber('10,000.00') // returns 10000
 
 // Wraps decimal number converter but allows the use of custom patterns
 i18n.formatDecimalNumberWithPattern(10000, '#,##0.000000') // returns 10,000.000000
+
+//format and parse big numbers
+i18n.formatBigNumber('10000') // returns '10,000'
+i18n.parseBigNumber('10,000')// returns '10000'
+
+i18n.formatBigDecimalNumber('10000') // returns '10,000.00'
+i18n.parseBigDecimalNumber('10,000.00') // returns '10000'
+
+i18n.formatBigDecimalNumberWithPattern('10000', '#,##0.000000') // returns '10,000.000000'
 
 // getting date format
 i18n.dateFormat // returns 'dd/MM/yyyy'
@@ -233,6 +243,19 @@ import NumberConverter from '@opuscapita/i18n/NumberConverter';
 let nc = new NumberConverter('#,##0.00', ',', '.'); // format, groupSep, decSep, decSepUseAlways = false
 nc.valueToString(10000000) // returns '10,000,000.00'
 nc.stringToValue('10,000.00') // returns 10000
+```
+
+**BigNumberConverter**
+
+The converter format from and parse to only string values, because number package big numbers in JavaScript is not safety operation.
+Format definition is similar to Java's [_DecimalFormat_](https://docs.oracle.com/javase/7/docs/api/java/text/DecimalFormat.html) class, but **exponent is not supported**
+
+```javascript
+import BigNumberConverter from '@opuscapita/i18n/BigNumberConverter';
+
+let nc = new BigNumberConverter('#,##0.00', ',', '.'); // format, groupSep, decSep, decSepUseAlways = false
+nc.valueToString('9007199254740989.07') // returns '9,007,199,254,740,989.07'
+nc.stringToValue('9,007,199,254,740,989.07') // returns '9007199254740989.07'
 ```
 
 **Strip to null converter**
