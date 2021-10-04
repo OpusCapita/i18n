@@ -40,15 +40,6 @@ describe("i18n-js to properties CLI", () => {
     fs.mkdirSync("tmp/grails-app");
     fs.mkdirSync("tmp/grails-app/i18n");
     fs.writeFileSync("tmp/i18n/index.js", `
-import en from './en';
-import de from './de';
-
-export default {
-  en,
-  de
-};
-    `);
-    fs.writeFileSync("tmp/i18n/en.js", `
 const header = {
   title: "test title"
 };
@@ -56,18 +47,6 @@ const header = {
 const form = {
   "a.b": "test a b",
   "a.b.c": "test a b c"
-};
-
-export default { messages: {header, form} }
-    `);
-    fs.writeFileSync("tmp/i18n/de.js", `
-const header = {
-  title: "de test title"
-};
-
-const form = {
-  "a.b": "de test a b",
-  "a.b.c": "de test a b c ü"
 };
 
 export default { messages: {header, form} }
@@ -87,31 +66,18 @@ export default { messages: {header, form} }
 
     expect(
       fs.existsSync("tmp/grails-app/i18n/messages_en.properties")
-    ).to.be.equal(true);
+    ).to.be.equal(false);
 
     expect(
       fs.existsSync("tmp/grails-app/i18n/messages_de.properties")
-    ).to.be.equal(true);
+    ).to.be.equal(false);
 
-    const englishProperties = properties.parse(
-      fs.readFileSync("tmp/grails-app/i18n/messages_en.properties").toString()
+    const defaultProperties = properties.parse(
+      fs.readFileSync("tmp/grails-app/i18n/messages.properties").toString()
     );
 
-    expect(englishProperties).to.deep.include(
+    expect(defaultProperties).to.deep.include(
       { "messages.header.title": "test title", "messages.form.a.b": "test a b", "messages.form.a.b.c": "test a b c" }
     );
-
-    const germanProperties = properties.parse(fs.readFileSync("tmp/grails-app/i18n/messages_de.properties").toString());
-
-    expect(germanProperties).to.deep.include(
-      {
-        "messages.header.title": "de test title",
-        "messages.form.a.b": "de test a b",
-        "messages.form.a.b.c": "de test a b c \u00fc"
-      }
-    );
-
-    const defaultProperties = properties.parse(fs.readFileSync("tmp/grails-app/i18n/messages.properties").toString());
-    expect(defaultProperties).to.deep.include(englishProperties);
   });
 });

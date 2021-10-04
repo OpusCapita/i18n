@@ -1,4 +1,12 @@
 
+[Release 1.2.15-EPROC-20779-SNAPSHOT](https://github.com/OpusCapita/i18n/releases/tag/v1.2.15-EPROC-20779-SNAPSHOT) Thu Sep 30 2021 22:55:13 GMT+0300 (MSK)
+=======================================================
+
+- Remove support of converting language specific translation bundles from json into properties file (Dmitriy Sanko dmitriy.sanko@opuscapita.com, 2021-09-30 22:44:53 +0300)
+- (EPROC-20383) Used jdk zulu (GitHub ashestak-sc@users.noreply.github.com, 2021-04-06 16:50:55 +0300)
+- (EPROC-20252) Added circleci builds jira integration (GitHub ashestak-sc@users.noreply.github.com, 2021-03-10 16:08:02 +0300)
+- Update CI image to opuscapita/minsk-core-ci:grails-2.4.4-jdk-8u192-nodejs-8.17.0-maven-3.3.9 [ci skip] (Egor Stambakio egor.stambakio@opuscapita.com, 2020-05-07 16:13:08 +0300)
+
 [Release 1.2.14](https://github.com/OpusCapita/i18n/releases/tag/v1.2.14) Thu Apr 09 2020 09:58:33 GMT+0300 (MSK)
 =======================================================
 
