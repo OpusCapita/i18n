@@ -46,9 +46,9 @@ for locale bundle registration use 'register' method
 /**
  * Register translation bundles for specified component
  * @param  {String} component name of the component: 'InputDateField', 'SimMenu'
- * @param  {Array} locale specific message bundle array, where each bundle has
+ * @param  {Array} localeBundles locale specific message bundle array, where each bundle has
  *   the following structure {locales: ['en', 'en-GB], messages: {a: {b: {c: 'some message'}}}
- * @return {I18NManager} reference to i18n manager instance (method could be used like a builder)
+ * @return {I18nManager} reference to i18n manager instance (method could be used like a builder)
  */
 const _obsoleteRegister = function(component, localeBundles = []) {
   if (console) {
@@ -167,7 +167,7 @@ const _actualConstructor = function({
 /**
  * Reister locale bundles for the component
  * @param  {String} component     component name
- * @param  {[type]} localeBundles {'en': {'a.b.c': 'abc en message'}, 'de': {'a.b.c': 'abc de message'}}
+ * @param  {object} localeBundles {'en': {'a.b.c': 'abc en message'}, 'de': {'a.b.c': 'abc de message'}}
  * @return {I18nManager}          i18n manager instance
  */
 const _actualRegister = function(component, localeBundles) {
@@ -215,6 +215,10 @@ const generateFallbackLocaleList = function(locale, fallbackLocale) {
  * @author Alexey Sergeev
  */
 class I18nManager {
+  fallbackLocale;
+  locale;
+  localeFormattingInfo
+  overriddenTranslations;
 
   constructor() {
     this.components = [];
@@ -234,11 +238,11 @@ class I18nManager {
   }
 
   register = (component, localeBundles) => {
-    if (!lodash.isNil(localeBundles) &&
-      lodash.isArray(localeBundles) &&
+    if (localeBundles !== null &&
+      Array.isArray(localeBundles) &&
       localeBundles.length > 0 &&
       localeBundles[0].locales &&
-      lodash.isArray(localeBundles[0].locales)
+      Array.isArray(localeBundles[0].locales)
     ) {
       return _obsoleteRegister.bind(this, component, localeBundles)();
     }
@@ -272,7 +276,7 @@ class I18nManager {
 
     // fill message parameter placeholders with passed values
     lodash.each(args, function(value, key) {
-      if (!lodash.isNil(value)) {
+      if (value !== null) {
         message = message.replace(new RegExp(`\\{${key}\\}`, 'g'), value.toString());
       }
     });

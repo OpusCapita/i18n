@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "lint": "eslint src",
-    "test": "rimraf ./.nyc_output ./coverage && cross-env nyc mocha --recursive src/**/*.spec.js",
+    "test": "rimraf ./.nyc_output ./coverage && cross-env nyc --all mocha --recursive src/**/*.spec.js",
     "upload-coverage": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "test-only": "mocha src/**/*.spec.js --require config/mocha-setup.js",
     "npm-build": "rimraf lib && babel --copy-files --no-babelrc --presets es2015,stage-0 --plugins lodash --ignore *.spec.js src --out-dir lib",
@@ -56,7 +56,6 @@
     "eslint-plugin-react": "7.1.0",
     "mocha": "3.4.2",
     "mocha-junit-reporter": "1.13.0",
-    "mock-fs": "4.10.4",
     "nyc": "11.0.3",
     "rimraf": "2.6.1"
   }
