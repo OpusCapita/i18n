@@ -1,6 +1,6 @@
 {
   "name": "@opuscapita/i18n",
-  "version": "1.2.16-SNAPSHOT",
+  "version": "1.2.17",
   "description": "OpusCapita simple i18n mechanism",
   "main": "lib/index.js",
   "files": [
@@ -20,11 +20,6 @@
     "i18n-js2properties": "bin/i18n-js2properties.js"
   },
   "homepage": "https://github.com/OpusCapita/i18n.git",
-  "contributors": [
-    "Dmitry Divin <dmirty.divin@jcatalog.com>",
-    "Daniel Zhitomirsky <daniel.zhitomirsky@jcatalog.com>",
-    "Alexey Sergeev <alexey.sergeev@jcatalog.com>"
-  ],
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
@@ -33,7 +28,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "bignumber.js": "9.0.0",
-    "flat": "2.0.1",
+    "flat": "^5.0.2",
     "lodash": "4.17.11",
     "properties": "1.2.1",
     "yargs": "15.0.2"
