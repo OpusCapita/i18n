@@ -1,6 +1,17 @@
+aliases:
+  - &docker_auth
+    auth:
+      username: ${DOCKER_USER}
+      password: ${DOCKER_PASS}
+
+  - &default-context
+    context:
+      - shared-creds
+
 defaults: &defaults
   docker:
     - image: opuscapita/minsk-core-ci:4
+      <<: *docker_auth
   working_directory: ~/build
 
 version: 2.1
@@ -12,6 +23,7 @@ jobs:
   init:
     docker:
       - image: opuscapita/minsk-core-machineuser-env:2
+        <<: *docker_auth
     steps:
       - run: generate_bash_env_exports.sh GH_MAIL GH_NAME CIRCLE_CI_TOKEN > ~/generated_bash_env
       - persist_to_workspace:
@@ -120,10 +132,12 @@ workflows:
   release-and-build:
     jobs:
       - init:
+          <<: *default-context
           filters:
             tags:
               only: /.*/
       - release:
+          <<: *default-context
           filters:
             branches:
               only: release
@@ -134,6 +148,7 @@ workflows:
                 token_name: "CIRCLE_CI_TOKEN"
 
       - build:
+          <<: *default-context
           filters:
             branches:
               ignore: release
@@ -144,6 +159,7 @@ workflows:
                 token_name: "CIRCLE_CI_TOKEN"
 
       - build_release:
+          <<: *default-context
           filters:
             tags:
               only: /.*/
