@@ -49,7 +49,7 @@
     "eslint": "3.10.2",
     "eslint-config-opuscapita": "1.0.8",
     "eslint-plugin-react": "7.1.0",
-    "mocha": "^9.2.2",
+    "mocha": "^3.4.2",
     "mocha-junit-reporter": "1.13.0",
     "mock-fs": "4.10.4",
     "nyc": "11.0.3",
