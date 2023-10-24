@@ -1,17 +1,29 @@
+aliases:
+  - &docker_auth
+    auth:
+      username: ${DOCKER_USER}
+      password: ${DOCKER_PASS}
+
+  - &default-context
+    context:
+      - shared-creds
+      
 defaults: &defaults
   docker:
     - image: opuscapita/minsk-core-ci:4
+      <<: *docker_auth
   working_directory: ~/build
 
 version: 2.1
 
 orbs:
-  jira: circleci/jira@1.2.2
+  jira: circleci/jira@2.0
 
 jobs:
   init:
     docker:
       - image: opuscapita/minsk-core-machineuser-env:2
+        <<: *docker_auth
     steps:
       - run: generate_bash_env_exports.sh GH_MAIL GH_NAME CIRCLE_CI_TOKEN > ~/generated_bash_env
       - persist_to_workspace:
@@ -120,10 +132,12 @@ workflows:
   release-and-build:
     jobs:
       - init:
+          <<: *default-context
           filters:
             tags:
               only: /.*/
       - release:
+          <<: *default-context
           filters:
             branches:
               only: release
@@ -131,9 +145,11 @@ workflows:
             - init
           post-steps:
             - jira/notify:
-                token_name: "CIRCLE_CI_TOKEN"
+                pipeline_id: << pipeline.id >>
+                pipeline_number: << pipeline.number >>
 
       - build:
+          <<: *default-context
           filters:
             branches:
               ignore: release
@@ -141,9 +157,11 @@ workflows:
             - init
           post-steps:
             - jira/notify:
-                token_name: "CIRCLE_CI_TOKEN"
+                pipeline_id: << pipeline.id >>
+                pipeline_number: << pipeline.number >>
 
       - build_release:
+          <<: *default-context
           filters:
             tags:
               only: /.*/
@@ -153,5 +171,6 @@ workflows:
             - init
           post-steps:
             - jira/notify:
-                token_name: "CIRCLE_CI_TOKEN"
+                pipeline_id: << pipeline.id >>
+                pipeline_number: << pipeline.number >>
 
