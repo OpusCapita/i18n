@@ -1,3 +1,5 @@
+version: 2.1
+
 aliases:
   - &docker_auth
     auth:
@@ -7,23 +9,25 @@ aliases:
   - &default-context
     context:
       - shared-creds
-      
-defaults: &defaults
-  docker:
-    - image: opuscapita/minsk-core-ci:4
-      <<: *docker_auth
-  working_directory: ~/build
 
-version: 2.1
+executors:
+  default-executor:
+    docker:
+      - image: opuscapita/minsk-core-ci:4
+        <<: *docker_auth
+    working_directory: ~/build
+
+  machine-user-executor:
+    docker:
+      - image: opuscapita/minsk-core-machineuser-env:2
+        <<: *docker_auth
 
 orbs:
   jira: circleci/jira@2.0
 
 jobs:
   init:
-    docker:
-      - image: opuscapita/minsk-core-machineuser-env:2
-        <<: *docker_auth
+    executor: machine-user-executor
     steps:
       - run: generate_bash_env_exports.sh GH_MAIL GH_NAME CIRCLE_CI_TOKEN > ~/generated_bash_env
       - persist_to_workspace:
@@ -32,7 +36,7 @@ jobs:
             - generated_bash_env
 
   build:
-    <<: *defaults
+    executor: default-executor
     steps:
       - attach_workspace:
           at: /workspace
@@ -46,7 +50,7 @@ jobs:
             - i18n
 
       - run: if [ -f /.dockerenv ]; then configure-maven.sh && configure-grails.sh && configure-npm.sh; fi
-      
+
       - run:
           name: "Installing dependencies."
           command: yarn install
@@ -80,7 +84,7 @@ jobs:
           path: ./junit
 
   build_release:
-    <<: *defaults
+    executor: default-executor
     steps:
       - attach_workspace:
           at: /workspace
@@ -94,7 +98,7 @@ jobs:
             - i18n
 
       - run: if [ -f /.dockerenv ]; then configure-maven.sh && configure-grails.sh && configure-npm.sh; fi
-      
+
       - run:
           name: "Installing dependencies."
           command: yarn install
@@ -114,21 +118,20 @@ jobs:
           command: npm run publish-release
 
   release:
-    <<: *defaults
+    executor: default-executor
     steps:
       - attach_workspace:
           at: /workspace
       - run: cat /workspace/generated_bash_env >> $BASH_ENV
       - checkout
-      
+
       - run: if [ -f /.dockerenv ]; then configure-maven.sh && configure-grails.sh && configure-npm.sh; fi
- 
+
       - run:
           name: Executing release scrtipt.
           command: .circleci/release.sh
 
 workflows:
-  version: 2
   release-and-build:
     jobs:
       - init:
