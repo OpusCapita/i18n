@@ -1,29 +1,43 @@
-version: 2
-jobs:
-  inject-environment:
+version: 2.1
+
+aliases:
+  - &docker_auth
+    auth:
+      username: ${DOCKER_USER}
+      password: ${DOCKER_PASS}
+
+  - &default-context
+    context:
+      - shared-creds
+executors:
+  machineuser-executor:
     docker:
       - image: opuscapita/minsk-core-machineuser-env:1
+        <<: *docker_auth
+  core-release-executor:
+    docker:
+      - image: opuscapita/minsk-core-release-manager:1
+        <<: *docker_auth
+jobs:
+  inject-environment:
+    executor: machineuser-executor
     steps:
       - run:
           name: Inject secrets from vault to CircleCI project's environment
           command: |
             circle_ci_add_env.sh DOCKER_USER DOCKER_PASS GH_NAME GH_TOKEN MAVEN_REPO JFROG_USER JFROG_PASSWD
   release:
-    docker:
-      - image: opuscapita/minsk-core-release-manager:1
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASS
+    executor: core-release-executor
     steps:
       - checkout
       - run:
           name: Executing release script
           command: release.sh node
 workflows:
-  version: 2
   release-and-build:
     jobs:
       - inject-environment
+      - <<: *default-context
       - release:
           requires:
             - inject-environment
