@@ -267,7 +267,11 @@ class I18nManager {
     }
 
     if (message === undefined) {
-      return path;
+      if (args && args.default) {
+        return args.default;
+      } else {
+        return path;
+      }
     }
 
     // fill message parameter placeholders with passed values

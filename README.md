@@ -189,6 +189,9 @@ i18n.getMessage('button.cancel.label') // returns 'de test message 2'
 // getting fallback message key in case no values were found
 i18n.getMessage('button.saveandnew.label') // returns 'button.saveandnew.label'
 
+// getting default message in case no values were found
+i18n.getMessage('button.saveandnew.label', { default: 'hello' }) // returns 'hello'
+
 #### Data conversion
 
 // Converter wrappers
