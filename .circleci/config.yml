@@ -36,8 +36,8 @@ jobs:
 workflows:
   release-and-build:
     jobs:
-      - inject-environment
-      - <<: *default-context
+      - inject-environment:
+        <<: *default-context
       - release:
           requires:
             - inject-environment
