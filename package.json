@@ -26,8 +26,7 @@
     "Alexey Sergeev <alexey.sergeev@jcatalog.com>"
   ],
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://nexus-oc.westeurope.cloudapp.azure.com/repository/npm-local/"
   },
   "repository": "OpusCapita/i18n",
   "license": "Apache-2.0",
